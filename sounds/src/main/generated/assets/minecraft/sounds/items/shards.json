@@ -1,0 +1,7 @@
+{
+  "keys": [
+    "minecraft:disc_fragment_5",
+    "#minecraft:decorated_pot_sherds"
+  ],
+  "soundEvent": "sounds:item.shards.dynamic"
+}

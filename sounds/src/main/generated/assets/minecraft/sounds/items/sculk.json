@@ -1,0 +1,6 @@
+{
+  "keys": [
+    "minecraft:echo_shard"
+  ],
+  "soundEvent": "sounds:item.sculk.dynamic"
+}

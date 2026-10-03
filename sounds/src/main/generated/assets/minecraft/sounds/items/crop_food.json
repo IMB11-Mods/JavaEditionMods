@@ -1,0 +1,11 @@
+{
+  "keys": [
+    "#c:foods/berry",
+    "#c:foods/bread",
+    "#c:foods/fruit",
+    "#c:foods/vegetable"
+  ],
+  "pitch": 1.76,
+  "soundEvent": "sounds:item.dynamic.crop_food",
+  "volume": 1.0
+}

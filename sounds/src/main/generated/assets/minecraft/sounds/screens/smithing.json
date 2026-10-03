@@ -1,0 +1,6 @@
+{
+  "keys": [
+    "minecraft:smithing"
+  ],
+  "soundEvent": "sounds:block.smithing_table.open"
+}

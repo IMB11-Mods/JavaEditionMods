@@ -1,0 +1,49 @@
+[versions]
+loom = "1.16.1"
+moddev = "2.0.147"
+jsonlang = "2.1-beta.4"
+fabric-loader = "0.19.5"
+fabric-api = "0.155.2+26.1.2"
+neoforge = "26.1.2.107"
+yacl = "3.9.3+26.1"
+cloth = "26.1.154"
+modmenu = "18.0.0-beta.1"
+jspecify = "1.0.0"
+cca = "8.0.0"
+ohmega = "1.5.20-mc26.1.2"
+
+[libraries]
+loom-plugin = { module = "net.fabricmc:fabric-loom", version.ref = "loom" }
+moddev-plugin = { module = "net.neoforged.moddev:net.neoforged.moddev.gradle.plugin", version.ref = "moddev" }
+jsonlang-plugin = { module = "dev.kikugie.postprocess.jsonlang:dev.kikugie.postprocess.jsonlang.gradle.plugin", version.ref = "jsonlang" }
+mod-publish-plugin = { module = "me.modmuss50.mod-publish-plugin:me.modmuss50.mod-publish-plugin.gradle.plugin", version = "2.2.1" }
+fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
+fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api" }
+neoforge = { module = "net.neoforged:neoforge", version.ref = "neoforge" }
+yacl-fabric = { module = "dev.isxander:yet-another-config-lib", version = "3.9.3+26.1-fabric" }
+yacl-neoforge = { module = "dev.isxander:yet-another-config-lib", version = "3.9.3+26.1-neoforge" }
+cloth-fabric = { module = "me.shedaniel.cloth:cloth-config-fabric", version.ref = "cloth" }
+cloth-neoforge = { module = "me.shedaniel.cloth:cloth-config-neoforge", version.ref = "cloth" }
+modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
+jspecify = { module = "org.jspecify:jspecify", version.ref = "jspecify" }
+kaleido = { module = "folk.sisby:kaleido-config", version = "0.3.3+1.3.2" }
+mcqoy = { module = "maven.modrinth:mcqoy", version = "0.4.1+fabric-26.1" }
+map-atlases = { module = "curse.maven:map-atlases-forge-519759", version = "6345967" }
+accessories-fabric = { module = "io.wispforest:accessories-neoforge", version = "1.4.3-beta+1.21.10" }
+accessories-neoforge = { module = "io.wispforest:accessories-neoforge", version = "1.3.7-beta+1.21.8" }
+curios-neoforge = { module = "top.theillusivec4.curios:curios-neoforge", version = "15.0.0+26.1.2" }
+travelers-backpack-fabric = { module = "maven.modrinth:travelersbackpack", version = "26.1.2-11.2.6" }
+travelers-backpack-neoforge = { module = "maven.modrinth:travelersbackpack", version = "26.1.2-11.2.4-neoforge" }
+sophisticated-core = { module = "maven.modrinth:sophisticated-core", version = "26.1.2-1.4.45.1849" }
+sophisticated-backpacks = { module = "maven.modrinth:sophisticated-backpacks", version = "26.1.2-3.25.55.1739" }
+porting-lib-transfer = { module = "io.github.fabricators_of_create.Porting-Lib:transfer", version = "2.3.9+1.20.1" }
+jade-fabric = { module = "maven.modrinth:jade", version = "26.1.0+fabric" }
+cca-entity = { module = "org.ladysnake.cardinal-components-api:cardinal-components-entity", version.ref = "cca" }
+cca-base = { module = "org.ladysnake.cardinal-components-api:cardinal-components-base", version.ref = "cca" }
+trinkets = { module = "eu.pb4:trinkets", version = "4.0.0-beta.3+26.1" }
+ohmega-fabric = { module = "io.github.swackyy:ohmega-fabric", version.ref = "ohmega" }
+ohmega-neoforge = { module = "io.github.swackyy:ohmega-neoforge", version.ref = "ohmega" }
+forge-config-api-port-fabric = { module = "fuzs.forgeconfigapiport:forgeconfigapiport-fabric", version = "26.1.5" }
+surveyor = { module = "maven.modrinth:surveyor", version = "1.2.4+26.1" }
+forgified-fabric-api = { module = "org.sinytra.forgified-fabric-api:forgified-fabric-api", version = "0.154.0+3.2.6+26.1.2" }
+trashslot = { module = "maven.modrinth:trashslot", version = "Kq3z6gII" }

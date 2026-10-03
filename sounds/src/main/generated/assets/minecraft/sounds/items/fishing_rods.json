@@ -1,0 +1,6 @@
+{
+  "keys": [
+    "minecraft:fishing_rod"
+  ],
+  "soundEvent": "sounds:item.fishing_rods.dynamic"
+}

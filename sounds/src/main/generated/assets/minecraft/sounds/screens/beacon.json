@@ -1,0 +1,6 @@
+{
+  "keys": [
+    "minecraft:beacon"
+  ],
+  "soundEvent": "sounds:block.amethyst_block.resonate"
+}

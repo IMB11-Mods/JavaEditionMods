@@ -1,0 +1,6 @@
+{
+  "keys": [
+    "minecraft:cartography_table"
+  ],
+  "soundEvent": "sounds:block.cartography_table.use"
+}

@@ -1,0 +1,11 @@
+{
+  "keys": [
+    "#c:foods/cooked_fish",
+    "#c:foods/cooked_meat",
+    "#c:foods/raw_fish",
+    "#c:foods/raw_meat"
+  ],
+  "pitch": 1.8,
+  "soundEvent": "sounds:item.dynamic.meat_and_fish",
+  "volume": 0.2
+}

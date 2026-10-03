@@ -1,0 +1,6 @@
+{
+  "keys": [
+    "minecraft:loom"
+  ],
+  "soundEvent": "sounds:block.loom.use"
+}

@@ -1,0 +1,556 @@
+package dev.imb11.sounds.sound;
+
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.sounds.SoundEvent;
+
+@SuppressWarnings("unused")
+public class CustomSounds {
+
+    public static final SoundEvent ITEM_SWORD_SWOOSH = register("item.sword.swoosh");
+
+    public static final SoundEvent BLOCK_ACACIA_LEAVES_BREAK = register("block.acacia_leaves.break");
+
+    public static final SoundEvent BLOCK_ACACIA_LEAVES_FALL = register("block.acacia_leaves.fall");
+
+    public static final SoundEvent BLOCK_ACACIA_LEAVES_HIT = register("block.acacia_leaves.hit");
+
+    public static final SoundEvent BLOCK_ACACIA_LEAVES_PLACE = register("block.acacia_leaves.place");
+
+    public static final SoundEvent BLOCK_ACACIA_LEAVES_STEP = register("block.acacia_leaves.step");
+
+    public static final SoundEvent BLOCK_ACACIA_LOG_BREAK = register("block.acacia_log.break");
+
+    public static final SoundEvent BLOCK_ACACIA_LOG_FALL = register("block.acacia_log.fall");
+
+    public static final SoundEvent BLOCK_ACACIA_LOG_HIT = register("block.acacia_log.hit");
+
+    public static final SoundEvent BLOCK_ACACIA_LOG_PLACE = register("block.acacia_log.place");
+
+    public static final SoundEvent BLOCK_ACACIA_LOG_STEP = register("block.acacia_log.step");
+
+    public static final SoundEvent BLOCK_ACACIA_PLANKS_BREAK = register("block.acacia_planks.break");
+
+    public static final SoundEvent BLOCK_ACACIA_PLANKS_FALL = register("block.acacia_planks.fall");
+
+    public static final SoundEvent BLOCK_ACACIA_PLANKS_HIT = register("block.acacia_planks.hit");
+
+    public static final SoundEvent BLOCK_ACACIA_PLANKS_PLACE = register("block.acacia_planks.place");
+
+    public static final SoundEvent BLOCK_ACACIA_PLANKS_STEP = register("block.acacia_planks.step");
+
+    public static final SoundEvent BLOCK_BARREL_HIT = register("block.barrel.hit");
+
+    public static final SoundEvent BLOCK_BARREL_PLACE = register("block.barrel.place");
+
+    public static final SoundEvent BLOCK_BARREL_STEP = register("block.barrel.step");
+
+    public static final SoundEvent BLOCK_BEEHIVE_BREAK = register("block.beehive.break");
+
+    public static final SoundEvent BLOCK_BEEHIVE_HIT = register("block.beehive.hit");
+
+    public static final SoundEvent BLOCK_BEEHIVE_PLACE = register("block.beehive.place");
+
+    public static final SoundEvent BLOCK_BIRCH_LEAVES_BREAK = register("block.birch_leaves.break");
+
+    public static final SoundEvent BLOCK_BIRCH_LEAVES_FALL = register("block.birch_leaves.fall");
+
+    public static final SoundEvent BLOCK_BIRCH_LEAVES_HIT = register("block.birch_leaves.hit");
+
+    public static final SoundEvent BLOCK_BIRCH_LEAVES_PLACE = register("block.birch_leaves.place");
+
+    public static final SoundEvent BLOCK_BIRCH_LEAVES_STEP = register("block.birch_leaves.step");
+
+    public static final SoundEvent BLOCK_BIRCH_LOG_BREAK = register("block.birch_log.break");
+
+    public static final SoundEvent BLOCK_BIRCH_LOG_FALL = register("block.birch_log.fall");
+
+    public static final SoundEvent BLOCK_BIRCH_LOG_HIT = register("block.birch_log.hit");
+
+    public static final SoundEvent BLOCK_BIRCH_LOG_PLACE = register("block.birch_log.place");
+
+    public static final SoundEvent BLOCK_BIRCH_LOG_STEP = register("block.birch_log.step");
+
+    public static final SoundEvent BLOCK_BIRCH_OBJECT_BREAK = register("block.birch_object.break");
+
+    public static final SoundEvent BLOCK_BIRCH_OBJECT_FALL = register("block.birch_object.fall");
+
+    public static final SoundEvent BLOCK_BIRCH_OBJECT_HIT = register("block.birch_object.hit");
+
+    public static final SoundEvent BLOCK_BIRCH_OBJECT_PLACE = register("block.birch_object.place");
+
+    public static final SoundEvent BLOCK_BIRCH_OBJECT_STEP = register("block.birch_object.step");
+
+    public static final SoundEvent BLOCK_BIRCH_PLANKS_BREAK = register("block.birch_planks.break");
+
+    public static final SoundEvent BLOCK_BIRCH_PLANKS_FALL = register("block.birch_planks.fall");
+
+    public static final SoundEvent BLOCK_BIRCH_PLANKS_HIT = register("block.birch_planks.hit");
+
+    public static final SoundEvent BLOCK_BIRCH_PLANKS_PLACE = register("block.birch_planks.place");
+
+    public static final SoundEvent BLOCK_BIRCH_PLANKS_STEP = register("block.birch_planks.step");
+
+    public static final SoundEvent BLOCK_BOOKSHELF_BREAK = register("block.bookshelf.break");
+
+    public static final SoundEvent BLOCK_BOOKSHELF_HIT = register("block.bookshelf.hit");
+
+    public static final SoundEvent BLOCK_BOOKSHELF_PLACE = register("block.bookshelf.place");
+
+    public static final SoundEvent BLOCK_BOOKSHELF_STEP = register("block.bookshelf.step");
+
+    public static final SoundEvent BLOCK_CHEST_HIT = register("block.chest.hit");
+
+    public static final SoundEvent BLOCK_CHEST_PLACE = register("block.chest.place");
+
+    public static final SoundEvent BLOCK_CHEST_STEP = register("block.chest.step");
+
+    public static final SoundEvent BLOCK_CLAY_BREAK = register("block.clay.break");
+
+    public static final SoundEvent BLOCK_CLAY_HIT = register("block.clay.hit");
+
+    public static final SoundEvent BLOCK_CLAY_PLACE = register("block.clay.place");
+
+    public static final SoundEvent BLOCK_CLAY_STEP = register("block.clay.step");
+
+    public static final SoundEvent BLOCK_COBBLESTONE_BREAK = register("block.cobblestone.break");
+
+    public static final SoundEvent BLOCK_COBBLESTONE_FALL = register("block.cobblestone.fall");
+
+    public static final SoundEvent BLOCK_COBBLESTONE_HIT = register("block.cobblestone.hit");
+
+    public static final SoundEvent BLOCK_COBBLESTONE_PLACE = register("block.cobblestone.place");
+
+    public static final SoundEvent BLOCK_COBBLESTONE_STEP = register("block.cobblestone.step");
+
+    public static final SoundEvent BLOCK_COPPER_ORE_BREAK = register("block.copper_ore.break");
+
+    public static final SoundEvent BLOCK_COPPER_ORE_FALL = register("block.copper_ore.fall");
+
+    public static final SoundEvent BLOCK_COPPER_ORE_HIT = register("block.copper_ore.hit");
+
+    public static final SoundEvent BLOCK_COPPER_ORE_PLACE = register("block.copper_ore.place");
+
+    public static final SoundEvent BLOCK_COPPER_ORE_STEP = register("block.copper_ore.step");
+
+    public static final SoundEvent BLOCK_DEEPSLATE_COPPER_ORE_BREAK = register("block.deepslate_copper_ore.break");
+
+    public static final SoundEvent BLOCK_DEEPSLATE_COPPER_ORE_FALL = register("block.deepslate_copper_ore.fall");
+
+    public static final SoundEvent BLOCK_DEEPSLATE_COPPER_ORE_HIT = register("block.deepslate_copper_ore.hit");
+
+    public static final SoundEvent BLOCK_DEEPSLATE_COPPER_ORE_PLACE = register("block.deepslate_copper_ore.place");
+
+    public static final SoundEvent BLOCK_DEEPSLATE_COPPER_ORE_STEP = register("block.deepslate_copper_ore.step");
+
+    public static final SoundEvent BLOCK_DEEPSLATE_GOLD_ORE_BREAK = register("block.deepslate_gold_ore.break");
+
+    public static final SoundEvent BLOCK_DEEPSLATE_GOLD_ORE_FALL = register("block.deepslate_gold_ore.fall");
+
+    public static final SoundEvent BLOCK_DEEPSLATE_GOLD_ORE_HIT = register("block.deepslate_gold_ore.hit");
+
+    public static final SoundEvent BLOCK_DEEPSLATE_GOLD_ORE_PLACE = register("block.deepslate_gold_ore.place");
+
+    public static final SoundEvent BLOCK_DEEPSLATE_GOLD_ORE_STEP = register("block.deepslate_gold_ore.step");
+
+    public static final SoundEvent BLOCK_DEEPSLATE_IRON_ORE_BREAK = register("block.deepslate_iron_ore.break");
+
+    public static final SoundEvent BLOCK_DEEPSLATE_IRON_ORE_FALL = register("block.deepslate_iron_ore.fall");
+
+    public static final SoundEvent BLOCK_DEEPSLATE_IRON_ORE_HIT = register("block.deepslate_iron_ore.hit");
+
+    public static final SoundEvent BLOCK_DEEPSLATE_IRON_ORE_PLACE = register("block.deepslate_iron_ore.place");
+
+    public static final SoundEvent BLOCK_DEEPSLATE_IRON_ORE_STEP = register("block.deepslate_iron_ore.step");
+
+    public static final SoundEvent BLOCK_GLASS_BREAK = register("block.glass.break");
+
+    public static final SoundEvent BLOCK_GLASS_PLACE = register("block.glass.place");
+
+    public static final SoundEvent BLOCK_GLASS_STEP = register("block.glass.step");
+
+    public static final SoundEvent BLOCK_GOLD_BLOCK_STEP = register("block.gold_block.step");
+
+    public static final SoundEvent BLOCK_GOLD_ORE_BREAK = register("block.gold_ore.break");
+
+    public static final SoundEvent BLOCK_GOLD_ORE_FALL = register("block.gold_ore.fall");
+
+    public static final SoundEvent BLOCK_GOLD_ORE_HIT = register("block.gold_ore.hit");
+
+    public static final SoundEvent BLOCK_GOLD_ORE_PLACE = register("block.gold_ore.place");
+
+    public static final SoundEvent BLOCK_GOLD_ORE_STEP = register("block.gold_ore.step");
+
+    public static final SoundEvent BLOCK_GRAVEL_BREAK = register("block.gravel.break");
+
+    public static final SoundEvent BLOCK_GRAVEL_FALL = register("block.gravel.fall");
+
+    public static final SoundEvent BLOCK_GRAVEL_HIT = register("block.gravel.hit");
+
+    public static final SoundEvent BLOCK_GRAVEL_PLACE = register("block.gravel.place");
+
+    public static final SoundEvent BLOCK_GRAVEL_STEP = register("block.gravel.step");
+
+    public static final SoundEvent BLOCK_HAY_BLOCK_BREAK = register("block.hay_block.break");
+
+    public static final SoundEvent BLOCK_HAY_BLOCK_HIT = register("block.hay_block.hit");
+
+    public static final SoundEvent BLOCK_HAY_BLOCK_PLACE = register("block.hay_block.place");
+
+    public static final SoundEvent BLOCK_HAY_BLOCK_STEP = register("block.hay_block.step");
+
+    public static final SoundEvent BLOCK_ICE_BREAK = register("block.ice.break");
+
+    public static final SoundEvent BLOCK_ICE_FALL = register("block.ice.fall");
+
+    public static final SoundEvent BLOCK_ICE_HIT = register("block.ice.hit");
+
+    public static final SoundEvent BLOCK_ICE_PLACE = register("block.ice.place");
+
+    public static final SoundEvent BLOCK_ICE_STEP = register("block.ice.step");
+
+    public static final SoundEvent BLOCK_IRON_BLOCK_STEP = register("block.iron_block.step");
+
+    public static final SoundEvent BLOCK_IRON_ORE_BREAK = register("block.iron_ore.break");
+
+    public static final SoundEvent BLOCK_IRON_ORE_FALL = register("block.iron_ore.fall");
+
+    public static final SoundEvent BLOCK_IRON_ORE_HIT = register("block.iron_ore.hit");
+
+    public static final SoundEvent BLOCK_IRON_ORE_PLACE = register("block.iron_ore.place");
+
+    public static final SoundEvent BLOCK_IRON_ORE_STEP = register("block.iron_ore.step");
+
+    public static final SoundEvent BLOCK_JUNGLE_LEAVES_BREAK = register("block.jungle_leaves.break");
+
+    public static final SoundEvent BLOCK_JUNGLE_LEAVES_FALL = register("block.jungle_leaves.fall");
+
+    public static final SoundEvent BLOCK_JUNGLE_LEAVES_HIT = register("block.jungle_leaves.hit");
+
+    public static final SoundEvent BLOCK_JUNGLE_LEAVES_PLACE = register("block.jungle_leaves.place");
+
+    public static final SoundEvent BLOCK_JUNGLE_LEAVES_STEP = register("block.jungle_leaves.step");
+
+    public static final SoundEvent BLOCK_JUNGLE_OBJECT_BREAK = register("block.jungle_object.break");
+
+    public static final SoundEvent BLOCK_JUNGLE_OBJECT_FALL = register("block.jungle_object.fall");
+
+    public static final SoundEvent BLOCK_JUNGLE_OBJECT_HIT = register("block.jungle_object.hit");
+
+    public static final SoundEvent BLOCK_JUNGLE_OBJECT_PLACE = register("block.jungle_object.place");
+
+    public static final SoundEvent BLOCK_JUNGLE_OBJECT_STEP = register("block.jungle_object.step");
+
+    public static final SoundEvent BLOCK_JUNGLE_PLANKS_BREAK = register("block.jungle_planks.break");
+
+    public static final SoundEvent BLOCK_JUNGLE_PLANKS_FALL = register("block.jungle_planks.fall");
+
+    public static final SoundEvent BLOCK_JUNGLE_PLANKS_HIT = register("block.jungle_planks.hit");
+
+    public static final SoundEvent BLOCK_JUNGLE_PLANKS_PLACE = register("block.jungle_planks.place");
+
+    public static final SoundEvent BLOCK_JUNGLE_PLANKS_STEP = register("block.jungle_planks.step");
+
+    public static final SoundEvent BLOCK_LOOM_BREAK = register("block.loom.break");
+
+    public static final SoundEvent BLOCK_LOOM_HIT = register("block.loom.hit");
+
+    public static final SoundEvent BLOCK_LOOM_PLACE = register("block.loom.place");
+
+    public static final SoundEvent BLOCK_LOOM_STEP = register("block.loom.step");
+
+    public static final SoundEvent BLOCK_MAGMA_BLOCK_BREAK = register("block.magma_block.break");
+
+    public static final SoundEvent BLOCK_MAGMA_BLOCK_FALL = register("block.magma_block.fall");
+
+    public static final SoundEvent BLOCK_MAGMA_BLOCK_HIT = register("block.magma_block.hit");
+
+    public static final SoundEvent BLOCK_MAGMA_BLOCK_PLACE = register("block.magma_block.place");
+
+    public static final SoundEvent BLOCK_MAGMA_BLOCK_STEP = register("block.magma_block.step");
+
+    public static final SoundEvent BLOCK_MANGROVE_LEAVES_BREAK = register("block.mangrove_leaves.break");
+
+    public static final SoundEvent BLOCK_MANGROVE_LEAVES_FALL = register("block.mangrove_leaves.fall");
+
+    public static final SoundEvent BLOCK_MANGROVE_LEAVES_HIT = register("block.mangrove_leaves.hit");
+
+    public static final SoundEvent BLOCK_MANGROVE_LEAVES_PLACE = register("block.mangrove_leaves.place");
+
+    public static final SoundEvent BLOCK_MANGROVE_LEAVES_STEP = register("block.mangrove_leaves.step");
+
+    public static final SoundEvent BLOCK_MANGROVE_LOG_BREAK = register("block.mangrove_log.break");
+
+    public static final SoundEvent BLOCK_MANGROVE_LOG_FALL = register("block.mangrove_log.fall");
+
+    public static final SoundEvent BLOCK_MANGROVE_LOG_HIT = register("block.mangrove_log.hit");
+
+    public static final SoundEvent BLOCK_MANGROVE_LOG_PLACE = register("block.mangrove_log.place");
+
+    public static final SoundEvent BLOCK_MANGROVE_LOG_STEP = register("block.mangrove_log.step");
+
+    public static final SoundEvent BLOCK_MANGROVE_OBJECT_BREAK = register("block.mangrove_object.break");
+
+    public static final SoundEvent BLOCK_MANGROVE_OBJECT_FALL = register("block.mangrove_object.fall");
+
+    public static final SoundEvent BLOCK_MANGROVE_OBJECT_HIT = register("block.mangrove_object.hit");
+
+    public static final SoundEvent BLOCK_MANGROVE_OBJECT_PLACE = register("block.mangrove_object.place");
+
+    public static final SoundEvent BLOCK_MANGROVE_OBJECT_STEP = register("block.mangrove_object.step");
+
+    public static final SoundEvent BLOCK_MANGROVE_PLANKS_BREAK = register("block.mangrove_planks.break");
+
+    public static final SoundEvent BLOCK_MANGROVE_PLANKS_FALL = register("block.mangrove_planks.fall");
+
+    public static final SoundEvent BLOCK_MANGROVE_PLANKS_HIT = register("block.mangrove_planks.hit");
+
+    public static final SoundEvent BLOCK_MANGROVE_PLANKS_PLACE = register("block.mangrove_planks.place");
+
+    public static final SoundEvent BLOCK_MANGROVE_PLANKS_STEP = register("block.mangrove_planks.step");
+
+    public static final SoundEvent BLOCK_MOSSY_COBBLESTONE_BREAK = register("block.mossy_cobblestone.break");
+
+    public static final SoundEvent BLOCK_MOSSY_COBBLESTONE_HIT = register("block.mossy_cobblestone.hit");
+
+    public static final SoundEvent BLOCK_MOSSY_COBBLESTONE_STEP = register("block.mossy_cobblestone.step");
+
+    public static final SoundEvent BLOCK_MOSSY_STONE_BRICKS_BREAK = register("block.mossy_stone_bricks.break");
+
+    public static final SoundEvent BLOCK_MOSSY_STONE_BRICKS_FALL = register("block.mossy_stone_bricks.fall");
+
+    public static final SoundEvent BLOCK_MOSSY_STONE_BRICKS_HIT = register("block.mossy_stone_bricks.hit");
+
+    public static final SoundEvent BLOCK_MOSSY_STONE_BRICKS_STEP = register("block.mossy_stone_bricks.step");
+
+    public static final SoundEvent BLOCK_OAK_LOG_BREAK = register("block.oak_log.break");
+
+    public static final SoundEvent BLOCK_OAK_LOG_FALL = register("block.oak_log.fall");
+
+    public static final SoundEvent BLOCK_OAK_LOG_HIT = register("block.oak_log.hit");
+
+    public static final SoundEvent BLOCK_OAK_LOG_PLACE = register("block.oak_log.place");
+
+    public static final SoundEvent BLOCK_OAK_LOG_STEP = register("block.oak_log.step");
+
+    public static final SoundEvent BLOCK_PACKED_ICE_BREAK = register("block.packed_ice.break");
+
+    public static final SoundEvent BLOCK_PACKED_ICE_FALL = register("block.packed_ice.fall");
+
+    public static final SoundEvent BLOCK_PACKED_ICE_HIT = register("block.packed_ice.hit");
+
+    public static final SoundEvent BLOCK_PACKED_ICE_PLACE = register("block.packed_ice.place");
+
+    public static final SoundEvent BLOCK_PACKED_ICE_STEP = register("block.packed_ice.step");
+
+    public static final SoundEvent BLOCK_QUARTZ_BREAK = register("block.quartz.break");
+
+    public static final SoundEvent BLOCK_QUARTZ_HIT = register("block.quartz.hit");
+
+    public static final SoundEvent BLOCK_QUARTZ_PLACE = register("block.quartz.place");
+
+    public static final SoundEvent BLOCK_QUARTZ_STEP = register("block.quartz.step");
+
+    public static final SoundEvent BLOCK_RAW_GOLD_BLOCK_BREAK = register("block.raw_gold_block.break");
+
+    public static final SoundEvent BLOCK_RAW_GOLD_BLOCK_FALL = register("block.raw_gold_block.fall");
+
+    public static final SoundEvent BLOCK_RAW_GOLD_BLOCK_HIT = register("block.raw_gold_block.hit");
+
+    public static final SoundEvent BLOCK_RAW_GOLD_BLOCK_PLACE = register("block.raw_gold_block.place");
+
+    public static final SoundEvent BLOCK_RAW_GOLD_BLOCK_STEP = register("block.raw_gold_block.step");
+
+    public static final SoundEvent BLOCK_SANDSTONE_STEP = register("block.sandstone.step");
+
+    public static final SoundEvent BLOCK_SHEET_METAL_BREAK = register("block.sheet_metal.break");
+
+    public static final SoundEvent BLOCK_SHEET_METAL_STEP = register("block.sheet_metal.step");
+
+    public static final SoundEvent BLOCK_SPRUCE_LEAVES_BREAK = register("block.spruce_leaves.break");
+
+    public static final SoundEvent BLOCK_SPRUCE_LEAVES_FALL = register("block.spruce_leaves.fall");
+
+    public static final SoundEvent BLOCK_SPRUCE_LEAVES_HIT = register("block.spruce_leaves.hit");
+
+    public static final SoundEvent BLOCK_SPRUCE_LEAVES_PLACE = register("block.spruce_leaves.place");
+
+    public static final SoundEvent BLOCK_SPRUCE_LEAVES_STEP = register("block.spruce_leaves.step");
+
+    public static final SoundEvent BLOCK_SPRUCE_LOG_BREAK = register("block.spruce_log.break");
+
+    public static final SoundEvent BLOCK_SPRUCE_LOG_FALL = register("block.spruce_log.fall");
+
+    public static final SoundEvent BLOCK_SPRUCE_LOG_HIT = register("block.spruce_log.hit");
+
+    public static final SoundEvent BLOCK_SPRUCE_LOG_PLACE = register("block.spruce_log.place");
+
+    public static final SoundEvent BLOCK_SPRUCE_LOG_STEP = register("block.spruce_log.step");
+
+    public static final SoundEvent BLOCK_SPRUCE_OBJECT_BREAK = register("block.spruce_object.break");
+
+    public static final SoundEvent BLOCK_SPRUCE_OBJECT_FALL = register("block.spruce_object.fall");
+
+    public static final SoundEvent BLOCK_SPRUCE_OBJECT_HIT = register("block.spruce_object.hit");
+
+    public static final SoundEvent BLOCK_SPRUCE_OBJECT_PLACE = register("block.spruce_object.place");
+
+    public static final SoundEvent BLOCK_SPRUCE_OBJECT_STEP = register("block.spruce_object.step");
+
+    public static final SoundEvent BLOCK_SPRUCE_PLANKS_BREAK = register("block.spruce_planks.break");
+
+    public static final SoundEvent BLOCK_SPRUCE_PLANKS_FALL = register("block.spruce_planks.fall");
+
+    public static final SoundEvent BLOCK_SPRUCE_PLANKS_HIT = register("block.spruce_planks.hit");
+
+    public static final SoundEvent BLOCK_SPRUCE_PLANKS_PLACE = register("block.spruce_planks.place");
+
+    public static final SoundEvent BLOCK_SPRUCE_PLANKS_STEP = register("block.spruce_planks.step");
+
+    public static final SoundEvent BLOCK_STONE_BRICKS_BREAK = register("block.stone_bricks.break");
+
+    public static final SoundEvent BLOCK_STONE_BRICKS_FALL = register("block.stone_bricks.fall");
+
+    public static final SoundEvent BLOCK_STONE_BRICKS_HIT = register("block.stone_bricks.hit");
+
+    public static final SoundEvent BLOCK_STONE_BRICKS_PLACE = register("block.stone_bricks.place");
+
+    public static final SoundEvent BLOCK_STONE_BRICKS_STEP = register("block.stone_bricks.step");
+
+    public static final SoundEvent BLOCK_ICE_STRESS = register("block.ice.stress");
+
+    public static final SoundEvent INVENTORY_SCROLL = register("ui.inventory.scroll");
+
+    public static final SoundEvent ITEM_PICK = register("ui.inventory.pick");
+
+    public static final SoundEvent ITEM_COPY = register("ui.inventory.copy");
+
+    public static final SoundEvent ITEM_DELETE = register("ui.inventory.delete");
+
+    public static final SoundEvent ITEM_DROP = register("ui.inventory.drop");
+
+    public static final SoundEvent CHAT_PING = register("ui.chat.ping");
+
+    public static final SoundEvent POSITIVE_STATUS_EFFECT_GAIN = register("event.status_effect.gain_positive");
+
+    public static final SoundEvent NEGATIVE_STATUS_EFFECT_GAIN = register("event.status_effect.gain_negative");
+
+    public static final SoundEvent STATUS_EFFECT_LOSE = register("event.status_effect.lose");
+
+    public static final SoundEvent REPEATER_CLICK = register("block.repeater.click_on");
+
+    public static final SoundEvent DAYLIGHT_DETECTOR_USE = register("block.daylight_detector.use");
+
+    public static final SoundEvent FURNACE_MINECART_USE = register("entity.furnace_minecart.use");
+
+    public static final SoundEvent CROP_FOODS = register("item.dynamic.crop_food");
+
+    public static final SoundEvent SOUP_FOODS = register("item.dynamic.soup");
+
+    public static final SoundEvent MEAT_AND_FISH_FOOD = register("item.dynamic.meat_and_fish");
+
+    public static final SoundEvent WOOD = register("block.wood.hit");
+
+    public static final SoundEvent BAMBOO_WOOD = register("block.bamboo_wood.hit");
+
+    public static final SoundEvent WOODEN_EQUIPMENT = register("item.axe.strip");
+
+    public static final SoundEvent USE_SMITHING_TABLE = register("block.smithing_table.open");
+
+    public static final SoundEvent ANVIL_FALL = register("block.anvil.fall");
+
+    public static final SoundEvent TRIAL_KEY = register("block.trial_spawner.spawn_item_begin");
+
+    public static final SoundEvent WIND_CHARGE = register("item.wind_charge.dynamic");
+
+    public static final SoundEvent CHAIN = register("item.armor.equip_chain");
+
+    public static final SoundEvent EQUIP_DIAMOND = register("item.armor.equip_diamond");
+
+    public static final SoundEvent EQUIP_ELYTRA = register("item.armor.equip_elytra");
+
+    public static final SoundEvent EQUIP_GENERIC = register("item.armor.equip_generic");
+
+    public static final SoundEvent EQUIP_GOLD = register("item.armor.equip_gold");
+
+    public static final SoundEvent EQUIP_IRON = register("item.armor.equip_iron");
+
+    public static final SoundEvent EQUIP_LEATHER = register("item.armor.equip_leather");
+
+    public static final SoundEvent EQUIP_COPPER = register("item.armor.equip_copper");
+
+    public static final SoundEvent EQUIP_NETHERITE = register("item.armor.equip_netherite");
+
+    public static final SoundEvent EQUIP_TURTLE = register("item.armor.equip_turtle");
+
+    public static final SoundEvent USE_ENCHANTMENT_TABLE = register("block.enchantment_table.use");
+
+    public static final SoundEvent BOTTLE_FILL = register("item.bottle.fill");
+
+    public static final SoundEvent WOOL = register("block.wool.hit");
+
+    public static final SoundEvent TRIDENT = register("item.trident");
+
+    public static final SoundEvent BOW = register("item.bow");
+
+    public static final SoundEvent STONE_PLACE = register("block.stone.place");
+
+    public static final SoundEvent AMETHYST_BLOCK_RESONATE = register("block.amethyst_block.resonate");
+
+    public static final SoundEvent USE_ANVIL = register("block.anvil.use");
+
+    public static final SoundEvent FLINTANDSTEEL_USE = register("item.flintandsteel.use");
+
+    public static final SoundEvent USE_SMOKER = register("block.smoker.use");
+
+    public static final SoundEvent USE_FURNACE = register("block.furnace.use");
+
+    public static final SoundEvent USE_LECTERN = register("block.lectern.use");
+
+    public static final SoundEvent USE_STONECUTTER = register("block.stonecutter.use");
+
+    public static final SoundEvent USE_CARTOGRAPHY_TABLE = register("block.cartography_table.use");
+
+    public static final SoundEvent USE_BREWING_STAND = register("block.brewing_stand.use");
+
+    public static final SoundEvent USE_LOOM = register("block.loom.use");
+
+    public static final SoundEvent BOWL = register("item.bowl.dynamic");
+
+    public static final SoundEvent FISHING_RODS = register("item.fishing_rods.dynamic");
+
+    public static final SoundEvent DYE = register("item.dye.dynamic");
+
+    public static final SoundEvent PAPER = register("item.paper.dynamic");
+
+    public static final SoundEvent FIREWORKS = register("item.fireworks.dynamic");
+
+    public static final SoundEvent INGOTS = register("item.ingots.dynamic");
+
+    public static final SoundEvent SHINY_METALS = register("item.shiny_metals.dynamic");
+
+    public static final SoundEvent MINECARTS = register("item.minecarts.dynamic");
+
+    public static final SoundEvent DIRTY_METALS = register("item.dirty_metals.dynamic");
+
+    public static final SoundEvent SHARDS = register("item.shards.dynamic");
+
+    public static final SoundEvent EGGS = register("item.egg.dynamic");
+
+    public static final SoundEvent BONE = register("item.bone.dynamic");
+
+    public static final SoundEvent SCULK = register("item.sculk.dynamic");
+
+    public static final SoundEvent BUCKET_FILL = register("item.bucket.dynamic");
+
+    public static final SoundEvent WET_MOB_DROPS = register("item.wet_mob_drops.dynamic");
+
+    private static SoundEvent register(String name) {
+        Identifier id = Identifier.fromNamespaceAndPath("sounds", name);
+		return Registry.register(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
+    }
+
+    public static void initialize() {
+    }
+}

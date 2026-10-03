@@ -1,0 +1,6 @@
+{
+  "keys": [
+    "minecraft:lectern"
+  ],
+  "soundEvent": "sounds:block.lectern.use"
+}

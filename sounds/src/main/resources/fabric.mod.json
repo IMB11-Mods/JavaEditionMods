@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
+  "authors": [
+    "IMB11",
+    "cassiancc"
+  ],
+  "contact": {
+    "homepage": "https://modrinth.com/mod/sound",
+    "repo": "https://github.com/IMB11-Mods/Sounds",
+    "issues": "https://github.com/IMB11-Mods/Sounds/issues",
+    "sources": "https://github.com/IMB11-Mods/Sounds"
+  },
+  "license": "${mod_license}",
+  "icon": "assets/sounds/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.imb11.sounds.loaders.fabric.SoundsFabric"
+    ],
+    "modmenu": [
+      "dev.imb11.sounds.loaders.fabric.ModMenuCompat"
+    ],
+    "fabric-datagen": [
+      "dev.imb11.sounds.loaders.fabric.datagen.SoundsDatagenEntrypoint"
+    ],
+    "mru": [
+      "dev.imb11.sounds.SoundsClient"
+    ],
+    "mru_client": [
+      "dev.imb11.sounds.SoundsClient"
+    ]
+  },
+  "mixins": [
+    "sounds.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${target_fabricloader}",
+    "java": ">=25",
+    "yet_another_config_lib_v3": "${target_yacl}",
+    "fabric-api": "*",
+    "mru": "${target_mru}",
+    "minecraft": "${target_minecraft}"
+  },
+  "recommends": {
+    "rsls": "*"
+  }
+}

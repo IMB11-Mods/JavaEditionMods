@@ -1,0 +1,22 @@
+package dev.imb11.sounds.mixin.compat;
+
+import dev.imb11.sounds.config.SoundsConfig;
+import dev.imb11.sounds.config.UISoundsConfig;
+import net.blay09.mods.trashslot.client.TrashSlotSlot;
+import net.blay09.mods.trashslot.client.deletion.DefaultDeletionProvider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Pseudo;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+@Pseudo
+@Mixin(value = DefaultDeletionProvider.class, remap = false)
+public class TrashSlotFix {
+    @Inject(method = "deleteMouseItem", at = @At("HEAD"))
+    private void itemDeleteTrashSlot(Player player, ItemStack mouseItem, TrashSlotSlot trashSlot, boolean isRightClick, CallbackInfo ci) {
+        SoundsConfig.get(UISoundsConfig.class).itemDeleteSoundEffect.playSound();
+    }
+}

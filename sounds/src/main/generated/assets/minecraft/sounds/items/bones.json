@@ -1,0 +1,7 @@
+{
+  "keys": [
+    "minecraft:bone",
+    "minecraft:bone_meal"
+  ],
+  "soundEvent": "sounds:item.bone.dynamic"
+}

@@ -1,0 +1,6 @@
+{
+  "keys": [
+    "minecraft:enchantment"
+  ],
+  "soundEvent": "sounds:block.enchantment_table.use"
+}

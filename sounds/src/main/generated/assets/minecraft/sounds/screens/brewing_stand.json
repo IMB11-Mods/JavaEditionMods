@@ -1,0 +1,6 @@
+{
+  "keys": [
+    "minecraft:brewing_stand"
+  ],
+  "soundEvent": "sounds:block.brewing_stand.use"
+}

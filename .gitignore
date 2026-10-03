@@ -1,0 +1,16 @@
+.imports/
+.idea/
+.gradle/
+**/.gradle/
+**/build/
+**/run/
+**/runs/
+**/out/
+**/versions/*/src/
+.env
+.env.*
+*.iml
+*.hprof
+*.log
+.DS_Store
+Thumbs.db

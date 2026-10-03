@@ -1,0 +1,49 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - mru/v*
+      - sounds/v*
+  workflow_dispatch:
+    inputs:
+      mod:
+        description: Mods to publish
+        type: choice
+        required: true
+        default: both
+        options:
+          - both
+          - mru
+          - sounds
+
+permissions:
+  contents: write
+
+concurrency:
+  group: monorepo-release
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Build and publish selected mods
+        env:
+          RELEASE_MOD: ${{ inputs.mod || (startsWith(github.ref_name, 'mru/') && 'mru' || 'sounds') }}
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          case "$RELEASE_MOD" in
+            both) task=publishAllMods ;;
+            mru|sounds) task=":$RELEASE_MOD:publishMods" ;;
+            *) exit 1 ;;
+          esac
+          bash ./gradlew --no-daemon --build-cache "$task"

@@ -1,0 +1,51 @@
+package dev.imb11.sounds.config;
+
+import dev.imb11.sounds.config.utils.ConfigGroup;
+import dev.isxander.yacl3.api.ConfigCategory;
+import dev.isxander.yacl3.api.YetAnotherConfigLib;
+import dev.isxander.yacl3.config.v2.api.SerialEntry;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+
+import static dev.imb11.sounds.config.SoundsConfig.HELPER;
+
+public class ModConfig extends ConfigGroup<ModConfig> implements YetAnotherConfigLib.ConfigBackedBuilder<ModConfig> {
+    @SerialEntry
+    public boolean hideSoundsButtonInSoundMenu = false;
+    @SerialEntry
+    public float globalVolume = 1;
+
+    public ModConfig() {
+        super(ModConfig.class);
+    }
+
+    @Override
+    public YetAnotherConfigLib getYACL() {
+        return YetAnotherConfigLib.create(getHandler(), this);
+    }
+
+    @Override
+    public Identifier getIcon() {
+        return Identifier.fromNamespaceAndPath("sounds", "textures/gui/mod_options.png");
+    }
+
+    @Override
+    public Component getName() {
+        return Component.translatable("sounds.config.mod");
+    }
+
+    @Override
+    public String getID() {
+        return "mod_utils";
+    }
+
+    @Override
+    public YetAnotherConfigLib.Builder build(ModConfig defaults, ModConfig config, YetAnotherConfigLib.Builder builder) {
+        return builder.title(getName())
+                .category(ConfigCategory.createBuilder()
+                        .name(getName())
+                        .option(HELPER.get("hideSoundsButtonInSoundMenu", defaults.hideSoundsButtonInSoundMenu, () -> config.hideSoundsButtonInSoundMenu, val -> config.hideSoundsButtonInSoundMenu = val, false))
+                        .option(HELPER.getSlider("globalVolume", 0, 1, .1f, defaults.globalVolume, () -> config.globalVolume, val -> config.globalVolume = val, false))
+                        .build());
+    }
+}

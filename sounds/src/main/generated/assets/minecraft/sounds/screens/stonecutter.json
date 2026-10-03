@@ -1,0 +1,6 @@
+{
+  "keys": [
+    "minecraft:stonecutter"
+  ],
+  "soundEvent": "sounds:block.stonecutter.use"
+}

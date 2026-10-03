@@ -1,0 +1,6 @@
+{
+  "keys": [
+    "minecraft:firework_rocket"
+  ],
+  "soundEvent": "sounds:item.fireworks.dynamic"
+}

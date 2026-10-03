@@ -1,0 +1,6 @@
+{
+  "keys": [
+    "minecraft:elytra"
+  ],
+  "soundEvent": "sounds:item.armor.equip_elytra"
+}

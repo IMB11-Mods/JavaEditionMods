@@ -1,0 +1,7 @@
+{
+  "keys": [
+    "minecraft:bow",
+    "minecraft:crossbow"
+  ],
+  "soundEvent": "sounds:item.bow"
+}

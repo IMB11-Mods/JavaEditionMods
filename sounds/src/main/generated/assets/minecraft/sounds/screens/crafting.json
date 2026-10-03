@@ -1,0 +1,6 @@
+{
+  "keys": [
+    "minecraft:crafting"
+  ],
+  "soundEvent": "sounds:block.wood.hit"
+}

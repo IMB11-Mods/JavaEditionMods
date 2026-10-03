@@ -1,0 +1,53 @@
+modLoader="javafml"
+loaderVersion="${fml_loader}"
+issueTrackerURL="https://github.com/IMB11-Mods/Sounds/issues"
+displayURL="https://modrinth.com/mod/sound"
+logoFile="assets/sounds/icon.png"
+iconFile="assets/sounds/icon.png"
+authors="IMB11, cassiancc"
+license="${mod_license}"
+
+[[mods]]
+modId="sounds"
+version="${mod_version}"
+displayName="${mod_name}"
+description="${mod_description}"
+mru = "dev.imb11.sounds.SoundsClient"
+mru_client = "dev.imb11.sounds.SoundsClient"
+
+[[dependencies.sounds]]
+modId="${loader}"
+type="required"
+versionRange="${target_loader}"
+ordering="NONE"
+side="CLIENT"
+
+[[dependencies.sounds]]
+modId = "yet_another_config_lib_v3"
+type = "required"
+versionRange="[${target_yacl},)"
+side="CLIENT"
+
+[[dependencies.sounds]]
+modId="minecraft"
+type="required"
+versionRange="${target_minecraft}"
+ordering="NONE"
+side="CLIENT"
+
+[[dependencies.sounds]]
+modId="mru"
+type="required"
+versionRange="[${target_mru},)"
+ordering="NONE"
+side="CLIENT"
+
+[[dependencies.sounds]]
+modId = "rsls"
+type = "optional"
+versionRange = "[0,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[mixins]]
+config="sounds.mixins.json"

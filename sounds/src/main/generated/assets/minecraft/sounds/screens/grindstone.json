@@ -1,0 +1,6 @@
+{
+  "keys": [
+    "minecraft:grindstone"
+  ],
+  "soundEvent": "sounds:block.stone.place"
+}

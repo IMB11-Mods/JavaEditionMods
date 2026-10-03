@@ -1,0 +1,8 @@
+{
+  "keys": [
+    "#c:foods/soup"
+  ],
+  "pitch": 1.58,
+  "soundEvent": "sounds:item.dynamic.soup",
+  "volume": 0.5
+}
