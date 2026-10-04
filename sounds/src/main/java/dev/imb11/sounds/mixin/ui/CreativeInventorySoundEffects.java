@@ -47,11 +47,6 @@ public abstract class CreativeInventorySoundEffects extends net.minecraft.client
         super(screenHandler, playerInventory, text);
     }
 
-    @Inject(method = "refreshSearchResults", at = @At("HEAD"))
-    public void $inventory_typing_sound_effect(CallbackInfo ci) {
-        SoundsConfig.get(UISoundsConfig.class).typingSoundEffect.playSound();
-    }
-
     @Inject(method = "slotClicked", at = @At("HEAD"), cancellable = false)
     public void $pre_item_delete_sound_effect(Slot slot, int slotId, int buttonNum, ContainerInput containerInput, CallbackInfo ci) {
         MixinStatics.CURRENT_SLOT = slot;
