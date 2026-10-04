@@ -134,6 +134,10 @@ public abstract class MultiversionedItemTagsProvider extends FabricTagsProvider.
 		return new MultiversionedItemTagBuilder(tag);
 	}
 
+	protected MultiversionedItemTagBuilder tagBuilder(BlockItemTagId tag) {
+		return new MultiversionedItemTagBuilder(tag.item());
+	}
+
 	public static TagKey<Item> conventionTag(String id) {
 		return CommonUtils.itemTag("c", id);
 	}

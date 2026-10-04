@@ -11,12 +11,10 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.function.Supplier;
-
 /**
  * A pair of a block or item and its ID. Primary benefit over a direct value is for 26.2+ data generation, which requires the ID to be stored separately from the block.
  */
-public record ItemLikeEntry<T extends ItemLike>(Identifier mru$id, T value) implements ItemLike, Identifiable {
+public record ItemLikeEntry<T extends ItemLike>(Identifier id, T value) implements ItemLike, Identifiable {
 
 	@Override
 	public Item asItem() {
@@ -28,11 +26,11 @@ public record ItemLikeEntry<T extends ItemLike>(Identifier mru$id, T value) impl
 	}
 
 	public Identifier identifier() {
-		return mru$id;
+		return id;
 	}
 
 	public Identifier mru$identifier() {
-		return mru$id;
+		return id;
 	}
 
 	public Identifier id() {
@@ -48,7 +46,7 @@ public record ItemLikeEntry<T extends ItemLike>(Identifier mru$id, T value) impl
 	}
 
 	public boolean isVanilla() {
-		return mru$id().getNamespace().equals("minecraft");
+		return id().getNamespace().equals("minecraft");
 	}
 
 	public boolean is(ItemStack heldItem) {
@@ -56,11 +54,11 @@ public record ItemLikeEntry<T extends ItemLike>(Identifier mru$id, T value) impl
 	}
 
 	public ResourceKey<Block> blockKey() {
-		return ResourceKey.create(Registries.BLOCK, this.mru$id());
+		return ResourceKey.create(Registries.BLOCK, this.id());
 	}
 
 	public ResourceKey<Item> itemKey() {
-		return ResourceKey.create(Registries.ITEM, this.mru$id());
+		return ResourceKey.create(Registries.ITEM, this.id());
 	}
 
 	public BlockItemId blockItemId() {
@@ -71,7 +69,7 @@ public record ItemLikeEntry<T extends ItemLike>(Identifier mru$id, T value) impl
 		if (value() instanceof Block block) {
 			return block.defaultBlockState();
 		} else {
-			throw new IllegalStateException("Cannot call defaultBlockState on %s, as it is not a Block.".formatted(mru$id));
+			throw new IllegalStateException("Cannot call defaultBlockState on %s, as it is not a Block.".formatted(id));
 		}
 	}
 

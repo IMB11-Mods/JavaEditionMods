@@ -2,12 +2,17 @@ package cc.cassian.mru.util;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.Level;
 import org.jspecify.annotations.Nullable;
 import net.minecraft.resources.ResourceKey;
 
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class RegistryUtils {
@@ -57,4 +62,8 @@ public class RegistryUtils {
 	}
 
 	*///?}
+
+	public static Identifier getId(Identifiable event) {
+		return event.mru$identifier();
+	}
 }

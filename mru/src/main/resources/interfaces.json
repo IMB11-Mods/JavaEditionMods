@@ -16,5 +16,8 @@
   ],
   "net/minecraft/resources/ResourceKey":[
     "cc/cassian/mru/util/Identifiable"
+  ],
+  "net/minecraft/sounds/SoundEvent":[
+    "cc/cassian/mru/util/Identifiable"
   ]
 }

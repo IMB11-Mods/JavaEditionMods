@@ -4,12 +4,15 @@
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "mixins": [
+    "BlockItemIdMixin",
+    "BlockItemTagIdMixin",
     "BlockMixin",
     "FluidMixin",
     "HolderDirectMixin",
     "HolderMixin",
     "ItemMixin",
     "ResourceKeyMixin",
+    "SoundEventMixin",
     "TagKeyMixin"
   ],
   "injectors": {

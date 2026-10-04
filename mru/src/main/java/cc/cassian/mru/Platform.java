@@ -18,12 +18,27 @@ public interface Platform {
     /*Platform INSTANCE = new NeoforgePlatformImpl();
     *///?}
 
+	default boolean isModLoaded(String modid) {
+		return isLoaded(modid);
+	}
 
-    boolean isLoaded(String modid);
+	boolean isLoaded(String modid);
+
     boolean isLoadingLoaded(String mod);
+
     String loader();
+
     Path configPath();
-    ArrayList<String> getMods();
+
+	default Path getConfigDir() {
+		return configPath();
+	}
+
+	ArrayList<String> getMods();
 
 	boolean isDeveloperEnvironment();
+
+	default boolean isDevEnvironment() {
+		return isDeveloperEnvironment();
+	}
 }

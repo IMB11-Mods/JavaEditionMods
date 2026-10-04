@@ -1,6 +1,5 @@
 package dev.imb11.mru;
 
-import cc.cassian.mru.util.CommonUtils;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -24,10 +23,6 @@ public class RegistryUtils {
     }
 
     public static Identifier getId(SoundEvent event) {
-        //? if >1.21.2 {
-        return event.location();
-        //?} else {
-        /*return event.getLocation();
-        *///?}
+        return event.mru$identifier();
     }
 }

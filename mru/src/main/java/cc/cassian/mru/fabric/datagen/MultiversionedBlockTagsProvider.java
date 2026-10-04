@@ -27,8 +27,10 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
+import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 public abstract class MultiversionedBlockTagsProvider extends FabricTagsProvider.BlockTagsProvider {
 
@@ -81,16 +83,44 @@ public abstract class MultiversionedBlockTagsProvider extends FabricTagsProvider
 			return this;
 		}
 
-		public MultiversionedBlockTagBuilder add(Identifiable block) {
-			if (block instanceof TagKey<?>)
-				rawBuilder = rawBuilder.addOptionalTag(block.mru$identifier());
-			else rawBuilder = rawBuilder.addElement(block.mru$identifier());
+		public MultiversionedBlockTagBuilder add(Identifiable... block) {
+			for (Identifiable identifiable : block) {
+				if (identifiable instanceof TagKey<?>)
+					rawBuilder = rawBuilder.addOptionalTag(identifiable.mru$identifier());
+				else rawBuilder = rawBuilder.addElement(identifiable.mru$identifier());
+			}
 			return this;
+		}
+
+		public MultiversionedBlockTagBuilder add(Stream<? extends Identifiable> block) {
+			block.forEach(identifiable -> {
+				if (identifiable instanceof TagKey<?>)
+					rawBuilder = rawBuilder.addOptionalTag(identifiable.mru$identifier());
+				else rawBuilder = rawBuilder.addElement(identifiable.mru$identifier());
+			});
+			return this;
+		}
+
+		public MultiversionedBlockTagBuilder addAll(Stream<? extends Identifiable> block) {
+			return add(block);
+		}
+
+		public MultiversionedBlockTagBuilder addAll(Collection<? extends Identifiable> block) {
+			return add(block.stream());
 		}
 
 		public MultiversionedBlockTagBuilder add(BlockItemId item) {
 			rawBuilder = rawBuilder.addElement(item.block().mru$identifier());
 			return this;
+		}
+
+		public MultiversionedBlockTagBuilder addTag(TagKey<Block> blockTagKey) {
+			rawBuilder = rawBuilder.addTag(blockTagKey.location());
+			return this;
+		}
+
+		public MultiversionedBlockTagBuilder addTag(BlockItemTagId blockItemTagId) {
+			return addTag(blockItemTagId.block());
 		}
 
 		public MultiversionedBlockTagBuilder addOptionalTag(TagKey<Block> blockTagKey) {
@@ -122,10 +152,19 @@ public abstract class MultiversionedBlockTagsProvider extends FabricTagsProvider
 			rawBuilder = rawBuilder.addElement(item);
 			return this;
 		}
+
+		public MultiversionedBlockTagBuilder add(String item) {
+			rawBuilder = rawBuilder.addElement(CommonUtils.parseId(item));
+			return this;
+		}
 	}
 
 	protected MultiversionedBlockTagBuilder tagBuilder(TagKey<Block> tag) {
 		return new MultiversionedBlockTagBuilder(tag);
+	}
+
+	protected MultiversionedBlockTagBuilder tagBuilder(BlockItemTagId tag) {
+		return new MultiversionedBlockTagBuilder(tag.block());
 	}
 
 	public static TagKey<Block> conventionTag(String id) {
