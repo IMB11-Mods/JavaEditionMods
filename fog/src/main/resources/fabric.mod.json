@@ -34,7 +34,6 @@
     "fabricloader": ">=${target_loader}",
     "fabric-api": "*",
     "mru": "${target_mru}",
-    "architectury": ">=${target_architectury}",
     "yet_another_config_lib_v3": "${target_yacl}",
     "minecraft": "${target_minecraft}",
     "java": ">=25"
@@ -42,7 +41,6 @@
   "custom": {
     "mc-publish": {
       "dependencies": [
-        "architectury-api",
         "yacl"
       ]
     }

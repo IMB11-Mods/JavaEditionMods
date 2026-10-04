@@ -13,7 +13,6 @@ val polytoneLibraries = configurations.create("polytoneLibraries") {
 dependencies {
     implementation(project(mruProject.path))
     implementation(mcLibrary("yacl-neoforge"))
-    implementation(mcLibrary("architectury-neoforge"))
     compileOnly(mcLibrary("iris-neoforge"))
     compileOnly(mcLibrary("polytone-neoforge"))
     add(polytoneLibraries.name, mcLibrary("polytone-neoforge"))

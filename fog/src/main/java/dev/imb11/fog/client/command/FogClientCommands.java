@@ -1,38 +1,48 @@
 package dev.imb11.fog.client.command;
 
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import dev.architectury.event.events.client.ClientCommandRegistrationEvent;
 import dev.imb11.fog.client.FogManager;
 import dev.imb11.fog.client.util.TickUtil;
 import dev.imb11.fog.client.util.color.Color;
 import dev.imb11.fog.config.FogConfig;
+//? fabric {
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
+//?} else {
+/*
+import net.minecraft.commands.CommandSourceStack;
+import static com.mojang.brigadier.builder.LiteralArgumentBuilder.literal;
+*///?}
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.MutableComponent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class FogClientCommands {
-	public static void register() {
-		ClientCommandRegistrationEvent.EVENT.register((dispatcher, context) -> {
-			var fogNode = ClientCommandRegistrationEvent.literal("fog");
+	//~ if fabric 'CommandSourceStack'->'FabricClientCommandSource' {
+	public static void register(CommandDispatcher<FabricClientCommandSource> dispatcher) {
+		LiteralArgumentBuilder<FabricClientCommandSource> fogNode = literal("fog");
 
-			fogNode = fogNode.then(ClientCommandRegistrationEvent.literal("reset").executes(FogClientCommands::reset));
+		fogNode = fogNode.then(LiteralArgumentBuilder.<FabricClientCommandSource>literal("reset").executes(commandContext -> reset(new ClientCommandContext(commandContext))));
 
-			fogNode = fogNode.then(ClientCommandRegistrationEvent.literal("toggle").executes(FogClientCommands::toggle));
+		fogNode = fogNode.then(LiteralArgumentBuilder.<FabricClientCommandSource>literal("toggle").executes(commandContext -> toggle(new ClientCommandContext(commandContext))));
 
-			fogNode = fogNode.then(ClientCommandRegistrationEvent.literal("debug").executes(FogClientCommands::outputDebug));
+		fogNode = fogNode.then(LiteralArgumentBuilder.<FabricClientCommandSource>literal("debug").executes(commandContext -> outputDebug(new ClientCommandContext(commandContext))));
 
-			dispatcher.register(fogNode);
-		});
+		dispatcher.register(fogNode);
 	}
+	//~}
 
-	private static int outputDebug(CommandContext<ClientCommandRegistrationEvent.ClientCommandSourceStack> commandContext) {
+	private static int outputDebug(ClientCommandContext commandContext) {
 		@NotNull var client = Minecraft.getInstance();
 		@Nullable ClientLevel clientWorld = client.level;
 		if (clientWorld == null) {
-			commandContext.getSource().arch$sendFailure(Component.translatable("fog.command.debug.failure"));
+			commandContext.sendFailure(Component.translatable("fog.command.debug.failure"));
 			return 0;
 		}
 
@@ -68,27 +78,53 @@ public class FogClientCommands {
 				manager.currentEndMultiplier.get(tickDelta)
 		);
 
-		commandContext.getSource().arch$sendSuccess(() -> Component.literal(debugInfoTable), false);
+		commandContext.sendFeedback(Component.literal(debugInfoTable));
 		return 1;
 	}
 
-	private static int reset(@NotNull CommandContext<ClientCommandRegistrationEvent.ClientCommandSourceStack> commandContext) {
+	private static int reset(@NotNull ClientCommandContext commandContext) {
 		FogConfig.load();
 		FogManager.INSTANCE = new FogManager();
-		commandContext.getSource().arch$sendSuccess(
-				() -> Component.literal("§b§7[§rFog§b§7]§r ").append(Component.translatable("fog.command.reset").withStyle(ChatFormatting.GOLD)), false);
+		commandContext.sendFeedback(
+				 Component.literal("§b§7[§rFog§b§7]§r ").append(Component.translatable("fog.command.reset").withStyle(ChatFormatting.GOLD)));
 		return 1;
 	}
 
-	public static int toggle(@NotNull CommandContext<ClientCommandRegistrationEvent.ClientCommandSourceStack> commandContext) {
+	private static int toggle(@NotNull ClientCommandContext commandContext) {
 		FogConfig config = FogConfig.getInstance();
 		config.enableMod = !config.enableMod;
 
 		FogConfig.save();
 
-		commandContext.getSource().arch$sendSuccess(() -> Component.literal("§b§7[§rFog§b§7]§r ").append(
-				Component.translatable("fog.command.toggle." + (config.enableMod ? "enabled" : "disabled")).withStyle(ChatFormatting.GOLD)), false);
+		commandContext.sendFeedback(Component.literal("§b§7[§rFog§b§7]§r ").append(
+				Component.translatable("fog.command.toggle." + (config.enableMod ? "enabled" : "disabled")).withStyle(ChatFormatting.GOLD)));
 
 		return 1;
 	}
+
+	//? fabric {
+
+	private record ClientCommandContext(CommandContext<FabricClientCommandSource> commandContext) {
+		public void sendFailure(MutableComponent failure) {
+			commandContext.getSource().sendError(failure);
+		}
+
+		public void sendFeedback(MutableComponent feedback) {
+			commandContext.getSource().sendFeedback(feedback);
+
+		}
+	}
+	//?} else {
+
+	/*private record ClientCommandContext(CommandContext<CommandSourceStack> commandContext) {
+
+		public void sendFailure(MutableComponent failure) {
+			commandContext.getSource().sendFailure(failure);
+		}
+
+		public void sendFeedback(MutableComponent feedback) {
+			commandContext.getSource().sendSuccess(()-> feedback, false);
+		}
+	}
+	*///?}
 }
