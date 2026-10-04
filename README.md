@@ -9,10 +9,8 @@ Monorepo for all my Java Edition mods!
 | `./gradlew buildAll`                                        | Build all projects for all loaders               |
 | `./gradlew buildFabric`                                     | Build all projects for Fabric                    |
 | `./gradlew buildNeoForge`                                   | Build all projects for NeoForge                  |
-| `./gradlew collectArtifacts`                                | Build and collect the files in `build/artifacts` |
-| `./gradlew :<mod>:<game-version>-<loader>:runClient`        | Launch a mod with its configured dependencies    |
-| `./gradlew "Set active project to <game-version>-neoforge"` | Switch all projects to NeoForge for editing      |
-| `./gradlew "Reset active project"`                          | Switch all projects back to Fabric for editing   |
+| `./gradlew collectArtifacts`                                | Build all and collect the files in `build/artifacts` |
+| `./gradlew :<mod>:<game-version>-<loader>:runClient`        | Launch a mod                                     |
 
 ## Publishing
 
