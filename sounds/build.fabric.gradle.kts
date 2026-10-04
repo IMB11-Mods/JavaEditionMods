@@ -7,9 +7,9 @@ evaluationDependsOn(mruProject.path)
 
 dependencies {
     implementation(project(mruProject.path))
-    implementation(libs.yacl.fabric)
-    implementation(libs.modmenu)
-    compileOnly(libs.trashslot)
+    implementation(mcLibrary("yacl-fabric"))
+    implementation(mcLibrary("modmenu"))
+    compileOnly(mcLibrary("trashslot"))
 }
 
 loom {
@@ -25,6 +25,16 @@ fabricApi {
         outputDirectory = project.parent!!.file("src/main/generated")
         addToResources = false
         client = true
+    }
+}
+
+val legacyPlayerMixin = stonecutter.eval(stonecutter.current.version, "<26.3")
+tasks.processResources {
+    inputs.property("legacyPlayerMixin", legacyPlayerMixin)
+    filesMatching("sounds.mixins.json") {
+        filter { line ->
+            if (!legacyPlayerMixin && line.trim() == "\"ui.PlayerEntityMixin\",") "" else line
+        }
     }
 }
 

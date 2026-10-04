@@ -14,17 +14,25 @@ neoForge {
 
 dependencies {
     implementation(libs.jspecify)
-    compileOnly(libs.cloth.neoforge)
-    compileOnly(libs.yacl.neoforge)
-    compileOnly(libs.accessories.neoforge)
-    compileOnly(variantOf(libs.curios.neoforge) { classifier("api") })
-    compileOnly(libs.ohmega.neoforge)
-    compileOnly(libs.trinkets)
-    compileOnly(libs.travelers.backpack.neoforge)
-    compileOnly(libs.sophisticated.core)
-    compileOnly(libs.sophisticated.backpacks)
-    compileOnly(libs.forgified.fabric.api)
-    runtimeOnly(libs.yacl.neoforge)
+    compileOnly(mcLibrary("cloth-neoforge"))
+    compileOnly(mcLibrary("yacl-neoforge"))
+    compileOnly(mcLibrary("accessories-neoforge"))
+    compileOnly(variantOf(mcLibrary("curios-neoforge")) { classifier("api") })
+    compileOnly(mcLibrary("ohmega-neoforge"))
+    compileOnly(mcLibrary("trinkets-neoforge"))
+    compileOnly(mcLibrary("travelers-backpack-neoforge"))
+    compileOnly(mcLibrary("sophisticated-core-neoforge"))
+    compileOnly(mcLibrary("sophisticated-backpacks-neoforge"))
+    compileOnly(mcLibrary("forgified-fabric-api"))
+    runtimeOnly(mcLibrary("yacl-neoforge"))
+}
+
+val useIconFile = stonecutter.eval(stonecutter.current.version, ">=26.3")
+tasks.processResources {
+    inputs.property("useIconFile", useIconFile)
+    filesMatching("META-INF/neoforge.mods.toml") {
+        filter { line -> if (useIconFile) line.replace("logoFile=", "iconFile=") else line }
+    }
 }
 
 stonecutter {

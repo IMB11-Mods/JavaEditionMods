@@ -1,4 +1,3 @@
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.tasks.bundling.AbstractArchiveTask
 import org.gradle.language.jvm.tasks.ProcessResources
 import java.util.Properties
@@ -13,8 +12,8 @@ val metadata = readModMetadata()
 extensions.add("modMetadata", metadata)
 metadata.values.forEach { (key, value) -> extensions.extraProperties[key] = value }
 
-val catalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
-val minecraftVersion = providers.gradleProperty("minecraftVersion").get()
+val catalog = minecraftCatalog
+val minecraftVersion = project.minecraftVersion
 val loader = project.name.substringAfterLast('-')
 val moduleDirectory = requireNotNull(project.parent).layout.projectDirectory
 val javaVersion = providers.gradleProperty("javaVersion").get().toInt()
@@ -72,6 +71,7 @@ val requiredModVersion = requiredMod?.let { mod ->
     Properties().apply { contents.reader().use(::load) }.getProperty("mod.version")
 }.orEmpty()
 val targetMinecraft = if (loader == "fabric") "=$minecraftVersion" else "[$minecraftVersion]"
+val yaclVersion = mcLibrary("yacl-$loader").get().versionConstraint.requiredVersion.removeSuffix("-$loader")
 val resourceProperties = mapOf(
     "version" to releaseVersion,
     "mod_version" to metadata.version,
@@ -86,8 +86,7 @@ val resourceProperties = mapOf(
     "target_loader" to if (loader == "fabric") catalog.findVersion("fabric-loader").get().requiredVersion
         else "[${catalog.findVersion("neoforge").get().requiredVersion},)",
     "target_fabricloader" to catalog.findVersion("fabric-loader").get().requiredVersion,
-    "target_yacl" to if (loader == "fabric") ">=${catalog.findVersion("yacl").get().requiredVersion}"
-        else catalog.findVersion("yacl").get().requiredVersion,
+    "target_yacl" to if (loader == "fabric") ">=$yaclVersion" else yaclVersion,
     "target_mru" to if (loader == "fabric") ">=$requiredModVersion" else requiredModVersion
 )
 

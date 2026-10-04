@@ -1,5 +1,9 @@
 package dev.imb11.sounds.config;
 
+//? if >=26.3 {
+/*import com.mojang.blaze3d.Blaze3D;
+import java.net.URI;
+*///?}
 import dev.imb11.mru.yacl.EntryType;
 import dev.imb11.sounds.api.config.ConfiguredSound;
 import dev.imb11.sounds.api.config.DynamicConfiguredSound;
@@ -94,7 +98,11 @@ public class WorldSoundsConfig extends ConfigGroup<WorldSoundsConfig> implements
                 .option(ButtonOption.createBuilder()
                         .name(Component.literal("Open Wiki"))
                         .description(OptionDescription.EMPTY)
+                        //? if <26.3 {
                         .action((screen, option) -> Util.getPlatform().openUri("https://docs.imb11.dev/sounds/data/custom-block-sounds"))
+                        //?} else {
+                        /*.action((screen, option) -> Blaze3D.openUri(URI.create("https://docs.imb11.dev/sounds/data/custom-block-sounds")))
+                        *///?}
                         .build())
                 .option(LabelOption.create(Component.empty()))
                 .option(ListOption.<String>createBuilder()

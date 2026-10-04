@@ -1,4 +1,3 @@
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.language.jvm.tasks.ProcessResources
 
 plugins {
@@ -6,14 +5,13 @@ plugins {
     id("imb11.mod")
 }
 
-val catalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
-val minecraftVersion = providers.gradleProperty("minecraftVersion").get()
+val minecraftVersion = project.minecraftVersion
 val metadata = modMetadata
 
 dependencies {
     "minecraft"("com.mojang:minecraft:$minecraftVersion")
-    implementation(catalog.findLibrary("fabric-loader").get())
-    implementation(catalog.findLibrary("fabric-api").get())
+    implementation(mcLibrary("fabric-loader"))
+    implementation(mcLibrary("fabric-api"))
 }
 
 loom {
@@ -24,7 +22,7 @@ loom {
     }
     runs {
         configureEach {
-            runDir(rootProject.file("run/${metadata.id}/fabric/$name").absolutePath)
+            runDir(rootProject.file("run/${metadata.id}/$minecraftVersion/fabric/$name").absolutePath)
         }
     }
 }

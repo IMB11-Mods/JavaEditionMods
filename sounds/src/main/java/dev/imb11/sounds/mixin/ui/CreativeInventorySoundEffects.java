@@ -11,7 +11,11 @@ import dev.imb11.sounds.sound.context.ItemStackSoundContext;
 import dev.imb11.sounds.util.MixinStatics;
 import net.minecraft.world.inventory.ContainerInput;
 import org.jetbrains.annotations.Nullable;
+//? if <26.3 {
 import org.lwjgl.glfw.GLFW;
+//?} else {
+/*import net.minecraft.util.Util;
+*///?}
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -78,7 +82,11 @@ public abstract class CreativeInventorySoundEffects extends net.minecraft.client
 
     @Inject(method = "slotClicked", at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/client/multiplayer/MultiPlayerGameMode;handleCreativeModeItemAdd(Lnet/minecraft/world/item/ItemStack;I)V"), cancellable = false)
     public void $mass_item_delete_sound_effect(Slot slot, int slotId, int button, ContainerInput actionType, CallbackInfo ci) {
+        //? if <26.3 {
         double currentTime = GLFW.glfwGetTime();
+        //?} else {
+        /*double currentTime = Util.getMillis() / 1000.0;
+        *///?}
         double timeElapsed = currentTime - sounds$prevDeleteAllTime;
         if (this.originalSlots != null && originalSlots.stream().anyMatch(Slot::hasItem) && timeElapsed >= 0.1)
             SoundsConfig.get(UISoundsConfig.class).itemDeleteSoundEffect.playSound(true);

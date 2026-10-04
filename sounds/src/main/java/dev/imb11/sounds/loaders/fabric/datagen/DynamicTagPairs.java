@@ -235,6 +235,7 @@ public class DynamicTagPairs extends TagPairProvider {
 
         provider.accept("lapis_block", TagPair.Builder.create()
                 .addKey(Blocks.LAPIS_BLOCK)
+                //? if <26.3 {
                 .addKey(Blocks.BLACK_GLAZED_TERRACOTTA)
                 .addKey(Blocks.BLUE_GLAZED_TERRACOTTA)
                 .addKey(Blocks.BROWN_GLAZED_TERRACOTTA)
@@ -251,6 +252,9 @@ public class DynamicTagPairs extends TagPairProvider {
                 .addKey(Blocks.RED_GLAZED_TERRACOTTA)
                 .addKey(Blocks.WHITE_GLAZED_TERRACOTTA)
                 .addKey(Blocks.YELLOW_GLAZED_TERRACOTTA)
+                //?} else {
+                /*.addMultipleKeys(Blocks.GLAZED_TERRACOTTA.asList())
+                *///?}
                 .group(1.0F, 1.2F, SoundEvents.BONE_BLOCK_BREAK, SoundEvents.BONE_BLOCK_STEP, SoundEvents.BONE_BLOCK_PLACE, SoundEvents.BONE_BLOCK_HIT, SoundEvents.BONE_BLOCK_FALL));
 
         provider.accept("loom", TagPair.Builder.create()
@@ -421,6 +425,7 @@ public class DynamicTagPairs extends TagPairProvider {
                 .group(1.0F, 1.0F, CustomSounds.BLOCK_COBBLESTONE_BREAK, CustomSounds.BLOCK_STONE_BRICKS_STEP, SoundEvents.DEEPSLATE_BRICKS_PLACE, CustomSounds.BLOCK_STONE_BRICKS_HIT, CustomSounds.BLOCK_STONE_BRICKS_FALL));
 
         provider.accept("terracotta", TagPair.Builder.create()
+                //? if <26.3 {
                 .addKey(Blocks.WHITE_TERRACOTTA)
                 .addKey(Blocks.ORANGE_TERRACOTTA)
                 .addKey(Blocks.MAGENTA_TERRACOTTA)
@@ -437,6 +442,9 @@ public class DynamicTagPairs extends TagPairProvider {
                 .addKey(Blocks.GREEN_TERRACOTTA)
                 .addKey(Blocks.RED_TERRACOTTA)
                 .addKey(Blocks.BLACK_TERRACOTTA)
+                //?} else {
+                /*.addMultipleKeys(Blocks.DYED_TERRACOTTA.asList())
+                *///?}
                 .addKey(Blocks.TERRACOTTA)
                 .addKey(Blocks.BEDROCK)
                 .group(1.0F, 0.6F, SoundEvents.CALCITE_BREAK, SoundEvents.CALCITE_STEP, SoundEvents.CALCITE_PLACE, SoundEvents.CALCITE_HIT, SoundEvents.CALCITE_FALL));

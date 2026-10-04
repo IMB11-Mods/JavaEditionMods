@@ -1,4 +1,3 @@
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.language.jvm.tasks.ProcessResources
 
 plugins {
@@ -6,7 +5,8 @@ plugins {
     id("imb11.mod")
 }
 
-val catalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
+val catalog = minecraftCatalog
+val minecraftVersion = project.minecraftVersion
 val metadata = modMetadata
 
 neoForge {
@@ -23,11 +23,11 @@ neoForge {
     runs {
         register("client") {
             client()
-            gameDirectory.set(rootProject.layout.projectDirectory.dir("run/${metadata.id}/neoforge/client"))
+            gameDirectory.set(rootProject.layout.projectDirectory.dir("run/${metadata.id}/$minecraftVersion/neoforge/client"))
         }
         register("server") {
             server()
-            gameDirectory.set(rootProject.layout.projectDirectory.dir("run/${metadata.id}/neoforge/server"))
+            gameDirectory.set(rootProject.layout.projectDirectory.dir("run/${metadata.id}/$minecraftVersion/neoforge/server"))
         }
     }
 }

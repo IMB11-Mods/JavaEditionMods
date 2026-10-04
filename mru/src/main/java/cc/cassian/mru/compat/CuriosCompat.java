@@ -18,12 +18,12 @@ public class CuriosCompat {
                     //.resolve()
                     .get().getEquippedCurios();
             //~ if >26.2 'getSlots'->'size'
-            for (int i = 0; i < allEquipped.size(); i++) {
+            for (int i = 0; i < allEquipped.getSlots(); i++) {
                 //? if >26.2 {
-                isImportantItemOrContainer.accept(allEquipped.getResource(i).toStack());
-                //?} else {
-                /*isImportantItemOrContainer.accept(allEquipped.getStackInSlot(i));
-                *///?}
+                /*isImportantItemOrContainer.accept(allEquipped.getResource(i).toStack());
+                *///?} else {
+                isImportantItemOrContainer.accept(allEquipped.getStackInSlot(i));
+                //?}
             }
         }
         //?}

@@ -7,8 +7,8 @@ evaluationDependsOn(mruProject.path)
 
 dependencies {
     implementation(project(mruProject.path))
-    implementation(libs.yacl.neoforge)
-    compileOnly(libs.trashslot)
+    implementation(mcLibrary("yacl-neoforge"))
+    compileOnly(mcLibrary("trashslot"))
 }
 
 neoForge {
@@ -18,6 +18,16 @@ neoForge {
     mods {
         register("mru") {
             sourceSet(mruProject.extensions.getByType<SourceSetContainer>().getByName("main"))
+        }
+    }
+}
+
+val legacyPlayerMixin = stonecutter.eval(stonecutter.current.version, "<26.3")
+tasks.processResources {
+    inputs.property("legacyPlayerMixin", legacyPlayerMixin)
+    filesMatching("sounds.mixins.json") {
+        filter { line ->
+            if (!legacyPlayerMixin && line.trim() == "\"ui.PlayerEntityMixin\",") "" else line
         }
     }
 }

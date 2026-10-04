@@ -101,10 +101,10 @@ public class HudUtils {
 	 */
 	public static boolean shouldCancelRender(Minecraft mc, boolean enabled, boolean hideFromDebug) {
 		//? if >26.1 {
-		if (mc.gui.hud.isHidden())
-		 //?} else {
-		/*if (mc.options.hideGui)
-		*///?}
+		/*if (mc.gui.hud.isHidden())
+		 *///?} else {
+		if (mc.options.hideGui)
+		//?}
 			return true;
 		if (!enabled) return true;
 		if (hideFromDebug) {
@@ -127,10 +127,10 @@ public class HudUtils {
 	public static void setScreen(Function<Screen, Screen> screenConstructor) {
 		Minecraft mc = Minecraft.getInstance();
 		//? if >26.1 {
-		Screen parent = mc.gui.screen();
-		 //?} else {
-		/*Screen parent = mc.screen;
-		*///?}
+		/*Screen parent = mc.gui.screen();
+		 *///?} else {
+		Screen parent = mc.screen;
+		//?}
 		HudUtils.setScreen(screenConstructor.apply(parent));
 	}
 
@@ -140,10 +140,10 @@ public class HudUtils {
 	public static void setScreen(Screen screen) {
 		Minecraft mc = Minecraft.getInstance();
 		//? if >26.1 {
-		mc.gui.setScreen(screen);
-		 //?} else {
-		/*mc.setScreen(screen);
-		*///?}
+		/*mc.gui.setScreen(screen);
+		 *///?} else {
+		mc.setScreen(screen);
+		//?}
 	}
 
 	/**

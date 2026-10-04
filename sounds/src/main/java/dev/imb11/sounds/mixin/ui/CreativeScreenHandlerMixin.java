@@ -8,7 +8,11 @@ import dev.imb11.sounds.util.MixinStatics;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+//? if <26.3 {
 import org.lwjgl.glfw.GLFW;
+//?} else {
+/*import net.minecraft.util.Util;
+*///?}
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -55,7 +59,11 @@ public abstract class CreativeScreenHandlerMixin {
             return;
         }
 
+        //? if <26.3 {
         double currentTime = GLFW.glfwGetTime();
+        //?} else {
+        /*double currentTime = Util.getMillis() / 1000.0;
+        *///?}
         double timeElapsed = currentTime - sounds$prevTime;
 
         if (timeElapsed >= 0.05 && sounds$prevValue != position) {

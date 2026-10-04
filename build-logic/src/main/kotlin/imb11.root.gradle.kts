@@ -1,14 +1,14 @@
 import me.modmuss50.mpp.PublishModTask
 
-val targetMinecraft = providers.gradleProperty("minecraftVersion").get()
-val modProjects = providers.gradleProperty("modProjects").get().split(',').map(String::trim)
+val modProjects = rootProject.childProjects.values
+val targetProjects = modProjects.flatMap { it.childProjects.values }
 val loaders = listOf("fabric", "neoforge")
 
 val loaderBuilds = loaders.map { loader ->
     val title = if (loader == "fabric") "Fabric" else "NeoForge"
     tasks.register("build$title") {
         group = "build"
-        dependsOn(modProjects.map { ":$it:$targetMinecraft-$loader:assemble" })
+        dependsOn(targetProjects.filter { it.name.endsWith("-$loader") }.map { "${it.path}:assemble" })
     }
 }
 
@@ -30,7 +30,7 @@ tasks.register("build") {
 tasks.register<Delete>("clean") {
     group = "build"
     delete(layout.buildDirectory)
-    dependsOn(modProjects.flatMap { mod -> loaders.map { ":$mod:$targetMinecraft-$it:clean" } })
+    dependsOn(targetProjects.map { "${it.path}:clean" })
 }
 
 val collectArtifacts = tasks.register<Sync>("collectArtifacts") {
@@ -39,14 +39,11 @@ val collectArtifacts = tasks.register<Sync>("collectArtifacts") {
     into(layout.buildDirectory.dir("artifacts"))
 }
 
-modProjects.forEach { mod ->
-    loaders.forEach { loader ->
-        val node = project(":$mod:$targetMinecraft-$loader")
-        node.pluginManager.withPlugin("imb11.mod") {
-            collectArtifacts.configure {
-                from(listOf(node.tasks.named("jar"), node.tasks.named("sourcesJar"))) {
-                    into(mod)
-                }
+targetProjects.forEach { node ->
+    node.pluginManager.withPlugin("imb11.mod") {
+        collectArtifacts.configure {
+            from(listOf(node.tasks.named("jar"), node.tasks.named("sourcesJar"))) {
+                into(requireNotNull(node.parent).name)
             }
         }
     }
@@ -54,7 +51,8 @@ modProjects.forEach { mod ->
 
 tasks.register("publishAllMods") {
     group = "publishing"
-    dependsOn(buildAll, ":mru:publishMods", ":sounds:publishMods")
+    dependsOn(buildAll)
+    dependsOn(modProjects.map { "${it.path}:publishMods" })
 }
 
 project(":sounds").pluginManager.withPlugin("imb11.publish-mod") {
@@ -65,5 +63,5 @@ project(":sounds").pluginManager.withPlugin("imb11.publish-mod") {
 
 tasks.register("prepareSourcesFabric") {
     group = "ide"
-    dependsOn(":${modProjects.first()}:$targetMinecraft-fabric:genSources")
+    dependsOn(targetProjects.filter { it.name.endsWith("-fabric") }.distinctBy { it.name }.map { "${it.path}:genSources" })
 }

@@ -17,20 +17,33 @@ plugins {
 
 rootProject.name = "JavaEditionMods"
 
-val minecraftVersion = providers.gradleProperty("minecraftVersion").get()
-val sourceVersion = minecraftVersion.split('.').take(2).joinToString(".")
-val modProjects = providers.gradleProperty("modProjects").get().split(',').map(String::trim)
+val modTargets = mapOf(
+    "mru" to listOf("26.1.2", "26.3"),
+    "sounds" to listOf("26.1.2", "26.3")
+)
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        modTargets.values.flatten().distinct().forEach { minecraft ->
+            create("mc${minecraft.replace('.', 'x')}") {
+                from(files("gradle/minecraft/$minecraft.versions.toml"))
+            }
+        }
+    }
+}
 
 stonecutter {
     create(rootProject) {
-        modProjects.forEach { mod ->
+        modTargets.forEach { (mod, targets) ->
             branch(mod) {
-                listOf("fabric", "neoforge").forEach { loader ->
-                    version("$minecraftVersion-$loader", sourceVersion)
-                        .buildscript("build.$loader.gradle.kts")
+                targets.forEach { minecraft ->
+                    listOf("fabric", "neoforge").forEach { loader ->
+                        version("$minecraft-$loader", minecraft.split('.').take(2).joinToString("."))
+                            .buildscript("build.$loader.gradle.kts")
+                    }
                 }
             }
         }
-        vcsVersion.set("$minecraftVersion-fabric")
+        vcsVersion.set("26.1.2-fabric")
     }
 }

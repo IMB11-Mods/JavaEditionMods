@@ -4,6 +4,10 @@ import dev.imb11.sounds.util.MixinStatics;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.sounds.SoundEvent;
+//? if >=26.3 {
+/*import net.minecraft.util.Prediction;
+import net.minecraft.world.entity.Entity;
+*///?}
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -21,6 +25,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+//? if <26.3 {
 @Pseudo
 @Mixin(Player.class)
 abstract class PlayerEntityMixin extends LivingEntity {
@@ -35,8 +40,10 @@ abstract class PlayerEntityMixin extends LivingEntity {
             CallbackInfoReturnable<ItemEntity> cir) {
     }
 }
+//?}
 
 @Pseudo
+//? if <26.3 {
 @Mixin(LocalPlayer.class)
 public abstract class ItemDropSoundEffect extends PlayerEntityMixin {
     @Shadow @Final protected Minecraft minecraft;
@@ -44,6 +51,11 @@ public abstract class ItemDropSoundEffect extends PlayerEntityMixin {
     @Shadow public abstract void playSound(@NotNull SoundEvent sound, float volume, float pitch);
 
     protected ItemDropSoundEffect(EntityType<? extends LivingEntity> entityType, Level world) {
+//?} else {
+/*@Mixin(LivingEntity.class)
+public abstract class ItemDropSoundEffect extends Entity {
+    protected ItemDropSoundEffect(EntityType<? extends Entity> entityType, Level world) {
+*///?}
         super(entityType, world);
     }
 
@@ -68,6 +80,7 @@ public abstract class ItemDropSoundEffect extends PlayerEntityMixin {
         SoundsConfig.get(UISoundsConfig.class).itemDropSoundEffect.playDynamicSound(stack, ItemStackSoundContext.of(DynamicSoundHelper.BlockSoundType.FALL));
     }
 
+    //? if <26.3 {
     @Inject(method = "drop", at = @At("HEAD"))
     private void $drop_selected_item_sound_effect(boolean entireStack, CallbackInfoReturnable<Boolean> cir) {
         ItemStack stack = this.getMainHandItem();
@@ -82,4 +95,13 @@ public abstract class ItemDropSoundEffect extends PlayerEntityMixin {
         if (!this.level().isClientSide()) return;
         sounds$playSound(stack);
     }
+    //?} else {
+    /*@Inject(method = "drop", at = @At("HEAD"))
+    private void $drop_selected_item_sound_effect(ItemStack itemStack, boolean thrownFromHand, Prediction prediction, CallbackInfoReturnable<ItemEntity> cir) {
+        if (!this.level().isClientSide()) return;
+        if ((Object) this instanceof LocalPlayer) {
+            sounds$playSound(itemStack);
+        }
+    }
+    *///?}
 }

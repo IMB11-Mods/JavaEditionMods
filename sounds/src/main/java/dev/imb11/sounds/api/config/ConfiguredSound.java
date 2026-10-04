@@ -174,9 +174,15 @@ public class ConfiguredSound {
                     lastShownToast = System.currentTimeMillis();
                     Minecraft client = Minecraft.getInstance();
 
+                    //? if <26.3 {
                     var toastManager = client.getToastManager();
 
                     toastManager.addToast(SystemToast.multiline(client,
+                    //?} else {
+                    /*var toastManager = client.gui.toastManager();
+
+                    toastManager.addToast(new SystemToast(
+                    *///?}
                             SystemToast.SystemToastId.WORLD_ACCESS_FAILURE,
                             Component.translatable("sounds.config.play.error.title"),
                             Component.translatable("sounds.config.play.error.description", this.getId())));
@@ -193,9 +199,15 @@ public class ConfiguredSound {
                 lastShownToast = System.currentTimeMillis();
                 Minecraft client = Minecraft.getInstance();
 
+                //? if <26.3 {
                 var toastManager = client.getToastManager();
 
                 toastManager.addToast(SystemToast.multiline(client,
+                //?} else {
+                /*var toastManager = client.gui.toastManager();
+
+                toastManager.addToast(new SystemToast(
+                *///?}
                         SystemToast.SystemToastId.WORLD_ACCESS_FAILURE,
                         Component.translatable("sounds.config.preview.error.title"),
                         Component.translatable("sounds.config.preview.error.description")));

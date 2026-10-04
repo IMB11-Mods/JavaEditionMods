@@ -1,5 +1,5 @@
 //? if <26.2 {
-/*package cc.cassian.mru.util;
+package cc.cassian.mru.util;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
@@ -16,4 +16,4 @@ public record BlockItemTagId(TagKey<Block> block, TagKey<Item> item) {
 		return create(id, id);
 	}
 }
-*///?}
+//?}

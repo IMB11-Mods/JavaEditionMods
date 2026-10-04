@@ -27,7 +27,11 @@ public class SoundsOptionsScreenMixin extends Screen {
         this.addRenderableWidget(
                 Button
                         .builder(Component.translatable("sounds.config.static"), (btn) -> {
+                            //? if <26.3 {
                             this.minecraft.setScreen(new dev.imb11.sounds.gui.SoundsConfigScreen(this));
+                            //?} else {
+                            /*this.minecraft.gui.setScreen(new dev.imb11.sounds.gui.SoundsConfigScreen(this));
+                            *///?}
                         })
                         .bounds(this.width - textWidth - 20, 5, textWidth + 10, 20)
                         .build()

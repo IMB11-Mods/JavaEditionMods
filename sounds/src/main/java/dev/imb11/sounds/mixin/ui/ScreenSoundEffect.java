@@ -3,7 +3,11 @@ package dev.imb11.sounds.mixin.ui;
 import dev.imb11.sounds.config.SoundsConfig;
 import dev.imb11.sounds.config.UISoundsConfig;
 import dev.imb11.sounds.sound.context.ScreenHandlerSoundContext;
+//? if <26.3 {
 import net.minecraft.client.Minecraft;
+//?} else {
+/*import net.minecraft.client.gui.Gui;
+*///?}
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.BookEditScreen;
@@ -16,7 +20,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+//? if <26.3 {
 @Mixin(Minecraft.class)
+//?} else {
+/*@Mixin(Gui.class)
+*///?}
 public abstract class ScreenSoundEffect {
     @Shadow
     @Nullable

@@ -10,31 +10,31 @@ dependencies {
     implementation(libs.kaleido)
     implementation(libs.jspecify)
 
-    compileOnly(libs.cloth.fabric)
-    compileOnly(libs.yacl.fabric)
-    compileOnly(libs.modmenu)
-    compileOnly(libs.map.atlases)
-    compileOnly(libs.accessories.fabric) {
+    compileOnly(mcLibrary("cloth-fabric"))
+    compileOnly(mcLibrary("yacl-fabric"))
+    compileOnly(mcLibrary("modmenu"))
+    compileOnly(mcLibrary("map-atlases"))
+    compileOnly(mcLibrary("accessories-fabric")) {
         isTransitive = false
     }
-    compileOnly(variantOf(libs.curios.neoforge) { classifier("api") })
-    compileOnly(variantOf(libs.neoforge) { classifier("universal") })
-    compileOnly(libs.travelers.backpack.fabric)
-    compileOnly(libs.sophisticated.core)
-    compileOnly(libs.sophisticated.backpacks)
-    compileOnly(libs.porting.lib.transfer)
-    compileOnly(libs.jade.fabric)
-    compileOnly(libs.cca.entity)
-    compileOnly(libs.cca.base)
-    compileOnly(libs.trinkets)
-    compileOnly(libs.ohmega.fabric)
-    compileOnly(libs.forge.config.api.port.fabric)
+    compileOnly(variantOf(mcLibrary("curios-neoforge")) { classifier("api") })
+    compileOnly(variantOf(mcLibrary("neoforge")) { classifier("universal") })
+    compileOnly(mcLibrary("travelers-backpack-fabric"))
+    compileOnly(mcLibrary("sophisticated-core-fabric"))
+    compileOnly(mcLibrary("sophisticated-backpacks-fabric"))
+    compileOnly(mcLibrary("porting-lib-transfer"))
+    compileOnly(mcLibrary("jade-fabric"))
+    compileOnly(mcLibrary("cca-entity"))
+    compileOnly(mcLibrary("cca-base"))
+    compileOnly(mcLibrary("trinkets-fabric"))
+    compileOnly(mcLibrary("ohmega-fabric"))
+    compileOnly(mcLibrary("forge-config-api-port-fabric"))
 
-    runtimeOnly(libs.cloth.fabric)
-    runtimeOnly(libs.yacl.fabric)
-    runtimeOnly(libs.modmenu)
-    runtimeOnly(libs.mcqoy)
-    runtimeOnly(libs.surveyor)
+    runtimeOnly(mcLibrary("cloth-fabric"))
+    runtimeOnly(mcLibrary("yacl-fabric"))
+    runtimeOnly(mcLibrary("modmenu"))
+    runtimeOnly(mcLibrary("mcqoy"))
+    runtimeOnly(mcLibrary("surveyor"))
 }
 
 stonecutter {

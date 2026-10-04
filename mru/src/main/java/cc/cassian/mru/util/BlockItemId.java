@@ -1,5 +1,5 @@
 //? if <26.2 {
-/*package cc.cassian.mru.util;
+package cc.cassian.mru.util;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
@@ -12,4 +12,4 @@ public record BlockItemId(ResourceKey<Block> block, ResourceKey<Item> item) {
 		return new BlockItemId(ResourceKey.create(Registries.BLOCK, blockId), ResourceKey.create(Registries.ITEM, itemId));
 	}
 }
-*///?}
+//?}

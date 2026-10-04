@@ -6,19 +6,15 @@ plugins {
 }
 
 val modData = readModMetadata(layout.projectDirectory)
-val minecraftVersion = providers.gradleProperty("minecraftVersion").get()
-val releaseVersion = "${modData.version}+$minecraftVersion"
 val releaseTag = "${modData.id}/v${modData.version}"
 val publishDryRun = providers.gradleProperty("publishDryRun").map(String::toBoolean).orElse(false)
-val loaderProjects = listOf("fabric", "neoforge").associateWith { loader ->
-    val node = project("$path:$minecraftVersion-$loader")
+val targetProjects = childProjects.values.sortedBy { it.name }.onEach { node ->
     evaluationDependsOn(node.path)
-    node
 }
 
 val assemble = tasks.register("assemble") {
     group = "build"
-    dependsOn(loaderProjects.values.map { it.tasks.named("assemble") })
+    dependsOn(targetProjects.map { it.tasks.named("assemble") })
 }
 
 val validateRelease = tasks.register("validateRelease") {
@@ -37,10 +33,10 @@ val validateRelease = tasks.register("validateRelease") {
 }
 
 publishMods {
-    version = releaseVersion
+    version = modData.version
     displayName = "${modData.required("mod.name")} ${modData.version}"
     changelog = providers.fileContents(layout.projectDirectory.file("CHANGELOG-LATEST.md")).asText
-        .orElse("${modData.required("mod.name")} ${modData.version} for Minecraft $minecraftVersion.")
+        .orElse("${modData.required("mod.name")} ${modData.version}.")
     type = when {
         modData.version.contains("alpha", ignoreCase = true) -> ALPHA
         Regex("beta|edge|rc|snapshot", RegexOption.IGNORE_CASE).containsMatchIn(modData.version) -> BETA
@@ -48,11 +44,15 @@ publishMods {
     }
     dryRun = publishDryRun
 
-    loaderProjects.forEach { (loader, node) ->
+    targetProjects.forEach { node ->
+        val loader = node.name.substringAfterLast('-')
+        val minecraftVersion = node.minecraftVersion
+        val releaseVersion = "${modData.version}+$minecraftVersion"
         val jar = node.tasks.named<Jar>("jar").flatMap { it.archiveFile }
         val sources = node.tasks.named<Jar>("sourcesJar").flatMap { it.archiveFile }
         val requiredMods = modData.list("publish.dependencies.$loader")
         val loaderName = if (loader == "fabric") "Fabric" else "NeoForge"
+        val targetName = "${minecraftVersion.replace('.', '_')}$loaderName"
         val options = publishOptions {
             file = jar
             additionalFiles.from(sources)
@@ -61,7 +61,7 @@ publishMods {
             modLoaders.add(loader)
         }
 
-        modrinth("modrinth$loaderName") {
+        modrinth("modrinth$targetName") {
             from(options.get())
             projectId = modData.required("publish.modrinth")
             accessToken = providers.environmentVariable("MODRINTH_TOKEN")
@@ -70,7 +70,7 @@ publishMods {
             requiredMods.forEach { requires(it) }
         }
 
-        curseforge("curseforge$loaderName") {
+        curseforge("curseforge$targetName") {
             from(options.get())
             projectId = modData.required("publish.curseforge")
             accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
@@ -86,10 +86,10 @@ publishMods {
         repository = providers.environmentVariable("GITHUB_REPOSITORY")
         commitish = providers.environmentVariable("GITHUB_SHA")
         tagName = releaseTag
-        file = loaderProjects.getValue("fabric").tasks.named<Jar>("jar").flatMap { it.archiveFile }
-        additionalFiles.from(loaderProjects.getValue("neoforge").tasks.named("jar"))
-        additionalFiles.from(loaderProjects.values.map { it.tasks.named("sourcesJar") })
-        modLoaders.addAll(loaderProjects.keys)
+        file = targetProjects.first().tasks.named<Jar>("jar").flatMap { it.archiveFile }
+        additionalFiles.from(targetProjects.drop(1).map { it.tasks.named("jar") })
+        additionalFiles.from(targetProjects.map { it.tasks.named("sourcesJar") })
+        modLoaders.addAll(targetProjects.map { it.name.substringAfterLast('-') }.distinct())
     }
 }
 
