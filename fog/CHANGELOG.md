@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.12.0] - 2026-10-04
+
+### Added
+
+- Added support for 26.1.2 Fabric, 26.1.2 NeoForge, 26.3 Fabric and 26.3 NeoForge ([#227](https://github.com/IMB11-Mods/JavaEditionMods/pull/227))
+
 ## [1.11.0] - 2025-10-07
 
 ### Added
