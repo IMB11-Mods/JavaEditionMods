@@ -1,0 +1,127 @@
+name: Sounds bug report
+description: Report a crash, broken behaviour, or compatibility problem in Sounds.
+title: "[Sounds] "
+labels:
+  - "project:sounds"
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Report a problem with Sounds. Tell us what happened and how we can reproduce it. If you are unsure about something, say so.
+
+  - type: markdown
+    attributes:
+      value: |
+        If you are on a game version or loader not listed here, we are unfortunately not supporting it anymore.
+
+  - type: checkboxes
+    id: existing-issues
+    attributes:
+      label: Existing issues
+      options:
+        - label: I have [searched the existing issues](https://github.com/IMB11-Mods/JavaEditionMods/issues?q=is%3Aissue) for this problem or suggestion.
+          required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the problem and what you expected to happen instead. Include the exact error message, if there is one.
+      placeholder: |
+        What happened:
+        What I expected:
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: How can we reproduce it?
+      description: List the steps that trigger the problem. If it happens unpredictably, describe what you were doing and how often it happens.
+      placeholder: |
+        1. Start the game with...
+        2. Open or do...
+        3. The problem happens when...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: minecraft-version
+    attributes:
+      label: Minecraft version
+      description: Which Minecraft version were you using when the problem happened?
+      options:
+        - "26.1.2"
+        - "26.3"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: mod-loader
+    attributes:
+      label: Mod loader
+      description: Which mod loader are you using?
+      options:
+        - Fabric
+        - NeoForge
+    validations:
+      required: true
+
+  - type: input
+    id: mod-version
+    attributes:
+      label: Sounds version
+      description: Copy the exact version from your launcher's mod list or the mod's filename. Please avoid "latest".
+    validations:
+      required: true
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Where does it happen?
+      options:
+        - Starting the game
+        - Singleplayer
+        - Playing on a server
+        - Running a dedicated server
+        - Development/build
+        - Other / Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or crash report
+      description: |
+        Open the affected game instance's folder in your launcher and find logs/latest.log. Upload it to [mclo.gs](https://mclo.gs/) and paste the link here, even if the game did not crash.
+        If the game crashed, include the matching report from the crash-reports folder too. For development issues, include the build output instead.
+        Review logs for personal information before sharing them. If logs are unavailable, explain why.
+      placeholder: Paste your log links or explain why logs are unavailable.
+    validations:
+      required: true
+
+  - type: textarea
+    id: other-mods-and-settings
+    attributes:
+      label: Other mods, packs, or changed settings
+      description: Include relevant mods and versions, a modpack link and version, resource packs, or settings you changed.
+    validations:
+      required: false
+
+  - type: textarea
+    id: troubleshooting
+    attributes:
+      label: What have you tried?
+      description: Mention anything you tested and whether it helped. If you tested with only this mod and its required dependencies, tell us the result. You do not need to do this before reporting.
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Screenshots, videos, or extra details
+      description: Attach anything that helps demonstrate the problem. For development issues, include a small code example or example project if possible.
+    validations:
+      required: false
