@@ -17,6 +17,7 @@
     "compat.InventorioCompatMixin",
     "compat.TrashSlotFix",
     "ui.BundleMouseActionsMixin",
+    "ui.CreativeInventoryScrollSoundMixin",
     "ui.CreativeInventorySoundEffects",
     "ui.CreativeScreenHandlerMixin",
     "ui.EditBoxSoundEffects",
