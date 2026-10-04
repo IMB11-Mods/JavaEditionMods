@@ -17,7 +17,7 @@ module.exports = async ({ github, context }) => {
   const issue_number = pull.number;
   const repo = { ...context.repo, issue_number };
   const comments = await github.paginate(github.rest.issues.listComments, repo);
-  for (const project of ['sounds', 'mru']) {
+  for (const project of ['sounds', 'mru', 'fog']) {
     if (!pull.labels.some(label => label.name === `project:${project}`)) continue;
     const marker = `[release-changelog-${project}]: #`;
     if (comments.some(comment => comment.user.type === 'Bot' && comment.body.split(/\r?\n/).includes(marker))) continue;

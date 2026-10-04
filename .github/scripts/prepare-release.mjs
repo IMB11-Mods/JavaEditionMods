@@ -11,7 +11,7 @@ const git = (...values) => run('git', values);
 const project = option('project');
 const version = option('version');
 const versionPattern = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
-if (!['sounds', 'mru'].includes(project) || !versionPattern.test(version ?? '')) throw new Error('Provide --project sounds|mru and --version X.Y.Z. Optional: --from REF, --write.');
+if (!['sounds', 'mru', 'fog'].includes(project) || !versionPattern.test(version ?? '')) throw new Error('Provide --project sounds|mru|fog and --version X.Y.Z. Optional: --from REF, --write.');
 const suffix = version.match(/^[^-+]+(?:-([^+]+))?(?:\+(.+))?$/);
 if ([suffix?.[1], suffix?.[2]].filter(Boolean).some(value => value.split('.').some(part => !part)) || suffix?.[1]?.split('.').some(part => /^0\d+$/.test(part))) throw new Error('Invalid semantic version suffix');
 const head = git('rev-parse', 'HEAD');
