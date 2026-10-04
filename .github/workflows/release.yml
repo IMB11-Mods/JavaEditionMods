@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: Existing project release tag to publish or retry (for example sounds/v2.6.0)
+        description: tag
         type: string
         required: true
 

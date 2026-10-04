@@ -4,19 +4,19 @@ on:
   workflow_dispatch:
     inputs:
       project:
-        description: Project to release
+        description: project
         type: choice
         required: true
         options: [sounds, mru]
       version:
-        description: Exact new mod version
+        description: version
         type: string
         required: true
       baseline:
-        description: Baseline ref for the first release (leave empty when project tags exist)
+        description: baseline
         type: string
       dry_run:
-        description: Build and preview without committing, tagging, or publishing
+        description: dry_run
         type: boolean
         default: true
 
