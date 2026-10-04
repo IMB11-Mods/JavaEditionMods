@@ -6,6 +6,7 @@ plugins {
 }
 
 val modData = readModMetadata(layout.projectDirectory)
+val clientOnly = modData.optional("mod.environment") == "client" || modData.id == "sounds"
 val releaseTag = "${modData.id}/v${modData.version}"
 val publishDryRun = providers.gradleProperty("publishDryRun").map(String::toBoolean).orElse(false)
 val releaseChangelog = providers.fileContents(layout.projectDirectory.file("CHANGELOG.md")).asText.map { contents ->
@@ -75,7 +76,7 @@ publishMods {
             projectId = modData.required("publish.modrinth")
             accessToken = providers.environmentVariable("MODRINTH_TOKEN")
             minecraftVersions.add(minecraftVersion)
-            environment = if (modData.id == "sounds") ModrinthEnvironment.CLIENT_ONLY else ModrinthEnvironment.CLIENT_AND_SERVER
+            environment = if (clientOnly) ModrinthEnvironment.CLIENT_ONLY else ModrinthEnvironment.CLIENT_AND_SERVER
             requiredMods.forEach { requires(it) }
         }
 
@@ -85,7 +86,7 @@ publishMods {
             accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
             minecraftVersions.add(minecraftVersion)
             client = true
-            server = modData.id != "sounds"
+            server = !clientOnly
             requiredMods.forEach { requires(it) }
         }
     }

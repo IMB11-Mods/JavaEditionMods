@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "id": "fog",
+  "version": "${version}",
+  "name": "Fog",
+  "description": "An expansive and dynamic overhaul to Minecraft's fog rendering system.",
+  "authors": [
+    "IMB11",
+    "Steveplays"
+  ],
+  "contact": {
+    "homepage": "https://imb11.dev/",
+    "sources": "https://github.com/IMB11/Fog",
+    "issues": "https://github.com/IMB11/Fog/issues"
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/fog/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.imb11.fog.loaders.fabric.FogClientFabric"
+    ],
+    "modmenu": [
+      "dev.imb11.fog.client.compat.modmenu.FogClientModMenuCompat"
+    ],
+    "fabric-datagen": [
+      "dev.imb11.fog.loaders.fabric.datagen.FogDatagenFabric"
+    ]
+  },
+  "mixins": [
+    "fog.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${target_loader}",
+    "fabric-api": "*",
+    "mru": "${target_mru}",
+    "yet_another_config_lib_v3": "${target_yacl}",
+    "minecraft": "${target_minecraft}",
+    "java": ">=25"
+  },
+  "custom": {
+    "mc-publish": {
+      "dependencies": [
+        "yacl"
+      ]
+    }
+  }
+}

@@ -55,9 +55,11 @@ tasks.register("publishAllMods") {
     dependsOn(modProjects.map { "${it.path}:publishMods" })
 }
 
-project(":sounds").pluginManager.withPlugin("imb11.publish-mod") {
-    project(":sounds").tasks.withType<PublishModTask>().configureEach {
-        mustRunAfter(":mru:publishMods")
+listOf(":sounds", ":fog").forEach { mod ->
+    project(mod).pluginManager.withPlugin("imb11.publish-mod") {
+        project(mod).tasks.withType<PublishModTask>().configureEach {
+            mustRunAfter(":mru:publishMods")
+        }
     }
 }
 

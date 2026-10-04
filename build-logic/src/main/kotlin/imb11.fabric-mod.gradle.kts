@@ -21,10 +21,12 @@ loom {
         }
     }
     runs {
+        if (metadata.optional("mod.environment") == "client") {
+            remove(getByName("server"))
+        }
         configureEach {
             isIdeConfigGenerated = true
             configName = "${metadata.required("mod.name")} - $targetMinecraftVersion - Fabric - ${name.replaceFirstChar { it.titlecase() }}"
-            appendProjectPathToConfigName.set(false)
             ideConfigFolder.set(metadata.required("mod.name"))
             runDir(rootProject.file("run/${metadata.id}/$targetMinecraftVersion/fabric/$name").relativeTo(project.projectDir).invariantSeparatorsPath)
         }

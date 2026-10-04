@@ -29,9 +29,11 @@ neoForge {
             client()
             gameDirectory.set(rootProject.layout.projectDirectory.dir("run/${metadata.id}/$minecraftVersion/neoforge/client"))
         }
-        register("server") {
-            server()
-            gameDirectory.set(rootProject.layout.projectDirectory.dir("run/${metadata.id}/$minecraftVersion/neoforge/server"))
+        if (metadata.optional("mod.environment") != "client") {
+            register("server") {
+                server()
+                gameDirectory.set(rootProject.layout.projectDirectory.dir("run/${metadata.id}/$minecraftVersion/neoforge/server"))
+            }
         }
     }
 }
