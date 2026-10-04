@@ -2,6 +2,7 @@
 .idea/
 .gradle/
 **/.gradle/
+**/.kotlin/
 **/build/
 **/run/
 **/runs/

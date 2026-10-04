@@ -86,6 +86,7 @@ val resourceProperties = mapOf(
     "target_loader" to if (loader == "fabric") catalog.findVersion("fabric-loader").get().requiredVersion
         else "[${catalog.findVersion("neoforge").get().requiredVersion},)",
     "target_fabricloader" to catalog.findVersion("fabric-loader").get().requiredVersion,
+    "target_architectury" to catalog.findVersion("architectury").map { it.requiredVersion }.orElse(""),
     "target_yacl" to if (loader == "fabric") ">=$yaclVersion" else yaclVersion,
     "target_mru" to if (loader == "fabric") ">=$requiredModVersion" else requiredModVersion
 )
@@ -113,6 +114,7 @@ jsonlang {
 
 repositories {
     mavenCentral()
+    maven("https://maven.architectury.dev")
     maven("https://maven.fabricmc.net/")
     maven("https://maven.neoforged.net/releases/")
     maven("https://maven.shedaniel.me/")

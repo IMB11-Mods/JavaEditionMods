@@ -1,0 +1,7 @@
+{
+  "pack": {
+    "description": "An expansive and dynamic overhaul to Minecraft's fog rendering system.",
+    "min_format": [84, 0],
+    "max_format": [84, 0]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "fog.config.option.initial_fog_start": "İlk Sis Başlangıcı",
+  "fog.config.option.description.initial_fog_start": "Sisin görünmeye başladığı kameradan ilk (sis motoru yüklendiğinde) mesafe - görüş mesafesinin yüzdesi olarak ifade edilir",
+  "fog.config.option.initial_fog_end": "İlk Sis Sonu",
+  "fog.config.option.description.initial_fog_end": "Sisin tamamen opak olduğu kameradan ilk (sis motoru yüklendiğinde) mesafe - görüş mesafesinin yüzdesi olarak ifade edilir",
+  "fog.command.toggle.enabled": "Sis motoru modifikasyonları artık yeniden etkinleştirildi.",
+  "fog.command.toggle.disabled": "Sis motoru modifikasyonları artık devre dışı bırakıldı.",
+  "fog.command.reset": "Sis motoru modifikasyonları yeniden yüklendi ve yapılandırmada belirtilen varsayılan değerlere sıfırlandı.",
+  "fog.command.debug.failure": "Hata ayıklama bilgisi alınırken bir hata oluştu."
+}

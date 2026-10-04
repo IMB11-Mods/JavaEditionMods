@@ -21,6 +21,9 @@ loom {
         }
     }
     runs {
+        if (metadata.optional("mod.environment") == "client") {
+            remove(getByName("server"))
+        }
         configureEach {
             isIdeConfigGenerated = true
             configName = "${metadata.required("mod.name")} - $targetMinecraftVersion - Fabric - ${name.replaceFirstChar { it.titlecase() }}"

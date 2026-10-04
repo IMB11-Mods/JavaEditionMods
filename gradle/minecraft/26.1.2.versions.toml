@@ -4,7 +4,7 @@ accessories-neoforge = "1.3.7-beta+1.21.8"
 cca = "8.0.0"
 cloth = "26.1.154"
 curios-neoforge = "15.0.0+26.1.2"
-fabric-api = "0.155.2+26.1.2"
+fabric-api = "0.155.3+26.1.2"
 fabric-loader = "0.19.5"
 forge-config-api-port-fabric = "26.1.5"
 forgified-fabric-api = "0.154.0+3.2.6+26.1.2"
@@ -12,8 +12,8 @@ jade-fabric = "26.1.0+fabric"
 jei = "29.43.0.106"
 map-atlases = "6345967"
 mcqoy = "0.4.1+fabric-26.1"
-modmenu = "18.0.0-beta.1"
-neoforge = "26.1.2.107"
+modmenu = "18.0.2"
+neoforge = "26.1.2.114"
 ohmega-fabric = "1.5.20-mc26.1.2"
 ohmega-neoforge = "1.5.20-mc26.1.2"
 porting-lib-transfer = "2.3.9+1.20.1"
@@ -28,10 +28,21 @@ travelers-backpack-fabric = "26.1.2-11.2.6"
 travelers-backpack-neoforge = "26.1.2-11.2.4-neoforge"
 trinkets-fabric = "4.0.0-beta.3+26.1"
 trinkets-neoforge = "4.0.0-beta.3+26.1"
-yacl-fabric = "3.9.3+26.1-fabric"
-yacl-neoforge = "3.9.3+26.1-neoforge"
+yacl-fabric = "3.9.7+26.1-fabric"
+yacl-neoforge = "3.9.7+26.1-neoforge"
+architectury = "20.1.16"
+polytone-fabric = "3MAkNiv1"
+polytone-neoforge = "osavRdFq"
+iris-fabric = "sZbVsl2Q"
+iris-neoforge = "qE5Y7GrZ"
 
 [libraries]
+architectury-fabric = { module = "dev.architectury:architectury-fabric", version.ref = "architectury" }
+architectury-neoforge = { module = "dev.architectury:architectury-neoforge", version.ref = "architectury" }
+polytone-fabric = { module = "maven.modrinth:polytone", version.ref = "polytone-fabric" }
+polytone-neoforge = { module = "maven.modrinth:polytone", version.ref = "polytone-neoforge" }
+iris-fabric = { module = "maven.modrinth:iris", version.ref = "iris-fabric" }
+iris-neoforge = { module = "maven.modrinth:iris", version.ref = "iris-neoforge" }
 accessories-fabric = { module = "io.wispforest:accessories-neoforge", version.ref = "accessories-fabric" }
 accessories-neoforge = { module = "io.wispforest:accessories-neoforge", version.ref = "accessories-neoforge" }
 cca-base = { module = "org.ladysnake.cardinal-components-api:cardinal-components-base", version.ref = "cca" }
