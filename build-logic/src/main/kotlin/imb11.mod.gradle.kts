@@ -70,7 +70,11 @@ val requiredModVersion = requiredMod?.let { mod ->
     val contents = providers.fileContents(rootProject.layout.projectDirectory.file("$mod/mod.properties")).asText.get()
     Properties().apply { contents.reader().use(::load) }.getProperty("mod.version")
 }.orEmpty()
-val targetMinecraft = if (loader == "fabric") "=$minecraftVersion" else "[$minecraftVersion]"
+val targetMinecraft = when {
+    minecraftVersion == "26.1.2" -> if (loader == "fabric") ">=26.1 <=26.1.2" else "[26.1,26.1.2]"
+    loader == "fabric" -> "=$minecraftVersion"
+    else -> "[$minecraftVersion]"
+}
 val yaclVersion = mcLibrary("yacl-$loader").get().versionConstraint.requiredVersion.removeSuffix("-$loader")
 val resourceProperties = mapOf(
     "version" to releaseVersion,
