@@ -3,8 +3,6 @@ plugins {
     id("imb11.root")
 }
 
-stonecutter.flags["extra_source_check"] = false
-
 stonecutter active "26.1.2-fabric"
 
 stonecutter parameters {

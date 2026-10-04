@@ -102,15 +102,8 @@ tasks.named("sourcesJar") {
     dependsOn("stonecutterGenerate")
 }
 
-val processedSources = layout.buildDirectory.dir("generated/stonecutter/main")
 sourceSets.named("main") {
-    java.setSrcDirs(listOf(file("src/main/java"), files(processedSources.map { it.dir("java") }).builtBy("stonecutterGenerate")))
-    resources.setSrcDirs(listOf(
-        file("src/main/resources"),
-        file("src/main/generated"),
-        files(processedSources.map { it.dir("resources") }, processedSources.map { it.dir("generated") })
-            .builtBy("stonecutterGenerate")
-    ))
+    resources.srcDir("src/main/generated")
 }
 
 jsonlang {
