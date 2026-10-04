@@ -1,14 +1,14 @@
-name: MRU feature request
-description: Suggest a new feature or improvement for MRU.
-title: "[MRU] "
+name: __PROJECT_NAME__ feature request
+description: Suggest a new feature or improvement for __PROJECT_NAME__.
+title: "[__PROJECT_NAME__] "
 labels:
-  - "project:mru"
+  - "project:__PROJECT_SLUG__"
   - feature request
 body:
   - type: markdown
     attributes:
       value: |
-        Suggest an improvement for MRU. Explain what you want to achieve and how the change would help.
+        Suggest an improvement for __PROJECT_NAME__. Explain what you want to achieve and how the change would help.
 
   - type: markdown
     attributes:
@@ -20,7 +20,7 @@ body:
     attributes:
       label: Existing issues
       options:
-        - label: I have [searched the existing issues](https://github.com/IMB11-Mods/JavaEditionMods/issues?q=is%3Aissue%20label%3A%22project%3Amru%22) for this problem or suggestion.
+        - label: I have [searched the existing issues](https://github.com/IMB11-Mods/JavaEditionMods/issues?q=is%3Aissue%20label%3A%22project%3A__PROJECT_SLUG__%22) for this problem or suggestion.
           required: true
 
   - type: textarea
@@ -53,8 +53,7 @@ body:
       label: Minecraft version
       description: Select a version only if your request is specific to it.
       options:
-        - "26.1.2"
-        - "26.3"
+        - "__MINECRAFT_VERSION__"
     validations:
       required: false
 
@@ -64,8 +63,7 @@ body:
       label: Mod loader
       description: Select a loader only if your request is specific to it.
       options:
-        - Fabric
-        - NeoForge
+        - "__MOD_LOADER__"
     validations:
       required: false
 
@@ -73,7 +71,7 @@ body:
     id: related-mods
     attributes:
       label: Relevant mod versions or other mods
-      description: Include MRU or other mod versions only if the request depends on them.
+      description: Include __PROJECT_NAME__ or other mod versions only if the request depends on them.
     validations:
       required: false
 

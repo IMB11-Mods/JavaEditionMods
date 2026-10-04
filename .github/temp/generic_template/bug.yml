@@ -1,14 +1,14 @@
-name: Sounds bug report
-description: Report a crash, broken behaviour, or compatibility problem in Sounds.
-title: "[Sounds] "
+name: __PROJECT_NAME__ bug report
+description: Report a crash, broken behaviour, or compatibility problem in __PROJECT_NAME__.
+title: "[__PROJECT_NAME__] "
 labels:
-  - "project:sounds"
+  - "project:__PROJECT_SLUG__"
   - bug
 body:
   - type: markdown
     attributes:
       value: |
-        Report a problem with Sounds. Tell us what happened and how we can reproduce it. If you are unsure about something, say so.
+        Report a problem with __PROJECT_NAME__. Tell us what happened and how we can reproduce it. If you are unsure about something, say so.
 
   - type: markdown
     attributes:
@@ -20,7 +20,7 @@ body:
     attributes:
       label: Existing issues
       options:
-        - label: I have [searched the existing issues](https://github.com/IMB11-Mods/JavaEditionMods/issues?q=is%3Aissue%20label%3A%22project%3Asounds%22) for this problem or suggestion.
+        - label: I have [searched the existing issues](https://github.com/IMB11-Mods/JavaEditionMods/issues?q=is%3Aissue%20label%3A%22project%3A__PROJECT_SLUG__%22) for this problem or suggestion.
           required: true
 
   - type: textarea
@@ -52,8 +52,7 @@ body:
       label: Minecraft version
       description: Which Minecraft version were you using when the problem happened?
       options:
-        - "26.1.2"
-        - "26.3"
+        - "__MINECRAFT_VERSION__"
     validations:
       required: true
 
@@ -63,15 +62,14 @@ body:
       label: Mod loader
       description: Which mod loader are you using?
       options:
-        - Fabric
-        - NeoForge
+        - "__MOD_LOADER__"
     validations:
       required: true
 
   - type: input
     id: mod-version
     attributes:
-      label: Sounds version
+      label: __PROJECT_NAME__ version
       description: Copy the exact version from your launcher's mod list or the mod's filename. Please avoid "latest".
     validations:
       required: true
