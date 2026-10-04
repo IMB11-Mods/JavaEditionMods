@@ -8,6 +8,15 @@ plugins {
 val modData = readModMetadata(layout.projectDirectory)
 val releaseTag = "${modData.id}/v${modData.version}"
 val publishDryRun = providers.gradleProperty("publishDryRun").map(String::toBoolean).orElse(false)
+val releaseChangelog = providers.fileContents(layout.projectDirectory.file("CHANGELOG.md")).asText.map { contents ->
+    val lines = contents.lines()
+    val heading = Regex("^## \\[${Regex.escape(modData.version)}\\](?: - \\d{4}-\\d{2}-\\d{2})?\\s*$")
+    val start = lines.indexOfFirst { heading.matches(it) }
+    require(start >= 0) { "Missing changelog section for ${modData.id} ${modData.version}" }
+    val notes = lines.drop(start + 1).takeWhile { !it.startsWith("## ") }.joinToString("\n").trim()
+    require(notes.isNotBlank()) { "Empty changelog section for ${modData.id} ${modData.version}" }
+    notes
+}
 val targetProjects = childProjects.values.sortedBy { it.name }.onEach { node ->
     evaluationDependsOn(node.path)
 }
@@ -19,6 +28,7 @@ val assemble = tasks.register("assemble") {
 
 val validateRelease = tasks.register("validateRelease") {
     doLast {
+        releaseChangelog.get()
         if (providers.environmentVariable("GITHUB_REF_TYPE").orNull == "tag") {
             require(providers.environmentVariable("GITHUB_REF_NAME").get() == releaseTag) {
                 "Release tag must exactly match $releaseTag"
@@ -35,8 +45,7 @@ val validateRelease = tasks.register("validateRelease") {
 publishMods {
     version = modData.version
     displayName = "${modData.required("mod.name")} ${modData.version}"
-    changelog = providers.fileContents(layout.projectDirectory.file("CHANGELOG-LATEST.md")).asText
-        .orElse("${modData.required("mod.name")} ${modData.version}.")
+    changelog = releaseChangelog
     type = when {
         modData.version.contains("alpha", ignoreCase = true) -> ALPHA
         Regex("beta|edge|rc|snapshot", RegexOption.IGNORE_CASE).containsMatchIn(modData.version) -> BETA
@@ -84,7 +93,9 @@ publishMods {
     github {
         accessToken = providers.environmentVariable("GITHUB_TOKEN")
         repository = providers.environmentVariable("GITHUB_REPOSITORY")
+            .orElse(providers.provider { if (publishDryRun.get()) "local/dry-run" else null })
         commitish = providers.environmentVariable("GITHUB_SHA")
+            .orElse(providers.provider { if (publishDryRun.get()) "HEAD" else null })
         tagName = releaseTag
         file = targetProjects.first().tasks.named<Jar>("jar").flatMap { it.archiveFile }
         additionalFiles.from(targetProjects.drop(1).map { it.tasks.named("jar") })
