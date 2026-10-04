@@ -3,7 +3,7 @@ description: Suggest a new feature or improvement for __PROJECT_NAME__.
 title: "[__PROJECT_NAME__] "
 labels:
   - "project:__PROJECT_SLUG__"
-  - feature request
+type: Feature
 body:
   - type: markdown
     attributes:

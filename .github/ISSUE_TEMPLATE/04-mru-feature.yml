@@ -3,7 +3,7 @@ description: Suggest a new feature or improvement for MRU.
 title: "[MRU] "
 labels:
   - "project:mru"
-  - feature request
+type: Feature
 body:
   - type: markdown
     attributes:

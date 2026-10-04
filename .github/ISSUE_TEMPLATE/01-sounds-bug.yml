@@ -3,7 +3,7 @@ description: Report a crash, broken behaviour, or compatibility problem in Sound
 title: "[Sounds] "
 labels:
   - "project:sounds"
-  - bug
+type: Bug
 body:
   - type: markdown
     attributes:

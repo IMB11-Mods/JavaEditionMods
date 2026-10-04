@@ -3,7 +3,7 @@ description: Suggest a new feature or improvement for Sounds.
 title: "[Sounds] "
 labels:
   - "project:sounds"
-  - feature request
+type: Feature
 body:
   - type: markdown
     attributes:

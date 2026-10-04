@@ -3,7 +3,7 @@ description: Report a crash, broken behaviour, or compatibility problem in MRU.
 title: "[MRU] "
 labels:
   - "project:mru"
-  - bug
+type: Bug
 body:
   - type: markdown
     attributes:
