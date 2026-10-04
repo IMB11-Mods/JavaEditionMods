@@ -3,7 +3,6 @@ package dev.imb11.sounds.api.config;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.imb11.mru.LoaderUtils;
-import dev.imb11.mru.RegistryUtils;
 import dev.imb11.sounds.SoundsClient;
 import dev.imb11.sounds.util.MixinStatics;
 import dev.isxander.yacl3.api.ButtonOption;
@@ -154,7 +153,7 @@ public class ConfiguredSound {
     }
 
     public final SoundEvent fetchSoundEvent(Identifier location) {
-        return RegistryUtils.getSoundEventRegistry(Minecraft.getInstance().level).apply(location);
+        return SoundEvent.createVariableRangeEvent(location);
     }
 
     protected static long lastShownToast = -1L;
@@ -230,8 +229,7 @@ public class ConfiguredSound {
     public @Nullable ConfiguredSimpleSoundInstance getSoundInstance() {
         if (this.enabled) {
             try {
-                final SoundEvent event = RegistryUtils.getSoundEventRegistry(Minecraft.getInstance().level).apply(this.soundEvent);
-                return ConfiguredSimpleSoundInstance.forUI(event, pitch, volume);
+                return ConfiguredSimpleSoundInstance.forUI(this.soundEvent, pitch, volume);
             } catch (Exception ignored) {
                 return null;
             }

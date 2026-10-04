@@ -32,8 +32,12 @@ public class ConfiguredSimpleSoundInstance extends SimpleSoundInstance {
     }
 
     public static ConfiguredSimpleSoundInstance forUI(final SoundEvent sound, final float pitch, final float volume) {
+        return forUI(sound.location(), pitch, volume);
+    }
+
+    public static ConfiguredSimpleSoundInstance forUI(final Identifier sound, final float pitch, final float volume) {
         return new ConfiguredSimpleSoundInstance(
-                sound.location(), SoundSource.UI, volume, pitch, SoundInstance.createUnseededRandom(), false, 0, SoundInstance.Attenuation.NONE, 0.0, 0.0, 0.0, true,
+                sound, SoundSource.UI, volume, pitch, SoundInstance.createUnseededRandom(), false, 0, SoundInstance.Attenuation.NONE, 0.0, 0.0, 0.0, true,
                 false);
     }
 
