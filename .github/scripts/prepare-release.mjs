@@ -62,14 +62,13 @@ const pulls = api('pulls?state=closed&base=main&per_page=100')
   .sort((a, b) => a.merged_at.localeCompare(b.merged_at) || a.number - b.number);
 const categories = ['Added', 'Changed', 'Deprecated', 'Removed', 'Fixed', 'Security'];
 const sections = new Map(categories.map(category => [category, []]));
-const skipped = [];
 for (const pr of pulls) {
   const comments = api(`issues/${pr.number}/comments?per_page=100`);
   const marker = `[release-changelog-${project}]: #`;
   const matches = comments.filter(comment => comment.user.type === 'Bot' && comment.body.split(/\r?\n/).includes(marker));
   if (matches.length !== 1) throw new Error(`PR #${pr.number}: expected one ${project} changelog comment`);
   const body = matches[0].body.split(/\r?\n/).filter(line => line !== marker).join('\n').trim();
-  if (body === 'No changelog needed.') { skipped.push(pr.number); continue; }
+  if (body === 'No changelog needed.') continue;
   if (!body || /\bTODO\b/.test(body)) throw new Error(`PR #${pr.number}: unfinished changelog`);
   let category;
   let entries = 0;
@@ -89,8 +88,7 @@ for (const pr of pulls) {
   }
   if (!entries) throw new Error(`PR #${pr.number}: empty changelog`);
 }
-const notes = [...sections].filter(([, entries]) => entries.length).map(([category, entries]) => `### ${category}\n\n${entries.join('\n')}`).join('\n\n');
-if (!notes) throw new Error(`No release notes for ${project} in ${base}..${head}. Matching PRs: ${pulls.length}; explicitly skipped: ${skipped.join(', ') || 'none'}`);
+const notes = [...sections].filter(([, entries]) => entries.length).map(([category, entries]) => `### ${category}\n\n${entries.join('\n')}`).join('\n\n') || 'No changelog provided.';
 const changelogPath = `${project}/CHANGELOG.md`;
 const changelog = readFileSync(changelogPath, 'utf8').replace(/\r\n/g, '\n');
 if (!changelog.startsWith('# Changelog\n')) throw new Error('Expected # Changelog heading');
