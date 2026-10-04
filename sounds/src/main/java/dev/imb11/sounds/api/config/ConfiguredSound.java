@@ -223,7 +223,7 @@ public class ConfiguredSound {
         if (LoaderUtils.isModInstalled("sound_physics_perfected") && Minecraft.getInstance().player != null) {
             attenuation = SoundInstance.Attenuation.NONE;  // Disable Attenuation when using SPP
         }
-        this.playSound(new ConfiguredSimpleSoundInstance(soundEvent, SoundSource.UI, volume, pitch, SoundsClient.RANDOM, false, 0, attenuation, pos.getX(), pos.getY(), pos.getZ(), true, subtitle));
+        Minecraft.getInstance().getSoundManager().play(new ConfiguredSimpleSoundInstance(soundEvent, SoundSource.UI, volume, pitch, SoundsClient.RANDOM, false, 0, attenuation, pos.getX(), pos.getY(), pos.getZ(), true, subtitle));
     }
 
     public @Nullable ConfiguredSimpleSoundInstance getSoundInstance() {
