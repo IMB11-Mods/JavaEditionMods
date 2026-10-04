@@ -21,6 +21,10 @@ neoForge {
         }
     }
     runs {
+        configureEach {
+            ideName.set("${metadata.required("mod.name")} - $minecraftVersion - NeoForge - ${name.replaceFirstChar { it.titlecase() }}")
+            ideFolderName.set(metadata.required("mod.name"))
+        }
         register("client") {
             client()
             gameDirectory.set(rootProject.layout.projectDirectory.dir("run/${metadata.id}/$minecraftVersion/neoforge/client"))
