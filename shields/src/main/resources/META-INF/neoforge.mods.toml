@@ -4,13 +4,13 @@ license = "All-Rights-Reserved"
 
 [[mods]]
 modId = "shields"
-displayName = "Extra Shields"
+displayName="${mod_name}"
 version = "${version}"
 displayURL = "https://modrinth.com/mod/shields"
 logoFile = "assets/shields/icon.png"
 iconFile = "assets/shields/icon.png"
 authors = "IMB11, cassiancc"
-description = '''A vanilla+ expansion to shields. Adds various new shields inline with the vanilla armor system and shield plating upgrades. Includes new and improved enchantment support.'''
+description="${mod_description}"
 
 [[mixins]]
 config = "shields.mixins.json"
@@ -18,14 +18,21 @@ config = "shields.mixins.json"
 [[dependencies.shields]]
 modId = "neoforge"
 type = "required"
-versionRange = "[26,)"
+versionRange="${target_loader}"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.shields]]
 modId = "minecraft"
 type = "required"
-versionRange = "${minecraft}"
+versionRange="${target_minecraft}"
+
+[[dependencies.shields]]
+modId="mru"
+type="required"
+versionRange="[${target_mru},)"
+ordering="NONE"
+side="CLIENT"
 
 [[dependencies.shields]]
 modId = "rrv"
