@@ -11,7 +11,6 @@ forgified-fabric-api = "0.154.0+3.2.6+26.1.2"
 jade-fabric = "26.1.0+fabric"
 jei = "29.43.0.106"
 map-atlases = "6345967"
-mcqoy = "0.4.1+fabric-26.1"
 modmenu = "18.0.2"
 neoforge = "26.1.2.114"
 ohmega-fabric = "1.5.20-mc26.1.2"
@@ -22,7 +21,6 @@ sophisticated-backpacks-fabric = "26.1.2-3.25.55.1739"
 sophisticated-backpacks-neoforge = "26.1.2-3.25.55.1739"
 sophisticated-core-fabric = "26.1.2-1.4.45.1849"
 sophisticated-core-neoforge = "26.1.2-1.4.45.1849"
-surveyor = "1.2.4+26.1"
 trashslot = "Kq3z6gII"
 travelers-backpack-fabric = "26.1.2-11.2.6"
 travelers-backpack-neoforge = "26.1.2-11.2.4-neoforge"
@@ -58,7 +56,6 @@ jade-fabric = { module = "maven.modrinth:jade", version.ref = "jade-fabric" }
 jei-fabric = { module = "mezz.jei:jei-26.1.2-fabric", version.ref = "jei" }
 jei-neoforge = { module = "mezz.jei:jei-26.1.2-neoforge", version.ref = "jei" }
 map-atlases = { module = "curse.maven:map-atlases-forge-519759", version.ref = "map-atlases" }
-mcqoy = { module = "maven.modrinth:mcqoy", version.ref = "mcqoy" }
 modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
 neoforge = { module = "net.neoforged:neoforge", version.ref = "neoforge" }
 ohmega-fabric = { module = "io.github.swackyy:ohmega-fabric", version.ref = "ohmega-fabric" }
@@ -70,7 +67,6 @@ sophisticated-backpacks-fabric = { module = "maven.modrinth:sophisticated-backpa
 sophisticated-backpacks-neoforge = { module = "maven.modrinth:sophisticated-backpacks", version.ref = "sophisticated-backpacks-neoforge" }
 sophisticated-core-fabric = { module = "maven.modrinth:sophisticated-core", version.ref = "sophisticated-core-fabric" }
 sophisticated-core-neoforge = { module = "maven.modrinth:sophisticated-core", version.ref = "sophisticated-core-neoforge" }
-surveyor = { module = "maven.modrinth:surveyor", version.ref = "surveyor" }
 trashslot = { module = "maven.modrinth:trashslot", version.ref = "trashslot" }
 travelers-backpack-fabric = { module = "maven.modrinth:travelersbackpack", version.ref = "travelers-backpack-fabric" }
 travelers-backpack-neoforge = { module = "maven.modrinth:travelersbackpack", version.ref = "travelers-backpack-neoforge" }

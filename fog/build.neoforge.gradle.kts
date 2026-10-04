@@ -2,6 +2,15 @@ plugins {
     id("imb11.neoforge-mod")
 }
 
+stonecutter {
+    replacements.string {
+        direction = minecraftVersion == "26.3"
+        replace("gameRenderer.getMainCamera()", "gameRenderer.mainCamera()")
+        replace(".gui.getChat()", ".gui.hud.getChat()")
+        replace(".gui.getBossOverlay()", ".gui.hud.getBossOverlay()")
+    }
+}
+
 val mruProject = project(":mru:${project.name}")
 evaluationDependsOn(mruProject.path)
 
@@ -14,11 +23,13 @@ dependencies {
     implementation(project(mruProject.path))
     implementation(mcLibrary("yacl-neoforge"))
     compileOnly(mcLibrary("iris-neoforge"))
-    compileOnly(mcLibrary("polytone-neoforge"))
-    add(polytoneLibraries.name, mcLibrary("polytone-neoforge"))
-    compileOnly(files(provider {
-        polytoneLibraries.files.flatMap { zipTree(it).matching { include("META-INF/jars/*.jar", "META-INF/jarjar/*.jar") }.files }
-    }))
+    if (minecraftVersion == "26.1.2") {
+        compileOnly(mcLibrary("polytone-neoforge"))
+        add(polytoneLibraries.name, mcLibrary("polytone-neoforge"))
+        compileOnly(files(provider {
+            polytoneLibraries.files.flatMap { zipTree(it).matching { include("META-INF/jars/*.jar", "META-INF/jarjar/*.jar") }.files }
+        }))
+    }
 }
 
 neoForge {

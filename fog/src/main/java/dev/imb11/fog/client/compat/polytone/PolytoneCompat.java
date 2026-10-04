@@ -5,15 +5,22 @@ import dev.imb11.fog.client.util.color.Color;
 import dev.imb11.fog.config.FogConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.attribute.EnvironmentAttributes;
+//? if <26.3 {
 import net.mehvahdjukaar.polytone.Polytone;
+//?}
 import org.jetbrains.annotations.Nullable;
 
 public class PolytoneCompat {
     public static boolean shouldUsePolytone() {
+        //? if <26.3 {
         return FogClient.isModInstalled("polytone") && FogConfig.getInstance().prioritizePolytoneFogDefinitions;
+        //?} else {
+        /*return false;
+        *///?}
     }
 
     public static @Nullable Color getFogColorFromPolytone(float partialTick) {
+        //? if <26.3 {
         if (!shouldUsePolytone()) {
             return null;
         }
@@ -33,5 +40,8 @@ public class PolytoneCompat {
         }
 
         return new Color(camera.attributeProbe().getValue(EnvironmentAttributes.FOG_COLOR, partialTick));
+        //?} else {
+        /*return null;
+        *///?}
     }
 }

@@ -33,6 +33,10 @@ public class Color {
 		blue = hex & 0xFF;
 	}
 
+	public Color(org.joml.Vector3fc color) {
+		this((int) (color.x() * 255), (int) (color.y() * 255), (int) (color.z() * 255));
+	}
+
 	public Color(@NotNull Color color) {
 		red = color.red;
 		green = color.green;

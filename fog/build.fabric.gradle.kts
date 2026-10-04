@@ -2,6 +2,15 @@ plugins {
     id("imb11.fabric-mod")
 }
 
+stonecutter {
+    replacements.string {
+        direction = minecraftVersion == "26.3"
+        replace("gameRenderer.getMainCamera()", "gameRenderer.mainCamera()")
+        replace(".gui.getChat()", ".gui.hud.getChat()")
+        replace(".gui.getBossOverlay()", ".gui.hud.getBossOverlay()")
+    }
+}
+
 val mruProject = project(":mru:${project.name}")
 evaluationDependsOn(mruProject.path)
 
@@ -15,11 +24,13 @@ dependencies {
     implementation(mcLibrary("yacl-fabric"))
     implementation(mcLibrary("modmenu"))
     compileOnly(mcLibrary("iris-fabric"))
-    compileOnly(mcLibrary("polytone-fabric"))
-    add(polytoneLibraries.name, mcLibrary("polytone-fabric"))
-    compileOnly(files(provider {
-        polytoneLibraries.files.flatMap { zipTree(it).matching { include("META-INF/jars/*.jar", "META-INF/jarjar/*.jar") }.files }
-    }))
+    if (minecraftVersion == "26.1.2") {
+        compileOnly(mcLibrary("polytone-fabric"))
+        add(polytoneLibraries.name, mcLibrary("polytone-fabric"))
+        compileOnly(files(provider {
+            polytoneLibraries.files.flatMap { zipTree(it).matching { include("META-INF/jars/*.jar", "META-INF/jarjar/*.jar") }.files }
+        }))
+    }
 }
 
 loom {

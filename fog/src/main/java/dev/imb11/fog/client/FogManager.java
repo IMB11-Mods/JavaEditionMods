@@ -263,15 +263,25 @@ public class FogManager {
 		}
 
         var probe = client.gameRenderer.getMainCamera().attributeProbe();
-        int sunsetColor = probe.getValue(EnvironmentAttributes.SUNRISE_SUNSET_COLOR, tickDelta);
+        var sunsetColor = probe.getValue(EnvironmentAttributes.SUNRISE_SUNSET_COLOR, tickDelta);
+        //? if <26.3 {
         float alpha = ARGB.alphaFloat(sunsetColor);
+        //?} else {
+        /*float alpha = sunsetColor.w();
+        *///?}
         if (alpha > 0.0F) {
             float sunAngle = probe.getValue(EnvironmentAttributes.SUN_ANGLE, tickDelta) * Mth.DEG_TO_RAD;
             float blend = Mth.clamp(1.0F - Math.abs(Mth.cos(sunAngle)) / 0.4F, 0.0F, 1.0F);
             blend = blend * blend * (3.0F - 2.0F * blend) * 0.7F;
+            //? if <26.3 {
             red = Mth.lerp(blend, red, ARGB.redFloat(sunsetColor));
             green = Mth.lerp(blend, green, ARGB.greenFloat(sunsetColor));
             blue = Mth.lerp(blend, blue, ARGB.blueFloat(sunsetColor));
+            //?} else {
+            /*red = Mth.lerp(blend, red, sunsetColor.x());
+            green = Mth.lerp(blend, green, sunsetColor.y());
+            blue = Mth.lerp(blend, blue, sunsetColor.z());
+            *///?}
         }
 		return new float[]{red, green, blue};
 	}
