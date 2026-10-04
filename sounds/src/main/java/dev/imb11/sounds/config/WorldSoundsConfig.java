@@ -99,9 +99,9 @@ public class WorldSoundsConfig extends ConfigGroup<WorldSoundsConfig> implements
                         .name(Component.literal("Open Wiki"))
                         .description(OptionDescription.EMPTY)
                         //? if <26.3 {
-                        .action((screen, option) -> Util.getPlatform().openUri("https://docs.imb11.dev/sounds/data/custom-block-sounds"))
+                        .action((screen, option) -> Util.getPlatform().openUri("https://github.com/IMB11-Mods/JavaEditionMods/wiki"))
                         //?} else {
-                        /*.action((screen, option) -> Blaze3D.openUri(URI.create("https://docs.imb11.dev/sounds/data/custom-block-sounds")))
+                        /*.action((screen, option) -> Blaze3D.openUri(URI.create("https://github.com/IMB11-Mods/JavaEditionMods/wiki")))
                         *///?}
                         .build())
                 .option(LabelOption.create(Component.empty()))

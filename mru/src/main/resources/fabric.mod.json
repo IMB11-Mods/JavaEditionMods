@@ -10,8 +10,8 @@
   ],
   "contact": {
     "homepage": "https://modrinth.com/mod/mru",
-    "sources": "https://github.com/IMB11-Mods/MRU",
-    "issues": "https://github.com/IMB11-Mods/MRU/issues"
+    "sources": "https://github.com/IMB11-Mods/JavaEditionMods",
+    "issues": "https://github.com/IMB11-Mods/JavaEditionMods/issues"
   },
   "license": "${mod_license}",
   "icon": "icon.png",

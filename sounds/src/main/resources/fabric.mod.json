@@ -10,9 +10,9 @@
   ],
   "contact": {
     "homepage": "https://modrinth.com/mod/sound",
-    "repo": "https://github.com/IMB11-Mods/Sounds",
-    "issues": "https://github.com/IMB11-Mods/Sounds/issues",
-    "sources": "https://github.com/IMB11-Mods/Sounds"
+    "repo": "https://github.com/IMB11-Mods/JavaEditionMods",
+    "issues": "https://github.com/IMB11-Mods/JavaEditionMods/issues",
+    "sources": "https://github.com/IMB11-Mods/JavaEditionMods"
   },
   "license": "${mod_license}",
   "icon": "assets/sounds/icon.png",

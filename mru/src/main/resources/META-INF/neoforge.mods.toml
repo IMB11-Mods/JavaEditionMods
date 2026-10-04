@@ -1,6 +1,6 @@
 modLoader="javafml"
 loaderVersion = "${fml_loader}"
-issueTrackerURL="https://github.com/IMB11-Mods/MRU/issues"
+issueTrackerURL="https://github.com/IMB11-Mods/JavaEditionMods/issues"
 displayURL="http://IMB11.dev/"
 logoFile="icon.png"
 authors="cassiancc, IMB11"

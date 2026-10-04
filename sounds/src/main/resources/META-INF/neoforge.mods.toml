@@ -1,6 +1,6 @@
 modLoader="javafml"
 loaderVersion="${fml_loader}"
-issueTrackerURL="https://github.com/IMB11-Mods/Sounds/issues"
+issueTrackerURL="https://github.com/IMB11-Mods/JavaEditionMods/issues"
 displayURL="https://modrinth.com/mod/sound"
 logoFile="assets/sounds/icon.png"
 iconFile="assets/sounds/icon.png"
