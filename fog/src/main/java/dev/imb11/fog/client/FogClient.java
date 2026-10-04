@@ -1,13 +1,15 @@
 package dev.imb11.fog.client;
 
-import dev.architectury.event.events.client.ClientPlayerEvent;
-import dev.architectury.event.events.client.ClientTickEvent;
-import dev.architectury.registry.ReloadListenerRegistry;
+import cc.cassian.mru.Platform;
 import dev.imb11.fog.client.command.FogClientCommands;
-import dev.imb11.fog.client.registry.FogRegistry;
 import dev.imb11.fog.client.resource.FogResourceReloader;
 import dev.imb11.fog.client.util.FogKeybinds;
 import dev.imb11.fog.config.FogConfig;
+//? fabric {
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
+//?}
 import net.minecraft.server.packs.PackType;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -21,35 +23,24 @@ public class FogClient {
     public static final @NotNull Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     public static Path getConfigPath(String configFileName, String configExtension) {
-        return getConfigFolder().resolve(configFileName + "." + configExtension);
+        return Platform.INSTANCE.configPath().resolve(configFileName + "." + configExtension);
     }
 
     public static boolean isModInstalled(String modid) {
-        /*? if fabric {*/
-        return net.fabricmc.loader.api.FabricLoader.getInstance().isModLoaded(modid);
-        /*?} elif neoforge {*/
-        /*return net.neoforged.fml.loading.FMLLoader.getCurrent().getLoadingModList().getModFileById(modid) != null;
-        *//*?}*/
-    }
-
-    public static Path getConfigFolder() {
-        /*? if fabric {*/
-        return net.fabricmc.loader.api.FabricLoader.getInstance().getConfigDir().resolve(MOD_ID);
-        /*?} elif neoforge {*/
-        /*return net.neoforged.fml.loading.FMLLoader.getCurrent().getGameDir().resolve("config").resolve(MOD_ID);
-        *//*?}*/
+        return Platform.INSTANCE.isLoaded(modid);
     }
 
     public static void initialize() {
         LOGGER.info("Loading {}.", MOD_NAME);
         FogConfig.load();
-        FogClientCommands.register();
+
         FogKeybinds.init();
-        ReloadListenerRegistry.register(PackType.CLIENT_RESOURCES, new FogResourceReloader(), FogResourceReloader.IDENTIFIER);
-        ClientTickEvent.CLIENT_LEVEL_POST.register(world -> FogManager.getInstance().onEndTick(world));
-        ClientPlayerEvent.CLIENT_PLAYER_JOIN.register(player -> {
-            FogManager.INSTANCE = new FogManager();
-            FogRegistry.resetCaches();
+        //? fabric {
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, context) -> {
+            FogClientCommands.register(dispatcher);
         });
+        ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloadListener(FogResourceReloader.IDENTIFIER, new  FogResourceReloader());
+        ClientTickEvents.END_LEVEL_TICK.register((level)->FogManager.getInstance().onEndTick(level));
+        //?}
     }
 }

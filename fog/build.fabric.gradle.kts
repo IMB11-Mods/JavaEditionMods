@@ -14,7 +14,6 @@ dependencies {
     implementation(project(mruProject.path))
     implementation(mcLibrary("yacl-fabric"))
     implementation(mcLibrary("modmenu"))
-    implementation(mcLibrary("architectury-fabric"))
     compileOnly(mcLibrary("iris-fabric"))
     compileOnly(mcLibrary("polytone-fabric"))
     add(polytoneLibraries.name, mcLibrary("polytone-fabric"))

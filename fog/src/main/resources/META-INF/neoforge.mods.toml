@@ -16,7 +16,7 @@ description="An expansive and dynamic overhaul to Minecraft's fog rendering syst
 config="fog.mixins.json"
 
 [mc-publish]
-dependencies=["architectury-api", "yacl"]
+dependencies=["yacl"]
 
 [[dependencies.fog]]
 modId="neoforge"
@@ -37,13 +37,6 @@ modId="mru"
 type="required"
 versionRange="[${target_mru},)"
 ordering="NONE"
-side="CLIENT"
-
-[[dependencies.fog]]
-modId="architectury"
-type="required"
-versionRange="[${target_architectury},)"
-ordering="AFTER"
 side="CLIENT"
 
 [[dependencies.fog]]
