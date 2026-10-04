@@ -5,11 +5,11 @@ plugins {
     id("imb11.mod")
 }
 
-val minecraftVersion = project.minecraftVersion
+val targetMinecraftVersion = project.minecraftVersion
 val metadata = modMetadata
 
 dependencies {
-    "minecraft"("com.mojang:minecraft:$minecraftVersion")
+    "minecraft"("com.mojang:minecraft:$targetMinecraftVersion")
     implementation(mcLibrary("fabric-loader"))
     implementation(mcLibrary("fabric-api"))
 }
@@ -22,7 +22,7 @@ loom {
     }
     runs {
         configureEach {
-            runDir(rootProject.file("run/${metadata.id}/$minecraftVersion/fabric/$name").absolutePath)
+            runDir(rootProject.file("run/${metadata.id}/$targetMinecraftVersion/fabric/$name").relativeTo(project.projectDir).invariantSeparatorsPath)
         }
     }
 }
