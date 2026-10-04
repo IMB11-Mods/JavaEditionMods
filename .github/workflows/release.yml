@@ -5,6 +5,7 @@ on:
     tags:
       - mru/v*
       - sounds/v*
+      - shields/v*
   workflow_dispatch:
     inputs:
       tag:
@@ -31,8 +32,8 @@ jobs:
           RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
         run: |
           case "$RELEASE_TAG" in
-            sounds/v*|mru/v*) ;;
-            *) echo 'Expected a sounds/v or mru/v release tag'; exit 1 ;;
+            sounds/v*|mru/v*|shields/v*) ;;
+            *) echo 'Expected a sounds/v, mru/v, or shields/v release tag'; exit 1 ;;
           esac
           test "$(git rev-parse HEAD)" = "$(git rev-parse "refs/tags/$RELEASE_TAG^{commit}")"
           echo "RELEASE_MOD=${RELEASE_TAG%%/*}" >> "$GITHUB_ENV"
@@ -49,7 +50,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
           case "$RELEASE_MOD" in
-            mru|sounds) task=":$RELEASE_MOD:publishMods" ;;
+            mru|sounds|shields) task=":$RELEASE_MOD:publishMods" ;;
             *) exit 1 ;;
           esac
           GITHUB_REF_TYPE=tag GITHUB_REF_NAME="$RELEASE_TAG" GITHUB_SHA="$(git rev-parse HEAD)" bash ./gradlew --no-daemon --build-cache "$task"
