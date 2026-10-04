@@ -1,6 +1,13 @@
 # Changelog
 
-## Unreleased
+## [2.6.0] - 2026-10-04
+
+### Fixed
+
+- Fixed issue where the "Preview Sound" button would not play any sound if the sound effect was disabled beforehand. ([#221](https://github.com/IMB11-Mods/JavaEditionMods/pull/221))
+- Fixed broken compatibility with the [Smooth Scrolling](https://modrinth.com/mod/smooth-scroll) mod. ([#222](https://github.com/IMB11-Mods/JavaEditionMods/pull/222))
+- Fixed issue where the typing sound effect would not have consistent volume across various text inputs ([#223](https://github.com/IMB11-Mods/JavaEditionMods/pull/223))
+- Fixed issue where vanilla players could not join your LAN worlds if you have the mod installed because it registered the sounds on the server-side. ([#224](https://github.com/IMB11-Mods/JavaEditionMods/pull/224))
 
 ## [2.5.2+lts] - 2026-09-09
 
