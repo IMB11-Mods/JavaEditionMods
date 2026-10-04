@@ -1,0 +1,37 @@
+{
+  "item.shields.diamond_shield": "Diamond Shield",
+  "item.shields.plated_diamond_shield": "Plated Diamond Shield",
+  "item.shields.plated_shield": "Plated Shield",
+  "item.shields.gold_shield": "Gold Shield",
+  "item.shields.plated_gold_shield": "Plated Gold Shield",
+  "item.shields.netherite_shield": "Netherite Shield",
+  "item.shields.plated_netherite_shield": "Plated Netherite Shield",
+  "item.shields.copper_shield": "Copper Shield",
+  "item.shields.plated_copper_shield": "Plated Copper Shield",
+
+  "item.shields.shield_plating": "Shield Plating",
+  "item.shields.gold_shield_plating": "Gold Shield Plating",
+  "item.shields.diamond_shield_plating": "Diamond Shield Plating",
+  "item.shields.netherite_shield_plating": "Netherite Shield Plating",
+  "item.shields.copper_shield_plating": "Copper Shield Plating",
+
+  "item.shields.shield_repair_kit": "Shield Repair Kit",
+
+  "enchantment.shields.launching": "Launching",
+  "enchantment.shields.launching.desc": "Gives a chance to launch attackers away when the shield is disabled.",
+  "enchantment.shields.evokering": "Evokering",
+  "enchantment.shields.evokering.desc": "Introduces a chance for evoker fangs to spawn underneath attackers when blocking an attack.",
+  "enchantment.shields.bracing": "Bracing",
+  "enchantment.shields.bracing.desc": "Decreases the cooldown when the shield is disabled by an axe attack.",
+  "enchantment.shields.lifebound": "Lifebound",
+  "enchantment.shields.lifebound.desc": "Gives a chance to absorb health from the attacker when blocking an attack.",
+  "enchantment.shields.momentum": "Momentum",
+  "enchantment.shields.momentum.desc": "Gives a brief speed boost when their shield is disabled.",
+  "enchantment.shields.momentum.tooltip_speed_for_x_seconds": "%1$ss of Speed III",
+
+  "itemGroup.shields.shield_group": "Extra Shields",
+  "emi.shields.anvil": "Combine With Anvil",
+  "item.shields.shield_patch_kit.no_damage": "Your shield isn't damaged enough to use the repair kit!",
+  "shields.attribute.seconds": " %ss Cooldown",
+  "shields.attribute.axe": "When hit by Axe:"
+}

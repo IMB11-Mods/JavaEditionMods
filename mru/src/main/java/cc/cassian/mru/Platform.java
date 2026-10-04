@@ -26,4 +26,6 @@ public interface Platform {
     ArrayList<String> getMods();
 
 	boolean isDeveloperEnvironment();
+
+    boolean isClient();
 }

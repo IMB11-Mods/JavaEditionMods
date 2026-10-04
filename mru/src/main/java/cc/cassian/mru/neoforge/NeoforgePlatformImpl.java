@@ -51,5 +51,10 @@ public class NeoforgePlatformImpl implements Platform {
         ^///?}
 
     }
+
+    @Override
+    public boolean isClient() {
+        return FMLEnvironment.getDist().isClient();
+    }
 }
 *///?}

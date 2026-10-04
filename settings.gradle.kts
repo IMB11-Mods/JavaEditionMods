@@ -19,7 +19,8 @@ rootProject.name = "JavaEditionMods"
 
 val modTargets = mapOf(
     "mru" to listOf("26.1.2", "26.3"),
-    "sounds" to listOf("26.1.2", "26.3")
+    "sounds" to listOf("26.1.2", "26.3"),
+    "shields" to listOf("26.3")
 )
 
 dependencyResolutionManagement {

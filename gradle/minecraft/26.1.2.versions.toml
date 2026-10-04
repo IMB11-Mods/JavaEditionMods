@@ -9,6 +9,7 @@ fabric-loader = "0.19.5"
 forge-config-api-port-fabric = "26.1.5"
 forgified-fabric-api = "0.154.0+3.2.6+26.1.2"
 jade-fabric = "26.1.0+fabric"
+jei = "29.43.0.106"
 map-atlases = "6345967"
 mcqoy = "0.4.1+fabric-26.1"
 modmenu = "18.0.0-beta.1"
@@ -16,6 +17,7 @@ neoforge = "26.1.2.107"
 ohmega-fabric = "1.5.20-mc26.1.2"
 ohmega-neoforge = "1.5.20-mc26.1.2"
 porting-lib-transfer = "2.3.9+1.20.1"
+rrv = "8.10.9+26.1.2"
 sophisticated-backpacks-fabric = "26.1.2-3.25.55.1739"
 sophisticated-backpacks-neoforge = "26.1.2-3.25.55.1739"
 sophisticated-core-fabric = "26.1.2-1.4.45.1849"
@@ -42,6 +44,8 @@ fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-l
 forge-config-api-port-fabric = { module = "fuzs.forgeconfigapiport:forgeconfigapiport-fabric", version.ref = "forge-config-api-port-fabric" }
 forgified-fabric-api = { module = "org.sinytra.forgified-fabric-api:forgified-fabric-api", version.ref = "forgified-fabric-api" }
 jade-fabric = { module = "maven.modrinth:jade", version.ref = "jade-fabric" }
+jei-fabric = { module = "mezz.jei:jei-26.1.2-fabric", version.ref = "jei" }
+jei-neoforge = { module = "mezz.jei:jei-26.1.2-neoforge", version.ref = "jei" }
 map-atlases = { module = "curse.maven:map-atlases-forge-519759", version.ref = "map-atlases" }
 mcqoy = { module = "maven.modrinth:mcqoy", version.ref = "mcqoy" }
 modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
@@ -49,6 +53,8 @@ neoforge = { module = "net.neoforged:neoforge", version.ref = "neoforge" }
 ohmega-fabric = { module = "io.github.swackyy:ohmega-fabric", version.ref = "ohmega-fabric" }
 ohmega-neoforge = { module = "io.github.swackyy:ohmega-neoforge", version.ref = "ohmega-neoforge" }
 porting-lib-transfer = { module = "io.github.fabricators_of_create.Porting-Lib:transfer", version.ref = "porting-lib-transfer" }
+rrv-fabric = { module = "cc.cassian.rrv:reliable-recipe-viewer-fabric", version.ref = "rrv" }
+rrv-neoforge = { module = "cc.cassian.rrv:reliable-recipe-viewer-neoforge", version.ref = "rrv" }
 sophisticated-backpacks-fabric = { module = "maven.modrinth:sophisticated-backpacks", version.ref = "sophisticated-backpacks-fabric" }
 sophisticated-backpacks-neoforge = { module = "maven.modrinth:sophisticated-backpacks", version.ref = "sophisticated-backpacks-neoforge" }
 sophisticated-core-fabric = { module = "maven.modrinth:sophisticated-core", version.ref = "sophisticated-core-fabric" }
