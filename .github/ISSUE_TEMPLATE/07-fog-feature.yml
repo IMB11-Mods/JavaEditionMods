@@ -1,0 +1,86 @@
+name: Fog feature request
+description: Suggest a new feature or improvement for Fog.
+title: "[Fog] "
+labels:
+  - "project:fog"
+type: Feature
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Suggest an improvement for Fog. Explain what you want to achieve and how the change would help.
+
+  - type: markdown
+    attributes:
+      value: |
+        If you are on a game version or loader not listed here, we are unfortunately not supporting it anymore.
+
+  - type: checkboxes
+    id: existing-issues
+    attributes:
+      label: Existing issues
+      options:
+        - label: I have [searched the existing issues](https://github.com/IMB11-Mods/JavaEditionMods/issues?q=is%3Aissue%20label%3A%22project%3Afog%22) for this problem or suggestion.
+          required: true
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: What would this help you do?
+      description: Describe the problem, missing capability, or situation you want to improve. A concrete example helps.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-feature
+    attributes:
+      label: What would you like to happen?
+      description: Describe how you would expect the feature to work. You do not need to explain how to implement it.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives or workarounds
+      description: Is there another way to achieve this today? What does not work well about it?
+    validations:
+      required: false
+
+  - type: dropdown
+    id: minecraft-version
+    attributes:
+      label: Minecraft version
+      description: Select a version only if your request is specific to it.
+      options:
+        - "26.1.2"
+        - "26.3"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: mod-loader
+    attributes:
+      label: Mod loader
+      description: Select a loader only if your request is specific to it.
+      options:
+        - Fabric
+        - NeoForge
+    validations:
+      required: false
+
+  - type: textarea
+    id: related-mods
+    attributes:
+      label: Relevant mod versions or other mods
+      description: Include Fog or other mod versions only if the request depends on them.
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Examples or additional context
+      description: Add screenshots, mockups, links, or related requests.
+    validations:
+      required: false
