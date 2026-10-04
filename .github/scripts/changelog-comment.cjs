@@ -19,11 +19,11 @@ module.exports = async ({ github, context }) => {
   const comments = await github.paginate(github.rest.issues.listComments, repo);
   for (const project of ['sounds', 'mru']) {
     if (!pull.labels.some(label => label.name === `project:${project}`)) continue;
-    const title = `## Release changelog: ${project}`;
-    if (comments.some(comment => comment.user.type === 'Bot' && comment.body.startsWith(title))) continue;
+    const marker = `[release-changelog-${project}]: #`;
+    if (comments.some(comment => comment.user.type === 'Bot' && comment.body.split(/\r?\n/).includes(marker))) continue;
     await github.rest.issues.createComment({
       ...repo,
-      body: `${title}\n\nEdit the Markdown below. Remove unused sections. Replace the template with "No changelog needed." for internal changes.\n\n---\n\n### Added\n\n- TODO\n\n### Changed\n\n### Deprecated\n\n### Removed\n\n### Fixed\n\n### Security\n`
+      body: `### Added\n\n- TODO\n\n### Changed\n\n### Deprecated\n\n### Removed\n\n### Fixed\n\n### Security\n\n${marker}\n`
     });
   }
 };

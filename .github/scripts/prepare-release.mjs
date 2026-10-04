@@ -65,9 +65,10 @@ const sections = new Map(categories.map(category => [category, []]));
 const skipped = [];
 for (const pr of pulls) {
   const comments = api(`issues/${pr.number}/comments?per_page=100`);
-  const matches = comments.filter(comment => comment.user.type === 'Bot' && comment.body.replace(/\r\n/g, '\n').startsWith(`## Release changelog: ${project}\n`));
+  const marker = `[release-changelog-${project}]: #`;
+  const matches = comments.filter(comment => comment.user.type === 'Bot' && comment.body.split(/\r?\n/).includes(marker));
   if (matches.length !== 1) throw new Error(`PR #${pr.number}: expected one ${project} changelog comment`);
-  const body = matches[0].body.split(/\r?\n---\r?\n/).slice(1).join('\n').trim();
+  const body = matches[0].body.split(/\r?\n/).filter(line => line !== marker).join('\n').trim();
   if (body === 'No changelog needed.') { skipped.push(pr.number); continue; }
   if (!body || /\bTODO\b/.test(body)) throw new Error(`PR #${pr.number}: unfinished changelog`);
   let category;
