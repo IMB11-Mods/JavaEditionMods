@@ -1,0 +1,42 @@
+modLoader = "javafml"
+loaderVersion = "[2,)"
+license = "All-Rights-Reserved"
+
+[[mods]]
+modId = "shields"
+displayName="${mod_name}"
+version = "${version}"
+displayURL = "https://modrinth.com/mod/shields"
+logoFile = "assets/shields/icon.png"
+iconFile = "assets/shields/icon.png"
+authors = "IMB11, cassiancc"
+description="${mod_description}"
+
+[[mixins]]
+config = "shields.mixins.json"
+
+[[dependencies.shields]]
+modId = "neoforge"
+type = "required"
+versionRange="${target_loader}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.shields]]
+modId = "minecraft"
+type = "required"
+versionRange="${target_minecraft}"
+
+[[dependencies.shields]]
+modId="mru"
+type="required"
+versionRange="[${target_mru},)"
+ordering="NONE"
+side="CLIENT"
+
+[[dependencies.shields]]
+modId = "rrv"
+type = "optional"
+versionRange = "[6.5.0,)"
+ordering = "NONE"
+side = "BOTH"

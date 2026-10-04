@@ -4,6 +4,7 @@ package cc.cassian.mru.fabric;
 
 import cc.cassian.mru.client.util.Overlay;
 import cc.cassian.mru.Platform;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resources.Identifier;
 
@@ -42,5 +43,10 @@ public class FabricPlatformImpl implements Platform {
 	public boolean isDeveloperEnvironment() {
 		return FabricLoader.getInstance().isDevelopmentEnvironment();
 	}
+
+    @Override
+    public boolean isClient() {
+        return FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT;
+    }
 }
 //?}

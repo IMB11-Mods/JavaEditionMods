@@ -1,0 +1,58 @@
+package dev.imb11.shields.mixin;
+
+import dev.imb11.shields.items.ShieldCollection;
+import dev.imb11.shields.items.ShieldsItems;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.*;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Map;
+
+@Mixin(AnvilMenu.class)
+public abstract class AnvilMenuMixin extends ItemCombinerMenu {
+    @Shadow
+    @Final
+    private DataSlot cost;
+
+    @Shadow @Nullable private String itemName;
+
+    public AnvilMenuMixin(@Nullable MenuType<?> menuType, int containerId, Inventory inventory, ContainerLevelAccess access, ItemCombinerMenuSlotDefinition slotDefinition) {
+        super(menuType, containerId, inventory, access, slotDefinition);
+    }
+    //? fabric {
+    
+
+    /**
+     * Credits to <a href="https://github.com/hiisuuii/infinicore/blob/master/src%2Fmain%2Fjava%2Fhisui%2Finfinicore%2Fmixin%2FInfinicoreMixin.java#L27">Infinicore's Implementation of Anvil Recipes</a>
+     * for the correct mixin target.
+     */
+    @Inject(method = "createResult", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;isDamageableItem()Z", ordinal = 0), cancellable = true)
+    private void inject(CallbackInfo info) {
+        ItemStack expectedInput1 = this.inputSlots.getItem(0);
+        ItemStack expectedPlating = this.inputSlots.getItem(1);
+
+        for (ShieldCollection itemEntry : ShieldsItems.SHIELD_COLLECTIONS.values()) {
+            var plating = itemEntry.plating();
+            var input1 = itemEntry.shieldItem();
+            var output = itemEntry.platedShieldItem();
+
+            // Check if the input items are the same as the expected items
+            if (expectedInput1.getItem() == input1 && expectedPlating.getItem() == plating) {
+                this.resultSlots.setItem(0, expectedInput1.transmuteCopy(output));
+                this.itemName = expectedInput1.getHoverName().getString();
+                this.cost.set(1);
+                info.cancel();
+                return;
+            }
+        }
+    }
+    //?}
+}

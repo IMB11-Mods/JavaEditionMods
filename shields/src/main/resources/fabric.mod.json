@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "id": "shields",
+  "version": "${mod_version}",
+  "name": "Extra Shields",
+  "description": "A vanilla+ expansion to shields. Adds various new shields inline with the vanilla armor system and shield plating upgrades. Includes new and improved enchantment support.",
+  "authors": [
+    "IMB11",
+    "cassiancc"
+  ],
+  "contact": {
+    "homepage": "https://moddedmc.wiki/en/project/extra-shields",
+    "sources": "https://github.com/IMB11-Mods/JavaEditionMods",
+    "issues": "https://github.com/IMB11-Mods/JavaEditionMods/issues"
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/shields/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.imb11.shields.fabric.ShieldsFabric"
+    ],
+    "client": [
+      "dev.imb11.shields.fabric.ShieldsFabricClient"
+    ],
+    "fabric-datagen": [
+      "dev.imb11.shields.datagen.ShieldsDatagen"
+    ],
+    "jei_mod_plugin": [
+      "dev.imb11.shields.compat.JeiCompat"
+    ]
+  },
+  "mixins": [
+    "shields.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "minecraft": "${target_minecraft}",
+    "fabric-api": "*",
+    "mru": "${target_mru}"
+  },
+  "recommends": {
+    "rrv": ">=6.5.0"
+  },
+  "conflicts": {
+    "rei": "*"
+  }
+}

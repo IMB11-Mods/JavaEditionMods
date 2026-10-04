@@ -34,7 +34,7 @@ dependencies {
     runtimeOnly(mcLibrary("yacl-fabric"))
     runtimeOnly(mcLibrary("modmenu"))
     runtimeOnly(mcLibrary("mcqoy"))
-    runtimeOnly(mcLibrary("surveyor"))
+//    runtimeOnly(mcLibrary("surveyor"))
 }
 
 stonecutter {

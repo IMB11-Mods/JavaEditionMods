@@ -116,23 +116,101 @@ repositories {
     maven("https://maven.fabricmc.net/")
     maven("https://maven.neoforged.net/releases/")
     maven("https://maven.shedaniel.me/")
-    maven("https://maven.wispforest.io/releases/")
+    maven {
+        name = "Wisp Forest Maven"
+        url = uri("https://maven.wispforest.io/releases/")
+        content {
+            includeGroupAndSubgroups("io.wispforest")
+        }
+    }
     maven("https://api.modrinth.com/maven") {
         content { includeGroup("maven.modrinth") }
     }
-    maven("https://repo.sleeping.town/")
-    maven("https://maven.isxander.dev/releases")
-    maven("https://raw.githubusercontent.com/Fuzss/modresources/main/maven/")
+    maven {
+        name = "Sleeping Town Maven"
+        url = uri("https://repo.sleeping.town/")
+        content {
+            includeGroupAndSubgroups("folk.sisby")
+            includeGroupAndSubgroups("dev.emi")
+        }
+    }
+    maven {
+        name = "Xander Maven"
+        url = uri("https://maven.isxander.dev/releases")
+        content {
+            includeGroupAndSubgroups("dev.isxander")
+            includeGroupAndSubgroups("org.quiltmc.parsers")
+        }
+    }
+    maven {
+        name = "Fuzs Mod Resources"
+        url = uri("https://raw.githubusercontent.com/Fuzss/modresources/main/maven/")
+        content {
+            includeGroupAndSubgroups("fuzs")
+        }
+    }
     maven("https://maven.ladysnake.org/releases")
-    maven("https://mvn.devos.one/snapshots")
-    maven("https://mvn.devos.one/releases")
+    maven {
+        name = "Fabricators of Create (Snapshots)"
+        url = uri("https://mvn.devos.one/snapshots")
+        content {
+            includeGroupAndSubgroups("net.createmod")
+            includeGroupAndSubgroups("dev.engine-room")
+            includeGroupAndSubgroups("io.github.fabricators_of_create")
+            includeGroupAndSubgroups("com.simibubi")
+        }
+    }
+    maven {
+        name = "Fabricators of Create (Releases)"
+        url = uri("https://mvn.devos.one/releases")
+        content {
+            includeGroupAndSubgroups("net.createmod")
+            includeGroupAndSubgroups("dev.engine-room")
+            includeGroupAndSubgroups("io.github.fabricators_of_create")
+            includeGroupAndSubgroups("com.simibubi")
+        }
+    }
     maven("https://cursemaven.com") {
         content { includeGroup("curse.maven") }
     }
-    maven("https://maven.nucleoid.xyz")
+    maven {
+        name = "Nucleoid Maven"
+        url = uri("https://maven.nucleoid.xyz")
+        content {
+            includeGroupAndSubgroups("eu.pb4")
+            includeGroupAndSubgroups("xyz.nucleoid")
+        }
+    }
     maven("https://maven.theillusivec4.top/")
-    maven("https://maven.su5ed.dev/releases")
+    maven {
+        name = "Sinytra"
+        url = uri("https://maven.sinytra.org")
+        content {
+            includeGroupAndSubgroups("org.sinytra")
+        }
+    }
     maven("https://maven.terraformersmc.com/releases/")
-    maven("https://maven.cassian.cc/")
-    maven("https://maven.gegy.dev")
+    maven {
+        name = "Cassian's Maven"
+        url = uri("https://maven.cassian.cc")
+        content {
+            includeGroupAndSubgroups("cc.cassian")
+            includeGroupAndSubgroups("folk.sisby")
+        }
+    }
+    maven {
+        name = "Gegy"
+        url = uri("https://maven.gegy.dev/releases/")
+        content {
+            includeGroupAndSubgroups("dev.lambdaurora")
+        }
+    }
+    maven {
+        name = "Jared's maven"
+        url = uri("https://maven.blamejared.com/")
+        content {
+            includeGroup("mezz.jei")
+            includeGroup("net.mezzdev.config")
+        }
+    }
 }
