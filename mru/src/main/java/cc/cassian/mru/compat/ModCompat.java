@@ -28,6 +28,11 @@ public class ModCompat {
      */
     public static boolean OHMEGA = Platform.INSTANCE.isLoaded("ohmega");
     /**
+     * Satchels - used for detecting overlays in satchel slots.
+     * Fabric
+     */
+    public static boolean SATCHELS = Platform.INSTANCE.isLoaded("satchels");
+    /**
      * Sophisticated Backpacks - used for detecting overlays in backpack slots.
      */
     public static final boolean SOPHISTICATED_BACKPACKS = Platform.INSTANCE.isLoaded("sophisticatedbackpacks");

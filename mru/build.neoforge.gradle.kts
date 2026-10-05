@@ -19,11 +19,13 @@ dependencies {
     compileOnly(mcLibrary("accessories-neoforge"))
     compileOnly(variantOf(mcLibrary("curios-neoforge")) { classifier("api") })
     compileOnly(mcLibrary("ohmega-neoforge"))
-    compileOnly(mcLibrary("trinkets-neoforge"))
+    compileOnly(mcLibrary("trinkets"))
     compileOnly(mcLibrary("travelers-backpack-neoforge"))
     compileOnly(mcLibrary("sophisticated-core-neoforge"))
     compileOnly(mcLibrary("sophisticated-backpacks-neoforge"))
+    compileOnly(mcLibrary("satchels"))
     compileOnly(mcLibrary("forgified-fabric-api"))
+
     runtimeOnly(mcLibrary("yacl-neoforge"))
 }
 

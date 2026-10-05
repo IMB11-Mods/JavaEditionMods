@@ -1,5 +1,6 @@
 package cc.cassian.mru.util;
 
+import cc.cassian.mru.compat.SatchelsCompat;
 import cc.cassian.mru.compat.*;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.Item;
@@ -145,15 +146,11 @@ public class ItemContainerUtils {
 		return ItemStack.EMPTY;
 	}
 
-
-
-
 	/**
-	 * Checks if an item is a bundle, shulker box, generic backpack that uses a vanilla component, Traveler's Backpack, or Sophisticated Backpack.
+	 * Checks if an item is a bundle, shulker box, generic backpack that uses a vanilla component, Traveler's Backpack, Sophisticated Backpack, or Satchel.
 	 */
 	public static boolean isContainer(ItemStack stack) {
 		if (stack.isEmpty()) return false;
-		//? if >1.20.5 {
 		var components = stack.getComponents();
 		if (components.has(DataComponents.BUNDLE_CONTENTS)) {
 			return true;
@@ -161,31 +158,18 @@ public class ItemContainerUtils {
 		else if (components.has(DataComponents.CONTAINER)) {
 			return true;
 		}
-		//?} else {
-        /*CompoundTag compoundtag = stack.getTag();
-        if (compoundtag == null) {
-            return false;
-        } else {
-            if (compoundtag.contains("Items")) {
-                return true;
-            }
-            else if (compoundtag.contains("BlockEntityTag")) {
-                if (compoundtag.getCompound("BlockEntityTag").contains("Items")) {
-                    return true;
-                }
-            }
-        }
-        *///?}
+		else if (ModCompat.SATCHELS && SatchelsCompat.isSatchel(components)) {
+			return true;
+		}
 		return true;
 	}
 
 
 	/**
-	 * Checks the contents of a bundle, shulker box, generic backpack that uses a vanilla component, Traveler's Backpack, or Sophisticated Backpack.
+	 * Checks the contents of a bundle, shulker box, generic backpack that uses a vanilla component, Traveler's Backpack, Sophisticated Backpack, or Satchel.
 	 */
 	public static Stream<ItemStack> getContainerContents(ItemStack stack) {
 		if (!isContainer(stack)) return Stream.empty();
-		//? if >1.20.5 {
 		var components = stack.getComponents();
 		if (components.has(DataComponents.BUNDLE_CONTENTS)) {
 			BundleContents bundleContents = components.get(DataComponents.BUNDLE_CONTENTS);
@@ -206,22 +190,9 @@ public class ItemContainerUtils {
 				*///?}
 			}
 		}
-		//?} else {
-        /*CompoundTag compoundtag = stack.getTag();
-        if (compoundtag == null) {
-            return Stream.empty();
-        } else {
-            if (compoundtag.contains("Items")) {
-                ListTag listtag = compoundtag.getList("Items", 10);
-                return listtag.stream().map(CompoundTag.class::cast).map(ItemStack::of);
-            }
-            else if (compoundtag.contains("BlockEntityTag")) {
-                var compound = compoundtag.getCompound("BlockEntityTag");
-                ListTag listtag = compound.getList("Items", 10);
-                return listtag.stream().map(CompoundTag.class::cast).map(ItemStack::of);
-            }
-        }
-        *///?}
+		else if (ModCompat.SATCHELS) {
+			return SatchelsCompat.getContents(components);
+		}
 		return Stream.empty();
 	}
 
@@ -230,11 +201,8 @@ public class ItemContainerUtils {
 	 * Multi-version safe version of {@code Inventory#getNonEquipmentItems}.
 	 */
 	public static List<ItemStack> items(Inventory inventory) {
-		return
-		//? if <1.21.5 {
-		/*inventory.items;
-		*///?} else {
-		inventory.getNonEquipmentItems();
-		 //?}
+		//~ if >1.21.5 'items'->'getNonEquipmentItems()' {
+		return inventory.getNonEquipmentItems();
+		//~}
 	}
 }
