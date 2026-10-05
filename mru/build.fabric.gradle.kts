@@ -26,9 +26,10 @@ dependencies {
     compileOnly(mcLibrary("jade-fabric"))
     compileOnly(mcLibrary("cca-entity"))
     compileOnly(mcLibrary("cca-base"))
-    compileOnly(mcLibrary("trinkets-fabric"))
+    compileOnly(mcLibrary("trinkets"))
     compileOnly(mcLibrary("ohmega-fabric"))
     compileOnly(mcLibrary("forge-config-api-port-fabric"))
+    compileOnly(mcLibrary("satchels"))
 
     runtimeOnly(mcLibrary("cloth-fabric"))
     runtimeOnly(mcLibrary("yacl-fabric"))

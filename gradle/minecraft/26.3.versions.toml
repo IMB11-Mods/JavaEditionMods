@@ -15,10 +15,10 @@ jei = "31.9.0.57"
 map-atlases = "6345967"
 modmenu = "21.0.0-alpha.1"
 neoforge = "26.3.0.33-beta"
-ohmega-fabric = "1.5.19-mc26.2"
-ohmega-neoforge = "1.5.21-mc26.3"
+ohmega = "1.5.19-mc26.2"
 porting-lib-transfer = "2.3.9+1.20.1"
 rrv = "8.10.9+26.3"
+satchels = "1.7"
 sophisticated-backpacks-fabric = "26.1.2-3.25.55.1739"
 sophisticated-backpacks-neoforge = "26.2-3.25.77.1959"
 sophisticated-core-fabric = "26.1.2-1.4.45.1849"
@@ -26,8 +26,7 @@ sophisticated-core-neoforge = "26.2-1.4.75.2101"
 trashslot = "Kq3z6gII"
 travelers-backpack-fabric = "26.1.2-11.2.6"
 travelers-backpack-neoforge = "26.1.2-11.2.4-neoforge"
-trinkets-fabric = "4.1.0-beta.1+26.2"
-trinkets-neoforge = "4.2.1+26.3"
+trinkets = "4.2.1+26.3"
 yacl-fabric = "3.9.6+26.3-fabric"
 yacl-neoforge = "3.9.7+26.3-neoforge"
 
@@ -51,11 +50,12 @@ jei-neoforge = { module = "mezz.jei:jei-26.3-neoforge", version.ref = "jei" }
 map-atlases = { module = "curse.maven:map-atlases-forge-519759", version.ref = "map-atlases" }
 modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
 neoforge = { module = "net.neoforged:neoforge", version.ref = "neoforge" }
-ohmega-fabric = { module = "io.github.swackyy:ohmega-fabric", version.ref = "ohmega-fabric" }
-ohmega-neoforge = { module = "io.github.swackyy:ohmega-neoforge", version.ref = "ohmega-neoforge" }
+ohmega-fabric = { module = "io.github.swackyy:ohmega-fabric", version.ref = "ohmega" }
+ohmega-neoforge = { module = "io.github.swackyy:ohmega-neoforge", version.ref = "ohmega" }
 porting-lib-transfer = { module = "io.github.fabricators_of_create.Porting-Lib:transfer", version.ref = "porting-lib-transfer" }
 rrv-fabric = { module = "cc.cassian.rrv:reliable-recipe-viewer-fabric", version.ref = "rrv" }
 rrv-neoforge = { module = "cc.cassian.rrv:reliable-recipe-viewer-neoforge", version.ref = "rrv" }
+satchels = { module = "maven.modrinth:satchel", version.ref = "satchels" }
 sophisticated-backpacks-fabric = { module = "maven.modrinth:sophisticated-backpacks", version.ref = "sophisticated-backpacks-fabric" }
 sophisticated-backpacks-neoforge = { module = "maven.modrinth:sophisticated-backpacks", version.ref = "sophisticated-backpacks-neoforge" }
 sophisticated-core-fabric = { module = "maven.modrinth:sophisticated-core", version.ref = "sophisticated-core-fabric" }
@@ -63,7 +63,6 @@ sophisticated-core-neoforge = { module = "maven.modrinth:sophisticated-core", ve
 trashslot = { module = "maven.modrinth:trashslot", version.ref = "trashslot" }
 travelers-backpack-fabric = { module = "maven.modrinth:travelersbackpack", version.ref = "travelers-backpack-fabric" }
 travelers-backpack-neoforge = { module = "maven.modrinth:travelersbackpack", version.ref = "travelers-backpack-neoforge" }
-trinkets-fabric = { module = "eu.pb4:trinkets", version.ref = "trinkets-fabric" }
-trinkets-neoforge = { module = "eu.pb4:trinkets", version.ref = "trinkets-neoforge" }
+trinkets = { module = "eu.pb4:trinkets", version.ref = "trinkets" }
 yacl-fabric = { module = "dev.isxander:yet-another-config-lib", version.ref = "yacl-fabric" }
 yacl-neoforge = { module = "dev.isxander:yet-another-config-lib", version.ref = "yacl-neoforge" }

@@ -1,43 +1,36 @@
 [versions]
+iris-fabric = "1.11.4+26.2-fabric"
+iris-neoforge = "1.11.4+26.2-neoforge"
 accessories-fabric = "1.4.3-beta+1.21.10"
 accessories-neoforge = "1.3.7-beta+1.21.8"
-cca = "8.0.0"
+cca = "6.1.2"
 cloth = "26.1.154"
-curios-neoforge = "15.0.0+26.1.2"
-fabric-api = "0.155.3+26.1.2"
+curios-neoforge = "16.0.0+26.2"
+fabric-api = "0.161.0+26.2"
 fabric-loader = "0.19.5"
-forge-config-api-port-fabric = "26.1.5"
+forge-config-api-port-fabric = "26.2.1"
 forgified-fabric-api = "0.154.0+3.2.6+26.1.2"
-jade-fabric = "26.1.0+fabric"
-jei = "29.43.0.106"
+jade-fabric = "26.2.9+fabric"
+jei = "30.39.0.232"
 map-atlases = "6345967"
-modmenu = "18.0.2"
-neoforge = "26.1.2.114"
-ohmega = "1.5.20-mc26.1.2"
+modmenu = "20.0.3"
+neoforge = "26.2.0.88"
+ohmega = "1.5.19-mc26.2"
 porting-lib-transfer = "2.3.9+1.20.1"
-rrv = "8.10.9+26.1.2"
-satchels = "1.6"
+rrv = "8.10.9+26.2"
+satchels = "1.7"
 sophisticated-backpacks-fabric = "26.1.2-3.25.55.1739"
-sophisticated-backpacks-neoforge = "26.1.2-3.25.55.1739"
+sophisticated-backpacks-neoforge = "26.2-3.25.77.1959"
 sophisticated-core-fabric = "26.1.2-1.4.45.1849"
-sophisticated-core-neoforge = "26.1.2-1.4.45.1849"
+sophisticated-core-neoforge = "26.2-1.4.75.2101"
 trashslot = "Kq3z6gII"
 travelers-backpack-fabric = "26.1.2-11.2.6"
 travelers-backpack-neoforge = "26.1.2-11.2.4-neoforge"
-trinkets = "4.0.0-beta.3+26.1"
-yacl-fabric = "3.9.7+26.1-fabric"
-yacl-neoforge = "3.9.7+26.1-neoforge"
-architectury = "20.1.16"
-polytone-fabric = "3MAkNiv1"
-polytone-neoforge = "osavRdFq"
-iris-fabric = "sZbVsl2Q"
-iris-neoforge = "qE5Y7GrZ"
+trinkets = "4.1.0-beta.1+26.2"
+yacl-fabric = "3.9.6+26.2-fabric"
+yacl-neoforge = "3.9.7+26.2-neoforge"
 
 [libraries]
-architectury-fabric = { module = "dev.architectury:architectury-fabric", version.ref = "architectury" }
-architectury-neoforge = { module = "dev.architectury:architectury-neoforge", version.ref = "architectury" }
-polytone-fabric = { module = "maven.modrinth:polytone", version.ref = "polytone-fabric" }
-polytone-neoforge = { module = "maven.modrinth:polytone", version.ref = "polytone-neoforge" }
 iris-fabric = { module = "maven.modrinth:iris", version.ref = "iris-fabric" }
 iris-neoforge = { module = "maven.modrinth:iris", version.ref = "iris-neoforge" }
 accessories-fabric = { module = "io.wispforest:accessories-neoforge", version.ref = "accessories-fabric" }
@@ -52,8 +45,8 @@ fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-l
 forge-config-api-port-fabric = { module = "fuzs.forgeconfigapiport:forgeconfigapiport-fabric", version.ref = "forge-config-api-port-fabric" }
 forgified-fabric-api = { module = "org.sinytra.forgified-fabric-api:forgified-fabric-api", version.ref = "forgified-fabric-api" }
 jade-fabric = { module = "maven.modrinth:jade", version.ref = "jade-fabric" }
-jei-fabric = { module = "mezz.jei:jei-26.1.2-fabric", version.ref = "jei" }
-jei-neoforge = { module = "mezz.jei:jei-26.1.2-neoforge", version.ref = "jei" }
+jei-fabric = { module = "mezz.jei:jei-26.2-fabric", version.ref = "jei" }
+jei-neoforge = { module = "mezz.jei:jei-26.2-neoforge", version.ref = "jei" }
 map-atlases = { module = "curse.maven:map-atlases-forge-519759", version.ref = "map-atlases" }
 modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
 neoforge = { module = "net.neoforged:neoforge", version.ref = "neoforge" }
