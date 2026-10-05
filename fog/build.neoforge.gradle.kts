@@ -4,7 +4,7 @@ plugins {
 
 stonecutter {
     replacements.string {
-        direction = minecraftVersion == "26.3"
+        direction = minecraftVersion >= "26.2"
         replace("gameRenderer.getMainCamera()", "gameRenderer.mainCamera()")
         replace(".gui.getChat()", ".gui.hud.getChat()")
         replace(".gui.getBossOverlay()", ".gui.hud.getBossOverlay()")
@@ -23,7 +23,7 @@ dependencies {
     implementation(project(mruProject.path))
     implementation(mcLibrary("yacl-neoforge"))
     compileOnly(mcLibrary("iris-neoforge"))
-    if (minecraftVersion == "26.1.2") {
+    if (minecraftVersion == "26.1.2" || minecraftVersion == "26.2") {
         compileOnly(mcLibrary("polytone-neoforge"))
         add(polytoneLibraries.name, mcLibrary("polytone-neoforge"))
         compileOnly(files(provider {

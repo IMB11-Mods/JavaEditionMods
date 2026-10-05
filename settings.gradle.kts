@@ -18,7 +18,7 @@ plugins {
 rootProject.name = "JavaEditionMods"
 
 val modTargets = mapOf(
-    "fog" to listOf("26.1.2", "26.3"),
+    "fog" to listOf("26.1.2", "26.2", "26.3"),
     "mru" to listOf("26.1.2", "26.2", "26.3"),
     "sounds" to listOf("26.1.2", "26.3"),
     "shields" to listOf("26.3")

@@ -4,7 +4,7 @@ plugins {
 
 stonecutter {
     replacements.string {
-        direction = minecraftVersion == "26.3"
+        direction = minecraftVersion >= "26.2"
         replace("gameRenderer.getMainCamera()", "gameRenderer.mainCamera()")
         replace(".gui.getChat()", ".gui.hud.getChat()")
         replace(".gui.getBossOverlay()", ".gui.hud.getBossOverlay()")
@@ -24,7 +24,7 @@ dependencies {
     implementation(mcLibrary("yacl-fabric"))
     implementation(mcLibrary("modmenu"))
     compileOnly(mcLibrary("iris-fabric"))
-    if (minecraftVersion == "26.1.2") {
+    if (minecraftVersion == "26.1.2" || minecraftVersion == "26.2") {
         compileOnly(mcLibrary("polytone-fabric"))
         add(polytoneLibraries.name, mcLibrary("polytone-fabric"))
         compileOnly(files(provider {
