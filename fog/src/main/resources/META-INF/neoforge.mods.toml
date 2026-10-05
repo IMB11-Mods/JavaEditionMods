@@ -9,6 +9,7 @@ version="${version}"
 displayName="Fog"
 displayURL="https://imb11.dev/"
 logoFile="assets/fog/icon.png"
+iconFile="assets/fog/icon.png"
 authors="IMB11,Steveplays"
 description="An expansive and dynamic overhaul to Minecraft's fog rendering system."
 
