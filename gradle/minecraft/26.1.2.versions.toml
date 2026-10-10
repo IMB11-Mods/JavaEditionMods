@@ -32,6 +32,8 @@ polytone-fabric = "3MAkNiv1"
 polytone-neoforge = "osavRdFq"
 iris-fabric = "sZbVsl2Q"
 iris-neoforge = "qE5Y7GrZ"
+sodium-fabric = "mc26.1.2-0.9.2-fabric"
+sodium-neoforge = "mc26.1.2-0.9.2-neoforge"
 
 [libraries]
 architectury-fabric = { module = "dev.architectury:architectury-fabric", version.ref = "architectury" }
@@ -40,6 +42,8 @@ polytone-fabric = { module = "maven.modrinth:polytone", version.ref = "polytone-
 polytone-neoforge = { module = "maven.modrinth:polytone", version.ref = "polytone-neoforge" }
 iris-fabric = { module = "maven.modrinth:iris", version.ref = "iris-fabric" }
 iris-neoforge = { module = "maven.modrinth:iris", version.ref = "iris-neoforge" }
+sodium-fabric = { module = "maven.modrinth:sodium", version.ref = "sodium-fabric" }
+sodium-neoforge = { module = "maven.modrinth:sodium", version.ref = "sodium-neoforge" }
 accessories-fabric = { module = "io.wispforest:accessories-neoforge", version.ref = "accessories-fabric" }
 accessories-neoforge = { module = "io.wispforest:accessories-neoforge", version.ref = "accessories-neoforge" }
 cca-base = { module = "org.ladysnake.cardinal-components-api:cardinal-components-base", version.ref = "cca" }

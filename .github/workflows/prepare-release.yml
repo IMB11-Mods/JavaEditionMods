@@ -7,7 +7,7 @@ on:
         description: project
         type: choice
         required: true
-        options: [sounds, mru, shields, fog]
+        options: [sounds, mru, shields, fog, glass]
       version:
         description: version
         type: string
