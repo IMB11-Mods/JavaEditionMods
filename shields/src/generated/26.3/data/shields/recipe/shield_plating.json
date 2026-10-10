@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "shield_platings",
+  "key": {
+    "m": "#minecraft:iron_tool_materials",
+    "p": "#minecraft:planks"
+  },
+  "pattern": [
+    "mpm",
+    "ppp",
+    "mpm"
+  ],
+  "result": {
+    "id": "shields:shield_plating"
+  }
+}

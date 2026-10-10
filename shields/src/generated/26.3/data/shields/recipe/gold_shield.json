@@ -1,0 +1,28 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:not",
+      "value": {
+        "condition": "fabric:any_mods_loaded",
+        "values": [
+          "shields-mxsv",
+          "lolmsv"
+        ]
+      }
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "d": "#minecraft:gold_tool_materials",
+    "w": "#minecraft:planks"
+  },
+  "pattern": [
+    "wdw",
+    "www",
+    " w "
+  ],
+  "result": {
+    "id": "shields:gold_shield"
+  }
+}

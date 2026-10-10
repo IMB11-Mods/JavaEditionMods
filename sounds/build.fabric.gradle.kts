@@ -20,19 +20,6 @@ loom {
     }
 }
 
-fabricApi {
-    configureDataGeneration {
-        outputDirectory = project.parent!!.file("src/main/generated")
-        addToResources = false
-        client = true
-    }
-}
-
-loom.runs.named("datagen") {
-    configName = "${modMetadata.required("mod.name")} - ${project.minecraftVersion} - Fabric - Data Generation"
-    runDir(rootProject.file("run/${modMetadata.id}/${project.minecraftVersion}/fabric/datagen").relativeTo(project.projectDir).invariantSeparatorsPath)
-}
-
 val legacyPlayerMixin = stonecutter.eval(stonecutter.current.version, "<26.3")
 tasks.processResources {
     inputs.property("legacyPlayerMixin", legacyPlayerMixin)

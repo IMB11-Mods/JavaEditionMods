@@ -49,6 +49,21 @@ targetProjects.forEach { node ->
     }
 }
 
+// Data generation only runs on Fabric; NeoForge reads the same per-version output
+val datagenTasks = modProjects
+    .filter { readModMetadata(it.layout.projectDirectory).optional("mod.datagen").toBoolean() }
+    .map { mod ->
+        mod.tasks.register("runDatagen") {
+            group = "fabric"
+            dependsOn(mod.childProjects.values.filter { it.name.endsWith("-fabric") }.map { "${it.path}:runDatagen" })
+        }
+    }
+
+tasks.register("runDatagenAll") {
+    group = "fabric"
+    dependsOn(datagenTasks)
+}
+
 tasks.register("publishAllMods") {
     group = "publishing"
     dependsOn(buildAll)

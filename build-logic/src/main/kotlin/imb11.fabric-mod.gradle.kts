@@ -33,6 +33,21 @@ loom {
     }
 }
 
+if (metadata.optional("mod.datagen").toBoolean()) {
+    // Generated data is shared by both loaders of a Minecraft version, see imb11.mod
+    fabricApi {
+        configureDataGeneration {
+            outputDirectory = requireNotNull(project.parent).file("src/generated/$targetMinecraftVersion")
+            addToResources = false
+            client = true
+        }
+    }
+
+    loom.runs.named("datagen") {
+        configName = "${metadata.required("mod.name")} - $targetMinecraftVersion - Fabric - Data Generation"
+    }
+}
+
 tasks.named<ProcessResources>("processResources") {
     exclude("META-INF/neoforge.mods.toml", "META-INF/mods.toml", "META-INF/accesstransformer.cfg", "interfaces.json")
 }
