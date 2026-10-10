@@ -6,7 +6,6 @@ neoForge {
     accessTransformers.from(project.parent!!.file("src/main/resources/META-INF/accesstransformer.cfg"))
 }
 
-// The NeoForge Sodium jar is a jar-in-jar wrapper; compile against the nested mod jar.
 val sodiumDistribution = configurations.create("sodiumDistribution") {
     isCanBeConsumed = false
     isTransitive = false

@@ -43,7 +43,7 @@ public class LivingEntityMixin {
 	)
 	private void triggerDisabledEvent(ServerLevel level, LivingEntity attacker,
 										//? if >=26.2
-										//DamageSource source, float damage,
+										DamageSource source, float damage,
 										//? if >26.2
 										//boolean fullyBlocked,
 									  	CallbackInfo ci) {

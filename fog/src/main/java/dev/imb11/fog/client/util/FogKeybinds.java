@@ -37,7 +37,7 @@ public class FogKeybinds {
 
 			FogConfig.save();
 
-			Minecraft.getInstance().gui.getChat().addClientSystemMessage(Component.literal("§b§7[§rFog§b§7]§r ").append(
+			Minecraft.getInstance().gui.hud.getChat().addClientSystemMessage(Component.literal("§b§7[§rFog§b§7]§r ").append(
 					Component.translatable("fog.command.toggle." + (config.enableMod ? "enabled" : "disabled")).withStyle(ChatFormatting.GOLD)));
 		}
 	}

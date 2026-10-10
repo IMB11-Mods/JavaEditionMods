@@ -4,9 +4,10 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.PrimitiveTopology;
+import com.mojang.blaze3d.pipeline.BindGroupLayout;
+import net.minecraft.client.renderer.BindGroupLayouts;
 import dev.imb11.projection.ProjectionSurface;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -59,15 +60,16 @@ public final class ProjectionSurfaceRenderer {
         var builder = RenderPipeline.builder()
                 .withLocation(Identifier.fromNamespaceAndPath("glass", loading ? "projection_loading" : "projection_surface"))
                 .withVertexShader(SHADER_LOCATION).withFragmentShader(SHADER_LOCATION)
-                .withVertexFormat(DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS)
-                .withUniform("DynamicTransforms", UniformType.UNIFORM_BUFFER)
-                .withUniform("Projection", UniformType.UNIFORM_BUFFER)
-                .withUniform("SurfaceParameters", UniformType.UNIFORM_BUFFER)
-                .withDepthStencilState(new DepthStencilState(CompareOp.LESS_THAN_OR_EQUAL, !loading))
+                .withVertexBinding(0, DefaultVertexFormat.POSITION_TEX_COLOR)
+                .withPrimitiveTopology(PrimitiveTopology.QUADS)
+                .withBindGroupLayout(BindGroupLayouts.MATRICES_PROJECTION)
+                .withDepthStencilState(new DepthStencilState(CompareOp.GREATER_THAN_OR_EQUAL, !loading))
                 .withCull(false);
+        var surfaceLayout = BindGroupLayout.builder().withUniform("SurfaceParameters", UniformType.UNIFORM_BUFFER);
         for (String sampler : PROJECTION_SAMPLERS) {
-            builder.withSampler(sampler);
+            surfaceLayout.withSampler(sampler);
         }
+        builder.withBindGroupLayout(surfaceLayout.build());
         if (loading) {
             builder.withColorTargetState(new ColorTargetState(BlendFunction.TRANSLUCENT));
         }
@@ -226,10 +228,7 @@ public final class ProjectionSurfaceRenderer {
         if (faceGeometries.isEmpty()) {
             return new CachedMesh(surface, loading, projectionMask, null);
         }
-        BufferBuilder builder = Tesselator.getInstance().begin(
-                VertexFormat.Mode.QUADS,
-                DefaultVertexFormat.POSITION_TEX_COLOR
-        );
+        BufferBuilder builder = ProjectionMesh.begin(DefaultVertexFormat.POSITION_TEX_COLOR);
         for (FaceGeometry geometry : faceGeometries) {
             emitFace(builder, surface.origin(), geometry, edgeNormals);
         }

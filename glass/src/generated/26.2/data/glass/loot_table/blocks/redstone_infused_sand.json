@@ -2,7 +2,6 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "bonus_rolls": 0.0,
       "conditions": [
         {
           "condition": "minecraft:survives_explosion"
@@ -11,7 +10,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "glass:terminal"
+          "name": "glass:redstone_infused_sand"
         }
       ],
       "rolls": 1.0

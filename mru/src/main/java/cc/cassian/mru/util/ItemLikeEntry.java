@@ -2,7 +2,7 @@ package cc.cassian.mru.util;
 
 import net.minecraft.core.registries.Registries;
 //~ if >=26.2 'cc.cassian.mru.util'->'net.minecraft.references'
-import cc.cassian.mru.util.BlockItemId;
+import net.minecraft.references.BlockItemId;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;

@@ -1,5 +1,6 @@
 package dev.imb11.client.renderer.projection;
 
+import com.mojang.blaze3d.GpuFormat;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.pipeline.TextureTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -15,7 +16,7 @@ import dev.imb11.client.remote.ProjectionChunkStorage;
 import dev.imb11.client.remote.RemoteSceneHandle;
 import dev.imb11.blocks.entity.ProjectorBlockEntity;
 import dev.imb11.client.renderer.block.ProjectorBlockEntityRenderer;
-import dev.imb11.mixins.LevelRendererBufferAccessor;
+import dev.imb11.mixins.ViewAreaAccessor;
 import dev.imb11.projection.ProjectionSurface;
 import dev.imb11.projection.ProjectionChunkRegion;
 import dev.imb11.sync.ProjectionSource;
@@ -57,6 +58,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
+import org.joml.Vector4f;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -122,7 +124,7 @@ public final class ProjectionRenderManager {
 
         ProjectionView view = ProjectionView.create(currentLevel.dimension(), projectorPos, surface);
         PortalSide side = portalSide(view);
-        side.track(view, minecraft.gameRenderer.getMainCamera().position(), frameSequence);
+        side.track(view, minecraft.gameRenderer.mainCamera().position(), frameSequence);
         FeedKey key = new FeedKey(source.key(), view.dimension(), view.projectorPos(), false);
         closeFeeds(other -> !other.key.equals(key) && !other.key.preview()
                 && other.key.projectorDimension().equals(key.projectorDimension())
@@ -237,7 +239,7 @@ public final class ProjectionRenderManager {
                         feed.alignment == null ? Long.MAX_VALUE : feed.alignment.createdFrame)
                 .thenComparingLong(feed -> feed.view.projectorPos().asLong()));
         Set<ProjectionAlignment> used = Collections.newSetFromMap(new IdentityHashMap<>());
-        Vec3 viewer = Minecraft.getInstance().gameRenderer.getMainCamera().position();
+        Vec3 viewer = Minecraft.getInstance().gameRenderer.mainCamera().position();
         while (!pending.isEmpty()) {
             ProjectionFeed first = pending.removeFirst();
             List<ProjectionFeed> connected = new ArrayList<>();
@@ -398,11 +400,7 @@ public final class ProjectionRenderManager {
         });
     }
 
-    public static void onMainRendererRebuilt(LevelRenderer candidate) {
-        Minecraft minecraft = Minecraft.getInstance();
-        if (candidate != minecraft.levelRenderer) {
-            return;
-        }
+    public static void onMainRendererRebuilt() {
         RenderResources.runOnRenderThread(() -> {
             for (ProjectionFeed feed : List.copyOf(FEEDS.values())) {
                 disposeFeedResources(feed);
@@ -410,11 +408,7 @@ public final class ProjectionRenderManager {
         });
     }
 
-    public static void onMainSectionDirty(LevelRenderer candidate, int sectionX, int sectionY, int sectionZ) {
-        Minecraft minecraft = Minecraft.getInstance();
-        if (candidate != minecraft.levelRenderer) {
-            return;
-        }
+    public static void onMainSectionDirty(int sectionX, int sectionY, int sectionZ) {
         for (ProjectionFeed feed : List.copyOf(FEEDS.values())) {
             if (feed.level() == activeLevel
                     && feed.renderer() != null
@@ -424,28 +418,10 @@ public final class ProjectionRenderManager {
         }
     }
 
-    public static void onMainChunkLoaded(LevelRenderer candidate, ChunkPos chunkPos) {
-        Minecraft minecraft = Minecraft.getInstance();
-        if (candidate != minecraft.levelRenderer) {
-            return;
-        }
+    public static void onMainChunkLoaded(ChunkPos chunkPos) {
         for (ProjectionFeed feed : List.copyOf(FEEDS.values())) {
             if (feed.level() == activeLevel && feed.renderer() != null) {
-                feed.renderer().onChunkReadyToRender(chunkPos);
                 dirtyChunkSections(feed, chunkPos);
-            }
-        }
-    }
-
-    public static void onMainRendererTick(LevelRenderer candidate) {
-        Minecraft minecraft = Minecraft.getInstance();
-        if (candidate != minecraft.levelRenderer) {
-            return;
-        }
-        Set<LevelRenderer> ticked = Collections.newSetFromMap(new IdentityHashMap<>());
-        for (ProjectionFeed feed : List.copyOf(FEEDS.values())) {
-            if (feed.renderer() != null && ticked.add(feed.renderer())) {
-                feed.renderer().tick(feed.camera);
             }
         }
     }
@@ -459,7 +435,7 @@ public final class ProjectionRenderManager {
         buildPreparationNanos = 0L;
         uploadNanos = 0L;
 
-        Minecraft minecraft = gameRenderer.getMinecraft();
+        Minecraft minecraft = Minecraft.getInstance();
         ClientLevel currentLevel = minecraft.level;
         if (currentLevel == null || minecraft.player == null) {
             if (activeLevel != null || !FEEDS.isEmpty()) {
@@ -472,15 +448,15 @@ public final class ProjectionRenderManager {
         }
 
         ProjectorBlockEntityRenderer.prepareNearby(minecraft);
-        if (minecraft.screen instanceof ChannelScreen<?> channelScreen) {
+        if (minecraft.gui.screen() instanceof ChannelScreen<?> channelScreen) {
             channelScreen.preparePreview();
         }
-        RenderTarget mainTarget = minecraft.getMainRenderTarget();
+        RenderTarget mainTarget = gameRenderer.mainRenderTarget();
         float partialTick = deltaTracker.getGameTimeDeltaPartialTick(true);
-        Camera viewerCamera = gameRenderer.getMainCamera();
+        Camera viewerCamera = gameRenderer.mainCamera();
         Vec3 viewerPosition = viewerCamera.position();
-        Matrix4f mainProjection = new Matrix4f(gameRenderer.getGameRenderState().levelRenderState.cameraRenderState.projectionMatrix);
-        Matrix4f mainModelView = new Matrix4f(RenderSystem.getModelViewMatrix());
+        Matrix4f mainProjection = new Matrix4f(gameRenderer.gameRenderState().levelRenderState.cameraRenderState.projectionMatrix);
+        Matrix4f mainModelView = RenderSystem.getModelViewMatrixCopy();
         boolean initializedFeedThisFrame = false;
         for (ProjectionFeed feed : List.copyOf(FEEDS.values())) {
             if (FEEDS.get(feed.key) != feed) {
@@ -695,7 +671,7 @@ public final class ProjectionRenderManager {
     private static int feedViewDistance(ProjectionFeed feed) {
         LevelRenderer renderer = feed.renderer();
         if (renderer != null) {
-            ViewArea viewArea = ((LevelRendererBufferAccessor) renderer).glass$getViewArea();
+            ViewArea viewArea = renderer.viewArea();
             if (viewArea != null) {
                 return viewArea.getViewDistance();
             }
@@ -769,7 +745,7 @@ public final class ProjectionRenderManager {
         feed.ready = false;
         feed.terrainReadyFrames = 0;
         if (feed.target == null) {
-            feed.target = new TextureTarget("GLASS feed", portalView.targetWidth(), portalView.targetHeight(), true);
+            feed.target = new TextureTarget("GLASS feed", portalView.targetWidth(), portalView.targetHeight(), true, GpuFormat.RGBA8_UNORM);
         } else {
             resizeTarget(feed, portalView.targetWidth(), portalView.targetHeight());
         }
@@ -811,13 +787,14 @@ public final class ProjectionRenderManager {
         try (ProjectionRenderContext.Scope ignored = ProjectionRenderContext.enter(
                 feed.renderer(), feed.camera, feed.target, feed.source.pos(), feed.level(), feed.lightTexture()
         )) {
-            feed.renderer().prepareCamera(feed.camera);
-            LevelRendererBufferAccessor accessor = (LevelRendererBufferAccessor) feed.renderer();
-            SectionRenderDispatcher dispatcher = feed.renderer().getSectionRenderDispatcher();
+            ProjectionLevelRenderer renderer = feed.renderer();
+            renderer.prepareCamera(feed.camera);
+            SectionRenderDispatcher dispatcher = renderer.sectionRenderDispatcher();
             uploadTerrain(dispatcher);
-            List<SectionRenderDispatcher.RenderSection> visible = accessor.glass$getVisibleSections();
+            Iterable<SectionRenderDispatcher.RenderSection> sections = ((ViewAreaAccessor) renderer.viewArea()).glass$getSections();
+            List<SectionRenderDispatcher.RenderSection> visible = renderer.visibleSections();
             visible.clear();
-            for (SectionRenderDispatcher.RenderSection section : accessor.glass$getViewArea().sections) {
+            for (SectionRenderDispatcher.RenderSection section : sections) {
                 BlockPos origin = section.getRenderOrigin();
                 if (!feed.level().getChunkSource().hasChunk(SectionPos.blockToSectionCoord(origin.getX()), SectionPos.blockToSectionCoord(origin.getZ()))) {
                     continue;
@@ -826,12 +803,10 @@ public final class ProjectionRenderManager {
                     visible.add(section);
                 }
             }
-            // Each schedule() submits exactly one runTask, and a runTask that finds the buffer pool empty
-            // re-queues its task without resubmitting, stranding it. Never queue more than there are free buffers.
             if (feed.terrain.lastBuildFrame != frameSequence) {
                 feed.terrain.lastBuildFrame = frameSequence;
                 feed.terrain.scheduledBuilds = 0;
-                recoverStrandedBuilds(feed.terrain, dispatcher);
+                recoverStrandedBuilds(feed.terrain, renderer, sections);
             }
             int buildSlots = Math.max(0, dispatcher.getFreeBufferCount() - dispatcher.getCompileQueueSize());
             buildSlots = Math.min(buildSlots, Math.max(0, feed.compileBufferCount() - feed.terrain.scheduledBuilds));
@@ -847,7 +822,7 @@ public final class ProjectionRenderManager {
                 }
             }
             if (visibleCompiled && builds.isEmpty() && buildSlots > 0) {
-                for (SectionRenderDispatcher.RenderSection section : accessor.glass$getViewArea().sections) {
+                for (SectionRenderDispatcher.RenderSection section : sections) {
                     if (canCompile(feed, section, chunkReadiness)) {
                         builds.add(section);
                     }
@@ -861,8 +836,7 @@ public final class ProjectionRenderManager {
                 for (int i = 0; i < Math.min(buildSlots, builds.size()) && buildPreparationNanos < BUILD_PREPARATION_BUDGET_NANOS; i++) {
                     SectionRenderDispatcher.RenderSection section = builds.get(i);
                     long started = System.nanoTime();
-                    section.rebuildSectionAsync(regions);
-                    section.setNotDirty();
+                    renderer.compileSection(section, regions);
                     buildPreparationNanos += System.nanoTime() - started;
                     feed.terrain.scheduledBuilds++;
                 }
@@ -871,12 +845,17 @@ public final class ProjectionRenderManager {
         feed.terrainReadyFrames = terrainReady(feed) ? Math.min(2, feed.terrainReadyFrames + 1) : 0;
     }
 
-    private static void recoverStrandedBuilds(TerrainResources terrain, SectionRenderDispatcher dispatcher) {
+    private static void recoverStrandedBuilds(TerrainResources terrain, ProjectionLevelRenderer renderer,
+                                              Iterable<SectionRenderDispatcher.RenderSection> sections) {
+        SectionRenderDispatcher dispatcher = renderer.sectionRenderDispatcher();
         boolean idleWithQueue = dispatcher.getCompileQueueSize() > 0 && dispatcher.getFreeBufferCount() >= terrain.bufferCount;
         terrain.strandedFrames = idleWithQueue ? terrain.strandedFrames + 1 : 0;
         if (terrain.strandedFrames >= STRANDED_BUILD_FRAMES) {
-            // Cancelling marks the sections dirty again, so they are rescheduled on the next frame.
             dispatcher.clearCompileQueue();
+            for (SectionRenderDispatcher.RenderSection section : sections) {
+                SectionPos pos = SectionPos.of(section.getSectionNode());
+                renderer.setSectionDirty(pos.x(), pos.y(), pos.z());
+            }
             terrain.strandedFrames = 0;
         }
     }
@@ -885,7 +864,7 @@ public final class ProjectionRenderManager {
         long started = System.nanoTime();
         dispatcher.lock();
         try {
-            dispatcher.uploadGlobalGeomBuffersToGPU();
+            dispatcher.uploadTerrainBuffersToGpu();
         } finally {
             dispatcher.unlock();
             uploadNanos += System.nanoTime() - started;
@@ -894,10 +873,11 @@ public final class ProjectionRenderManager {
 
     private static boolean canCompile(ProjectionFeed feed, SectionRenderDispatcher.RenderSection section, Map<Long, Boolean> chunkReadiness) {
         BlockPos origin = section.getRenderOrigin();
-        return section.isDirty()
+        ProjectionLevelRenderer renderer = feed.renderer();
+        return renderer.isSectionDirty(section)
                 && chunkReadiness.computeIfAbsent(ChunkPos.pack(SectionPos.blockToSectionCoord(origin.getX()), SectionPos.blockToSectionCoord(origin.getZ())),
                 packed -> chunkReady(feed, ChunkPos.unpack(packed)))
-                && section.hasAllNeighbors()
+                && renderer.hasAllNeighbors(section)
                 && feed.level().getLightEngine().lightOnInColumn(SectionPos.getZeroNode(SectionPos.asLong(origin)));
     }
 
@@ -905,7 +885,7 @@ public final class ProjectionRenderManager {
         if (!feed.remoteScene.isComplete()) {
             return false;
         }
-        List<SectionRenderDispatcher.RenderSection> sections = ((LevelRendererBufferAccessor) feed.renderer()).glass$getVisibleSections();
+        List<SectionRenderDispatcher.RenderSection> sections = feed.renderer().visibleSections();
         if (sections.isEmpty()) {
             return false;
         }
@@ -952,7 +932,8 @@ public final class ProjectionRenderManager {
             Quaternionf rotation = new Quaternionf().rotationY(yaw)
                     .mul(frameRotation(look.cross(up), up, look.scale(-1)))
                     .rotateX((float) Math.toRadians(-10));
-            Matrix4f projection = new Matrix4f().perspective((float) Math.toRadians(85), feed.previewAspect, 0.05F, 1024.0F);
+            Matrix4f projection = new Matrix4f().perspective((float) Math.toRadians(85), feed.previewAspect, 1024.0F, 0.05F,
+                    RenderSystem.getDevice().getDeviceInfo().isZZeroToOne());
             PortalView preview = new PortalView(position, rotation, projection, 512, Math.max(1, (int) (512 / feed.previewAspect)));
             feed.camera.setPose(position, rotation);
             feed.camera.setProjection(projection);
@@ -1058,7 +1039,7 @@ public final class ProjectionRenderManager {
         feed.available = false;
         if (clear && feed.target != null) {
             RenderSystem.getDevice().createCommandEncoder().clearColorAndDepthTextures(
-                    feed.target.getColorTexture(), 0xFF000000, feed.target.getDepthTexture(), 1.0);
+                    feed.target.getColorTexture(), new Vector4f(0.0F, 0.0F, 0.0F, 1.0F), feed.target.getDepthTexture(), 0.0);
         }
     }
 

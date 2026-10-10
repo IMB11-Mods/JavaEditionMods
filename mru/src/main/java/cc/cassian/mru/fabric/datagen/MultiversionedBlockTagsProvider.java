@@ -6,20 +6,20 @@ package cc.cassian.mru.fabric.datagen;
 
 import cc.cassian.mru.util.ItemLikeEntry;
 //~ if >=26.2 'cc.cassian.mru.util'->'net.minecraft.references'
-import cc.cassian.mru.util.BlockItemId;
+import net.minecraft.references.BlockItemId;
 import cc.cassian.mru.util.Identifiable;
 //~ if >=26.2 'cc.cassian.mru.util'->'net.minecraft.tags'
-import cc.cassian.mru.util.BlockItemTagId;
+import net.minecraft.tags.BlockItemTagId;
 import cc.cassian.mru.util.CommonUtils;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 //? if >=26.2 {
-/*import net.minecraft.core.registries.BuiltInRegistries;
-*///?} else if >26 {
-import net.minecraft.data.tags.TagAppender;
- //?}
+import net.minecraft.core.registries.BuiltInRegistries;
+//?} else if >26 {
+/*import net.minecraft.data.tags.TagAppender;
+ *///?}
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagBuilder;
@@ -38,8 +38,8 @@ public abstract class MultiversionedBlockTagsProvider extends FabricTagsProvider
 
 	public class MultiversionedBlockTagBuilder {
 		//? if >1.21.2 && <26.2 {
-		private TagAppender<Block, Block> valueLookupBuilder;
-		 //?}
+		/*private TagAppender<Block, Block> valueLookupBuilder;
+		 *///?}
 		//? if <1.21.2 {
 		/*private FabricTagsProvider<Block>.FabricTagBuilder valueLookupBuilder;
 		*///?}
@@ -48,8 +48,8 @@ public abstract class MultiversionedBlockTagsProvider extends FabricTagsProvider
 
 		public MultiversionedBlockTagBuilder(TagKey<Block> tag) {
 			//? if >1.21.2 && <26.2 {
-			this.valueLookupBuilder = valueLookupBuilder(tag);
-			 //?}
+			/*this.valueLookupBuilder = valueLookupBuilder(tag);
+			 *///?}
 			//? if <1.21.2 {
 			/*this.valueLookupBuilder = getOrCreateTagBuilder(tag);
 			*///?}
@@ -59,10 +59,10 @@ public abstract class MultiversionedBlockTagsProvider extends FabricTagsProvider
 
 		public MultiversionedBlockTagBuilder add(Block block) {
 			//? if >=26.2 {
-			/*rawBuilder = rawBuilder.addElement(BuiltInRegistries.BLOCK.getKey(block));
-			 *///?} else {
-			valueLookupBuilder = valueLookupBuilder.add(block);
-			//?}
+			rawBuilder = rawBuilder.addElement(BuiltInRegistries.BLOCK.getKey(block));
+			 //?} else {
+			/*valueLookupBuilder = valueLookupBuilder.add(block);
+			*///?}
 			return this;
 		}
 
@@ -104,12 +104,12 @@ public abstract class MultiversionedBlockTagsProvider extends FabricTagsProvider
 
 		public MultiversionedBlockTagBuilder add(Block... blocks) {
 			//? if >=26.2 {
-			/*for (Block block : blocks) {
+			for (Block block : blocks) {
 				rawBuilder = rawBuilder.addElement(BuiltInRegistries.BLOCK.getKey(block));
 			}
-			*///?} else {
-			valueLookupBuilder = valueLookupBuilder.add(blocks);
-			//?}
+			//?} else {
+			/*valueLookupBuilder = valueLookupBuilder.add(blocks);
+			*///?}
 			return this;
 		}
 

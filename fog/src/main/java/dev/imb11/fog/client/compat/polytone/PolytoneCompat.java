@@ -31,7 +31,7 @@ public class PolytoneCompat {
             return null;
         }
 
-        var camera = client.gameRenderer.getMainCamera();
+        var camera = client.gameRenderer.mainCamera();
         var position = camera.position();
         var biome = level.getBiomeManager().getNoiseBiomeAtPosition(position.x, position.y, position.z).value();
         var effects = Polytone.BIOME_MODIFIERS.modifiersByBiome().get(biome);

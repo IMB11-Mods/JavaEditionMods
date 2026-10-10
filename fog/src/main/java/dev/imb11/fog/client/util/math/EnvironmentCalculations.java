@@ -53,7 +53,7 @@ public class EnvironmentCalculations {
 			float percentageCutoff = Mth.clamp(distancePastCutoff / 25f, 0, 1);
 			Vec3 skyColour;
 
-			skyColour = new Color(client.gameRenderer.getMainCamera().attributeProbe().getValue(EnvironmentAttributes.SKY_COLOR, tickDelta)).asVec3d();
+			skyColour = new Color(client.gameRenderer.mainCamera().attributeProbe().getValue(EnvironmentAttributes.SKY_COLOR, tickDelta)).asVec3d();
 
 			// Lerp between the fog color and the sky color
 			fogColorR = (float) Mth.lerp(percentageCutoff, fogColorR, skyColour.x);

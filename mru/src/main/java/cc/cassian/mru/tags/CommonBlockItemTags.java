@@ -19,7 +19,7 @@ package cc.cassian.mru.tags;
 import cc.cassian.mru.util.CommonUtils;
 import net.minecraft.resources.Identifier;
 //~ if >=26.2 'cc.cassian.mru.util'->'net.minecraft.tags'
-import cc.cassian.mru.util.BlockItemTagId;
+import net.minecraft.tags.BlockItemTagId;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;

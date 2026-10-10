@@ -1,8 +1,7 @@
 package dev.imb11.debug;
 
-import dev.imb11.mixins.LevelRendererBufferAccessor;
 import dev.imb11.sync.ProjectionSource;
-import net.minecraft.client.renderer.LevelRenderer;
+import dev.imb11.client.renderer.projection.ProjectionLevelRenderer;
 import net.minecraft.client.renderer.chunk.SectionRenderDispatcher;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.ChunkPos;
@@ -47,7 +46,7 @@ public record FeedDiagnostics(
             boolean compileQueueEmpty,
             String buildQueue
     ) {
-        public static SectionStats of(@Nullable LevelRenderer renderer, Predicate<ChunkPos> chunkReady) {
+        public static SectionStats of(@Nullable ProjectionLevelRenderer renderer, Predicate<ChunkPos> chunkReady) {
             if (renderer == null) {
                 return new SectionStats(0, 0, 0, null, false, false, "none");
             }
@@ -55,9 +54,9 @@ public record FeedDiagnostics(
             int dirty = 0;
             int uncompiled = 0;
             BlockPos firstBlocked = null;
-            for (SectionRenderDispatcher.RenderSection section : ((LevelRendererBufferAccessor) renderer).glass$getVisibleSections()) {
+            for (SectionRenderDispatcher.RenderSection section : renderer.visibleSections()) {
                 visible++;
-                if (section.isDirty()) {
+                if (renderer.isSectionDirty(section)) {
                     dirty++;
                 }
                 if (section.getSectionMesh() == net.minecraft.client.renderer.chunk.CompiledSectionMesh.UNCOMPILED) {
@@ -69,7 +68,7 @@ public record FeedDiagnostics(
             }
             return new SectionStats(visible, dirty, uncompiled, firstBlocked,
                     firstBlocked != null && chunkReady.test(ChunkPos.containing(firstBlocked)),
-                    renderer.hasRenderedAllSections(), renderer.getSectionStatistics());
+                    renderer.hasRenderedAllSections(), renderer.sectionStatistics());
         }
 
         @Override

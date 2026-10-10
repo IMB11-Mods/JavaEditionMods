@@ -2,7 +2,7 @@ package dev.imb11.client.remote;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.extract.LevelExtractor;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.resources.ResourceKey;
@@ -18,8 +18,8 @@ import java.util.function.Supplier;
 final class RemoteSceneLevel extends ClientLevel {
     RemoteSceneLevel(ClientPacketListener connection, ClientLevelData data, ResourceKey<Level> dimension,
                      Holder<DimensionType> type, int viewDistance,
-                     LevelRenderer renderer, boolean debug, long seed, int seaLevel) {
-        super(connection, data, dimension, type, viewDistance, 0, renderer, debug, seed, seaLevel);
+                     LevelExtractor extractor, boolean debug, long seed, int seaLevel) {
+        super(connection, data, dimension, type, viewDistance, 0, extractor, debug, seed, seaLevel);
     }
 
     void tickVisualBlockEntities() {

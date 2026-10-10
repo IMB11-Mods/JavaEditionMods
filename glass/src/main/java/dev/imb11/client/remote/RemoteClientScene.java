@@ -3,9 +3,7 @@ package dev.imb11.client.remote;
 import com.mojang.logging.LogUtils;
 import dev.imb11.client.renderer.projection.ProjectionRenderContext;
 import dev.imb11.debug.RemoteSceneDiagnostics;
-import dev.imb11.client.renderer.projection.RenderResources;
 import dev.imb11.client.renderer.projection.ProjectionSections;
-import dev.imb11.mixins.LevelRendererBufferAccessor;
 import dev.imb11.sync.ProjectionSource;
 import dev.imb11.sync.remote.RemoteSubscriptionId;
 import dev.imb11.sync.remote.RemoteWorldState;
@@ -19,7 +17,6 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.renderer.LevelRenderer;
 import dev.imb11.client.renderer.projection.ProjectionLightmap;
-import net.minecraft.client.renderer.RenderBuffers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.SectionPos;
@@ -65,8 +62,6 @@ final class RemoteClientScene implements AutoCloseable {
     private final boolean flat;
     private final long seedHash;
     private final ClientLevel.ClientLevelData levelData;
-    private final RenderBuffers sinkRenderBuffers;
-    private final RemoteSceneSinkRenderer sinkRenderer;
     private final ClientLevel level;
     private final ClientChunkCache chunkCache;
     private final LevelLightEngine lightEngine;
@@ -90,8 +85,6 @@ final class RemoteClientScene implements AutoCloseable {
             boolean flat,
             long seedHash,
             ClientLevel.ClientLevelData levelData,
-            RenderBuffers sinkRenderBuffers,
-            RemoteSceneSinkRenderer sinkRenderer,
             ClientLevel level,
             ProjectionLightmap lightTexture,
             RemoteWorldState state
@@ -104,8 +97,6 @@ final class RemoteClientScene implements AutoCloseable {
         this.flat = flat;
         this.seedHash = seedHash;
         this.levelData = levelData;
-        this.sinkRenderBuffers = sinkRenderBuffers;
-        this.sinkRenderer = sinkRenderer;
         this.level = level;
         this.mainWorld = level == minecraft.level;
         this.chunkCache = level.getChunkSource();
@@ -122,14 +113,12 @@ final class RemoteClientScene implements AutoCloseable {
                 .getOrThrow(packet.dimensionType());
         if (minecraft.level != null && minecraft.level.dimension().equals(packet.subscription().source().dimension())) {
             return new RemoteClientScene(packet.subscription().source(), minecraft, packet.dimensionType(),
-                    packet.hardcore(), packet.debug(), packet.flat(), packet.seedHash(), null, null, null,
+                    packet.hardcore(), packet.debug(), packet.flat(), packet.seedHash(), null,
                     minecraft.level, new ProjectionLightmap(), packet.state());
         }
-        RenderBuffers renderBuffers = new RenderBuffers(1);
-        RemoteSceneSinkRenderer renderer = null;
+        RemoteSceneSinkExtractor extractor = new RemoteSceneSinkExtractor(minecraft);
         ProjectionLightmap lightTexture = null;
         try {
-            renderer = new RemoteSceneSinkRenderer(minecraft, renderBuffers);
             ClientLevel.ClientLevelData levelData = new ClientLevel.ClientLevelData(packet.difficulty(), packet.hardcore(), packet.flat());
             ClientLevel level = new RemoteSceneLevel(
                     connection,
@@ -137,7 +126,7 @@ final class RemoteClientScene implements AutoCloseable {
                     packet.subscription().source().dimension(),
                     dimensionType,
                     STORAGE_VIEW_DISTANCE,
-                    renderer,
+                    extractor,
                     packet.debug(),
                     packet.seedHash(),
                     packet.seaLevel()
@@ -155,13 +144,11 @@ final class RemoteClientScene implements AutoCloseable {
                     packet.flat(),
                     packet.seedHash(),
                     levelData,
-                    renderBuffers,
-                    renderer,
                     level,
                     lightTexture,
                     packet.state()
             );
-            renderer.bind(scene);
+            extractor.bind(scene);
             scene.applyWorldState(packet.state());
             ProjectionRenderContext.registerRemoteLightUpdates(scene.chunkCache, scene::onLightUpdate);
             return scene;
@@ -170,11 +157,6 @@ final class RemoteClientScene implements AutoCloseable {
                 ProjectionLightmap failedProjectionLightmap = lightTexture;
                 cleanupCreation("light texture", () -> closeProjectionLightmap(minecraft, failedProjectionLightmap));
             }
-            if (renderer != null) {
-                RemoteSceneSinkRenderer failedRenderer = renderer;
-                cleanupCreation("sink renderer", failedRenderer::close);
-            }
-            cleanupCreation("render buffers", () -> closeRenderBuffers(renderBuffers));
             throw exception;
         }
     }
@@ -434,7 +416,7 @@ final class RemoteClientScene implements AutoCloseable {
         }
     }
 
-    void dirtyBlock(BlockPos pos, BlockState oldState, BlockState newState) {
+    void dirtyBlock(BlockPos pos) {
         if (!applying && !closed) {
             dirtyBlocks(pos.getX(), pos.getY(), pos.getZ(), pos.getX(), pos.getY(), pos.getZ());
         }
@@ -468,12 +450,6 @@ final class RemoteClientScene implements AutoCloseable {
     void dirtySection(int sectionX, int sectionY, int sectionZ) {
         if (!applying && !closed) {
             dirtyOwnersSection(sectionX, sectionY, sectionZ, false);
-        }
-    }
-
-    void chunkLoaded(ChunkPos pos) {
-        if (!applying && !closed) {
-            notifyOwnersChunk(pos);
         }
     }
 
@@ -551,7 +527,6 @@ final class RemoteClientScene implements AutoCloseable {
     }
 
     private void notifyRendererChunk(LevelRenderer renderer, ChunkPos pos) {
-        renderer.onChunkReadyToRender(pos);
         queueDirtyChunk(renderer, pos, true);
     }
 
@@ -619,7 +594,7 @@ final class RemoteClientScene implements AutoCloseable {
     }
 
     private static boolean rendererActive(LevelRenderer renderer) {
-        return ((LevelRendererBufferAccessor) renderer).glass$getViewArea() != null;
+        return renderer.viewArea() != null;
     }
 
     @Override
@@ -651,8 +626,6 @@ final class RemoteClientScene implements AutoCloseable {
         }
         cleanup("tint caches", level::clearTintCaches);
         cleanup("light texture", () -> closeProjectionLightmap(minecraft, lightTexture));
-        cleanup("sink renderer", sinkRenderer::close);
-        cleanup("render buffers", () -> closeRenderBuffers(sinkRenderBuffers));
     }
 
     private void resetOwnersChunk(ChunkPos pos) {
@@ -679,10 +652,5 @@ final class RemoteClientScene implements AutoCloseable {
         } catch (RuntimeException exception) {
             LOGGER.warn("Failed to close incomplete remote scene {}", resource, exception);
         }
-    }
-
-    private static void closeRenderBuffers(RenderBuffers renderBuffers) {
-        RenderResources.closeBufferBuilders(renderBuffers);
-        RenderResources.closeAvailablePoolBuffers(renderBuffers.sectionBufferPool());
     }
 }
