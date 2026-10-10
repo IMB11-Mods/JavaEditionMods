@@ -3,7 +3,6 @@ package dev.imb11.mixins.compat;
 import dev.imb11.client.renderer.projection.ProjectionRenderContext;
 import dev.imb11.client.renderer.projection.ProjectionRenderManager;
 import net.caffeinemc.mods.sodium.client.render.SodiumWorldRenderer;
-import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
@@ -25,7 +24,7 @@ abstract class SodiumWorldRendererMixin {
     @Inject(method = "scheduleRebuildForChunk", at = @At("TAIL"))
     private void glass$mirrorSectionRebuild(int x, int y, int z, boolean important, CallbackInfo callbackInfo) {
         if ((Object) this == SodiumWorldRenderer.instanceNullable()) {
-            ProjectionRenderManager.onMainSectionDirty(Minecraft.getInstance().levelRenderer, x, y, z);
+            ProjectionRenderManager.onMainSectionDirty(x, y, z);
         }
     }
 }

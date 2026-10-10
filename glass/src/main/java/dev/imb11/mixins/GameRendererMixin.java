@@ -1,5 +1,6 @@
 package dev.imb11.mixins;
 
+import com.mojang.blaze3d.pipeline.RenderTarget;
 import dev.imb11.client.renderer.block.ProjectorBlockEntityRenderer;
 import dev.imb11.client.renderer.projection.ProjectionRenderContext;
 import dev.imb11.client.renderer.projection.ProjectionRenderManager;
@@ -24,14 +25,22 @@ abstract class GameRendererMixin {
         }
     }
 
+    @Inject(method = "mainRenderTarget", at = @At("HEAD"), cancellable = true)
+    private void glass$projectionMainTarget(CallbackInfoReturnable<RenderTarget> callbackInfo) {
+        RenderTarget projectionTarget = ProjectionRenderContext.target();
+        if (projectionTarget != null) {
+            callbackInfo.setReturnValue(projectionTarget);
+        }
+    }
+
     @Inject(method = "renderLevel", at = @At("HEAD"))
     private void glass$renderProjectionBeforeMain(DeltaTracker deltaTracker, CallbackInfo callbackInfo) {
         ProjectionRenderManager.renderBeforeMain((GameRenderer) (Object) this, deltaTracker);
     }
 
-    @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;renderLevel(Lcom/mojang/blaze3d/resource/GraphicsResourceAllocator;Lnet/minecraft/client/DeltaTracker;ZLnet/minecraft/client/renderer/state/level/CameraRenderState;Lorg/joml/Matrix4fc;Lcom/mojang/blaze3d/buffers/GpuBufferSlice;Lorg/joml/Vector4f;ZLnet/minecraft/client/renderer/chunk/ChunkSectionsToRender;)V", shift = At.Shift.AFTER))
+    @Inject(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;render(Lcom/mojang/blaze3d/resource/GraphicsResourceAllocator;Lnet/minecraft/client/DeltaTracker;ZLnet/minecraft/client/renderer/state/level/CameraRenderState;Lorg/joml/Matrix4fc;Lcom/mojang/blaze3d/buffers/GpuBufferSlice;Lorg/joml/Vector4f;Z)V", shift = At.Shift.AFTER))
     private void glass$renderProjectors(DeltaTracker deltaTracker, CallbackInfo callbackInfo) {
-        var state = ((GameRenderer) (Object) this).getGameRenderState().levelRenderState.cameraRenderState;
+        var state = ((GameRenderer) (Object) this).gameRenderState().levelRenderState.cameraRenderState;
         ProjectorBlockEntityRenderer.renderAll(new org.joml.Matrix4f(state.viewRotationMatrix));
     }
 

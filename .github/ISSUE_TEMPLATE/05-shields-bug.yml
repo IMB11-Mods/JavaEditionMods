@@ -53,6 +53,7 @@ body:
       description: Which Minecraft version were you using when the problem happened?
       options:
         - "26.1.2"
+        - "26.2"
         - "26.3"
     validations:
       required: true

@@ -29,3 +29,24 @@ jobs:
           path: build/artifacts/
           if-no-files-found: error
           retention-days: 30
+
+  datagen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-read-only: ${{ github.event_name == 'pull_request' }}
+      - name: Run data generation
+        run: bash ./gradlew --no-daemon --build-cache runDatagenAll
+      - name: Check generated resources are up to date
+        run: |
+          if [ -n "$(git status --porcelain -- '*/src/generated')" ]; then
+            git status --short -- '*/src/generated'
+            echo '::error::Generated resources are out of date. Run ./gradlew runDatagenAll and commit the result.'
+            exit 1
+          fi

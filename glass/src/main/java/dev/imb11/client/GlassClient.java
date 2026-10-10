@@ -76,7 +76,7 @@ public final class GlassClient {
         if (currentLevel == null) {
             ProjectionRenderManager.reset();
         } else {
-            ProjectorBlockEntityRenderer.onMainRendererRebuilt(minecraft.levelRenderer);
+            ProjectorBlockEntityRenderer.onMainRendererRebuilt();
             ProjectionRenderManager.onClientLevelChanged(currentLevel);
         }
         RemoteSceneClientManager.onMainLevelChanged(currentLevel);

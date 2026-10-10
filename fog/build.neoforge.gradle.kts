@@ -23,7 +23,7 @@ dependencies {
     implementation(project(mruProject.path))
     implementation(mcLibrary("yacl-neoforge"))
     compileOnly(mcLibrary("iris-neoforge"))
-    if (minecraftVersion == "26.1.2" || minecraftVersion == "26.2") {
+    if (minecraftVersion == "26.2") {
         compileOnly(mcLibrary("polytone-neoforge"))
         add(polytoneLibraries.name, mcLibrary("polytone-neoforge"))
         compileOnly(files(provider {

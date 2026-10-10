@@ -21,7 +21,7 @@ public class FogColors {
             return new FogColors("#b9d2fd", "#000000");
         }
 
-        var camera = Minecraft.getInstance().gameRenderer.getMainCamera();
+        var camera = Minecraft.getInstance().gameRenderer.mainCamera();
         var color = world.environmentAttributes().getValue(EnvironmentAttributes.FOG_COLOR, camera.position());
         Vec3 dayColor = new Color(color).asVec3d();
         return new FogColors(Color.from(dayColor).asHex(), Color.from(dayColor.scale(0.2D)).asHex());

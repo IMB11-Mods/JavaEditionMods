@@ -11,19 +11,18 @@
         "ServerChunkCacheMixin"
     ],
     "client": [
-        "BufferSourceAccessor",
         "ClientChunkCacheMixin",
         "ClientLevelMixin",
         "ClientPacketListenerMixin",
         "compat.SodiumWorldRendererMixin",
         "GameRendererMixin",
         "LevelRendererBufferAccessor",
-        "LevelRendererMixin",
-        "MinecraftMixin",
+        "LevelExtractorMixin",
+        "GameRenderStateMixin",
         "RenderChunkRegionMixin",
         "RenderRegionCacheMixin",
         "TextureAtlasMixin",
-        "ViewAreaInvoker",
+        "ViewAreaAccessor",
         "ProjectionRendererAccessor"
     ],
     "injectors": {

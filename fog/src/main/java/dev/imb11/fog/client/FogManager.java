@@ -186,7 +186,7 @@ public class FogManager {
 		}
 
 		@NotNull Color newMoonColor = Color.from(FogConfig.getInstance().newMoonColor);
-		float blendFactor = switch (world.environmentAttributes().getValue(EnvironmentAttributes.MOON_PHASE, Minecraft.getInstance().gameRenderer.getMainCamera().position()).index()) {
+		float blendFactor = switch (world.environmentAttributes().getValue(EnvironmentAttributes.MOON_PHASE, Minecraft.getInstance().gameRenderer.mainCamera().position()).index()) {
 			case 0 -> 0.0f;
 			case 1, 7 -> 0.25f;
 			case 2, 6 -> 0.5f;
@@ -262,7 +262,7 @@ public class FogManager {
 			return new float[]{red, green, blue};
 		}
 
-        var probe = client.gameRenderer.getMainCamera().attributeProbe();
+        var probe = client.gameRenderer.mainCamera().attributeProbe();
         var sunsetColor = probe.getValue(EnvironmentAttributes.SUNRISE_SUNSET_COLOR, tickDelta);
         //? if <26.3 {
         float alpha = ARGB.alphaFloat(sunsetColor);

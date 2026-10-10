@@ -12,7 +12,7 @@ import net.minecraft.network.protocol.game.*;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.PositionMoveRotation;
 import net.minecraft.world.entity.Leashable;
@@ -58,7 +58,7 @@ final class RemoteSceneEntities {
                 if (packet instanceof ClientboundAddEntityPacket spawn) {
                     if (owners.computeIfAbsent(id, ignored -> new LinkedHashSet<>()).add(subscription) && level.getEntity(id) == null) {
                         Entity entity;
-                        if (spawn.getType() == EntityType.PLAYER) {
+                        if (spawn.getType() == EntityTypes.PLAYER) {
                             PlayerInfo info = Minecraft.getInstance().getConnection().getPlayerInfo(spawn.getUUID());
                             entity = new RemotePlayer(level, info == null ? new GameProfile(spawn.getUUID(), "Player") : info.getProfile());
                         } else {

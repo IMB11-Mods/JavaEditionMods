@@ -98,17 +98,20 @@ val resourceProperties = mapOf(
 tasks.named<ProcessResources>("processResources") {
     dependsOn("stonecutterGenerate")
     inputs.properties(resourceProperties)
+    exclude(".cache/**")
     filesMatching(listOf("fabric.mod.json", "META-INF/neoforge.mods.toml")) {
         expand(resourceProperties)
     }
 }
 
-tasks.named("sourcesJar") {
+tasks.named<Jar>("sourcesJar") {
     dependsOn("stonecutterGenerate")
+    exclude(".cache/**")
 }
 
+// Fabric datagen output for this Minecraft version, shared by both loaders
 sourceSets.named("main") {
-    resources.srcDir("src/main/generated")
+    resources.srcDir(moduleDirectory.dir("src/generated/$minecraftVersion"))
 }
 
 jsonlang {

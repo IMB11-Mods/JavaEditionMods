@@ -4,7 +4,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.PrimitiveTopology;
+import net.minecraft.client.renderer.BindGroupLayouts;
 import com.mojang.math.Axis;
 import dev.imb11.blocks.ProjectorBlock;
 import dev.imb11.debug.ProjectorActivationTrace;
@@ -18,8 +19,6 @@ import dev.imb11.sync.ProjectionSource;
 import dev.imb11.sync.remote.RemoteSceneServerManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -40,12 +39,12 @@ public final class ProjectorBlockEntityRenderer {
             .withLocation(Identifier.fromNamespaceAndPath("glass", "projector_lens"))
             .withVertexShader(Identifier.fromNamespaceAndPath("glass", "core/projector_lens"))
             .withFragmentShader(Identifier.fromNamespaceAndPath("glass", "core/projector_lens"))
-            .withVertexFormat(DefaultVertexFormat.POSITION_TEX, VertexFormat.Mode.QUADS)
-            .withUniform("DynamicTransforms", com.mojang.blaze3d.shaders.UniformType.UNIFORM_BUFFER)
-            .withUniform("Projection", com.mojang.blaze3d.shaders.UniformType.UNIFORM_BUFFER)
-            .withUniform("Globals", com.mojang.blaze3d.shaders.UniformType.UNIFORM_BUFFER)
-            .withSampler("Sampler0")
-            .withDepthStencilState(new com.mojang.blaze3d.pipeline.DepthStencilState(com.mojang.blaze3d.platform.CompareOp.LESS_THAN_OR_EQUAL, false))
+            .withVertexBinding(0, DefaultVertexFormat.POSITION_TEX)
+            .withPrimitiveTopology(PrimitiveTopology.QUADS)
+            .withBindGroupLayout(BindGroupLayouts.MATRICES_PROJECTION)
+            .withBindGroupLayout(BindGroupLayouts.GLOBALS)
+            .withBindGroupLayout(BindGroupLayouts.SAMPLER0)
+            .withDepthStencilState(new com.mojang.blaze3d.pipeline.DepthStencilState(com.mojang.blaze3d.platform.CompareOp.GREATER_THAN_OR_EQUAL, false))
             .withColorTargetState(new com.mojang.blaze3d.pipeline.ColorTargetState(com.mojang.blaze3d.pipeline.BlendFunction.TRANSLUCENT))
             .withCull(false).build();
     private static final long LOADING_FADE_NANOS = 500_000_000L;
@@ -67,7 +66,7 @@ public final class ProjectorBlockEntityRenderer {
         if (projectors == null) {
             return;
         }
-        Vec3 camera = minecraft.gameRenderer.getMainCamera().position();
+        Vec3 camera = minecraft.gameRenderer.mainCamera().position();
         for (ProjectorBlockEntity projector : List.copyOf(projectors.values())) {
             if (projector.isRemoved() || distanceToSqr(renderBounds(projector, projector.getProjectionSurface()), camera) > VIEW_DISTANCE_SQUARED) {
                 continue;
@@ -102,7 +101,7 @@ public final class ProjectorBlockEntityRenderer {
         }
     }
 
-    public static void onMainRendererRebuilt(LevelRenderer renderer) {
+    public static void onMainRendererRebuilt() {
         clearFrustum();
     }
 
@@ -117,7 +116,7 @@ public final class ProjectorBlockEntityRenderer {
         if (projectors == null || minecraft.player == null) {
             return;
         }
-        Vec3 viewer = minecraft.gameRenderer.getMainCamera().position();
+        Vec3 viewer = minecraft.gameRenderer.mainCamera().position();
         List<ProjectorBlockEntity> nearby = new ArrayList<>();
         for (ProjectorBlockEntity projector : projectors.values()) {
             projector.setClientProjectionReady(false);
@@ -252,7 +251,7 @@ public final class ProjectorBlockEntityRenderer {
             matrices.mulPose(Axis.XP.rotationDegrees(-90.0F));
         }
         matrices.translate(-0.5D, -0.5D, -0.5D);
-        var vertices = com.mojang.blaze3d.vertex.Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        var vertices = dev.imb11.client.renderer.projection.ProjectionMesh.begin(DefaultVertexFormat.POSITION_TEX);
         Matrix4f pose = matrices.last().pose();
         float min = 6.0F / 16.0F;
         float max = 10.0F / 16.0F;
@@ -296,10 +295,10 @@ public final class ProjectorBlockEntityRenderer {
     private static Frustum currentFrustum(ClientLevel level, long frame) {
         if (frustum == null || frustumLevel != level || frustumFrame != frame) {
             Minecraft minecraft = Minecraft.getInstance();
-            Vec3 cameraPosition = minecraft.gameRenderer.getMainCamera().position();
+            Vec3 cameraPosition = minecraft.gameRenderer.mainCamera().position();
             frustum = new Frustum(
-                    minecraft.gameRenderer.getGameRenderState().levelRenderState.cameraRenderState.viewRotationMatrix,
-                    minecraft.gameRenderer.getGameRenderState().levelRenderState.cameraRenderState.projectionMatrix
+                    minecraft.gameRenderer.gameRenderState().levelRenderState.cameraRenderState.viewRotationMatrix,
+                    new Matrix4f(minecraft.gameRenderer.gameRenderState().levelRenderState.cameraRenderState.projectionMatrix)
             );
             frustum.prepare(cameraPosition.x, cameraPosition.y, cameraPosition.z);
             frustumLevel = level;

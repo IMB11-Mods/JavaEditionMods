@@ -10,8 +10,8 @@ import eu.pb4.trinkets.api.TrinketSlotAccess;
 import eu.pb4.trinkets.api.TrinketsApi;
 //?}
 //? if <26.2 {
-import net.minecraft.util.Tuple;
-//?}
+/*import net.minecraft.util.Tuple;
+*///?}
 import net.minecraft.world.entity.player.Player;
 
 import java.util.function.Consumer;

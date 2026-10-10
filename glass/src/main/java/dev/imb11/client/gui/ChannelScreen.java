@@ -282,8 +282,6 @@ public abstract class ChannelScreen<M extends ChannelMenu> extends AbstractConta
             boolean ready = preview != null && selected.source() != null && selected.source().equals(preview.source())
                     && ProjectionRenderManager.isReady(preview);
             if (ready) {
-                // Terrain writes texture * tint alpha into the feed, so tinted blocks (leaves, grass) aren't opaque there.
-                // Blit without blending so the panel doesn't show through; v runs 1 -> 0 to flip the render target.
                 graphics.blit(RenderPipelines.GUI_OPAQUE_TEXTURED_BACKGROUND, preview.textureLocation(), detailX + 1, previewTop + 1,
                         0.0F, 1.0F, detailWidth - 2, previewBottom - previewTop - 2, 1, -1, 1, 1);
             } else {

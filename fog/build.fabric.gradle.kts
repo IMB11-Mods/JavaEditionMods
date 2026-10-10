@@ -24,7 +24,7 @@ dependencies {
     implementation(mcLibrary("yacl-fabric"))
     implementation(mcLibrary("modmenu"))
     compileOnly(mcLibrary("iris-fabric"))
-    if (minecraftVersion == "26.1.2" || minecraftVersion == "26.2") {
+    if (minecraftVersion == "26.2") {
         compileOnly(mcLibrary("polytone-fabric"))
         add(polytoneLibraries.name, mcLibrary("polytone-fabric"))
         compileOnly(files(provider {
@@ -39,17 +39,4 @@ loom {
             sourceSet(mruProject.extensions.getByType<SourceSetContainer>().getByName("main"))
         }
     }
-}
-
-fabricApi {
-    configureDataGeneration {
-        outputDirectory = project.parent!!.file("src/main/generated")
-        addToResources = false
-        client = true
-    }
-}
-
-loom.runs.named("datagen") {
-    configName = "Fog - ${project.minecraftVersion} - Fabric - Data Generation"
-    runDir(rootProject.file("run/fog/${project.minecraftVersion}/fabric/datagen").relativeTo(project.projectDir).invariantSeparatorsPath)
 }
