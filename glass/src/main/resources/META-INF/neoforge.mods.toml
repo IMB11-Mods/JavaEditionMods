@@ -9,7 +9,7 @@ displayName="${mod_name}"
 authors="IMB11"
 credits="Block models and textures by thepigcat"
 description="${mod_description}"
-logoFile="assets/glass/icon.png"
+iconFile="assets/glass/icon.png"
 
 [[mixins]]
 config="glass.mixins.json"
