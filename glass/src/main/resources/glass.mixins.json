@@ -1,0 +1,32 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "dev.imb11.mixins",
+    "compatibilityLevel": "JAVA_25",
+    "mixins": [
+        "ChunkMapAccessor",
+        "ChunkMapMixin",
+        "TrackedEntityAccessor",
+        "TrackedEntityMixin",
+        "ServerChunkCacheMixin"
+    ],
+    "client": [
+        "BufferSourceAccessor",
+        "ClientChunkCacheMixin",
+        "ClientLevelMixin",
+        "ClientPacketListenerMixin",
+        "compat.SodiumWorldRendererMixin",
+        "GameRendererMixin",
+        "LevelRendererBufferAccessor",
+        "LevelRendererMixin",
+        "MinecraftMixin",
+        "RenderChunkRegionMixin",
+        "RenderRegionCacheMixin",
+        "TextureAtlasMixin",
+        "ViewAreaInvoker",
+        "ProjectionRendererAccessor"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

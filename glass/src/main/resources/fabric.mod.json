@@ -1,0 +1,39 @@
+{
+    "schemaVersion": 1,
+    "id": "glass",
+    "version": "${version}",
+    "name": "GLASS Remastered",
+    "description": "${mod_description}",
+    "authors": [
+        "IMB11"
+    ],
+    "contributors": ["thepigcat (Artist)"],
+    "contact": {
+        "sources": "https://github.com/IMB11-Mods/JavaEditionMods",
+        "issues": "https://github.com/IMB11-Mods/JavaEditionMods/issues"
+    },
+    "license": "All-Rights-Reserved",
+    "icon": "assets/glass/icon.png",
+    "accessWidener": "glass.accesswidener",
+    "environment": "*",
+    "entrypoints": {
+        "client": [
+            "dev.imb11.fabric.GlassFabricClient"
+        ],
+        "main": [
+            "dev.imb11.fabric.GlassFabric"
+        ],
+        "fabric-datagen": [
+            "dev.imb11.datagen.GlassDataGenerator"
+        ]
+    },
+    "mixins": [
+        "glass.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=${target_fabricloader}",
+        "fabric-api": "*",
+        "minecraft": "${target_minecraft}",
+        "java": ">=25"
+    }
+}
