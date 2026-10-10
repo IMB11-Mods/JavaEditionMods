@@ -58,6 +58,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,6 +89,7 @@ public final class ProjectionRenderManager {
     private static final long BUILD_PREPARATION_BUDGET_NANOS = TimeUnit.MILLISECONDS.toNanos(2L);
     private static final long UPLOAD_BUDGET_NANOS = TimeUnit.MILLISECONDS.toNanos(2L);
     private static final float CAMERA_FACE_OFFSET = 0.5625F;
+    private static final float PORTAL_CLIP_MIN_DISTANCE = 0.05F;
     private static final Map<FeedKey, ProjectionFeed> FEEDS = new LinkedHashMap<>();
     private static final Map<TerrainKey, TerrainResources> TERRAINS = new HashMap<>();
     private static final Map<ProjectionOwner, PortalSide> PORTAL_SIDES = new HashMap<>();
@@ -905,7 +907,8 @@ public final class ProjectionRenderManager {
         try (ProjectionRenderContext.Scope ignored = ProjectionRenderContext.enter(feed.renderer(), feed.camera,
                 feed.target, feed.source.pos(), feed.level(), feed.lightTexture())) {
             feed.lightTexture().update(feed.camera, deltaTracker.getGameTimeDeltaPartialTick(false));
-            feed.renderer().renderScene(feed.camera, new Matrix4f(portalView.projection()), deltaTracker);
+            feed.renderer().renderScene(feed.camera, new Matrix4f(portalView.projection()),
+                    new Matrix4f(portalView.skyProjection()), deltaTracker);
             feed.ready = true;
             feed.available = true;
             feed.nextRetryFrame = 0L;
@@ -934,7 +937,7 @@ public final class ProjectionRenderManager {
                     .rotateX((float) Math.toRadians(-10));
             Matrix4f projection = new Matrix4f().perspective((float) Math.toRadians(85), feed.previewAspect, 1024.0F, 0.05F,
                     RenderSystem.getDevice().getDeviceInfo().isZZeroToOne());
-            PortalView preview = new PortalView(position, rotation, projection, 512, Math.max(1, (int) (512 / feed.previewAspect)));
+            PortalView preview = new PortalView(position, rotation, projection, projection, 512, Math.max(1, (int) (512 / feed.previewAspect)));
             feed.camera.setPose(position, rotation);
             feed.camera.setProjection(projection);
             feed.cameraPosition = position;
@@ -976,6 +979,7 @@ public final class ProjectionRenderManager {
         PortalView portalView = new PortalView(
                 dynamicPosition,
                 cameraRotation,
+                clipToPlane(mainProjection, cameraRotation, dynamicPosition, destinationAnchor, destinationLook),
                 mainProjection,
                 targetSize.width(),
                 targetSize.height()
@@ -984,6 +988,33 @@ public final class ProjectionRenderManager {
         feed.camera.setProjection(portalView.projection());
         feed.cameraPosition = dynamicPosition;
         return portalView;
+    }
+
+    private static Matrix4f clipToPlane(Matrix4f projection, Quaternionf cameraRotation, Vec3 cameraPosition,
+                                        Vec3 planePoint, Vec3 planeNormal) {
+        Vector3f normal = new Vector3f((float) planeNormal.x, (float) planeNormal.y, (float) planeNormal.z)
+                .rotate(new Quaternionf(cameraRotation).conjugate());
+        float distance = (float) -planePoint.subtract(cameraPosition).dot(planeNormal);
+        if (distance > -PORTAL_CLIP_MIN_DISTANCE) {
+            return projection;
+        }
+        Vector4f plane = new Vector4f(normal, distance);
+        boolean zZeroToOne = RenderSystem.getDevice().getDeviceInfo().isZZeroToOne();
+        float farNdc = zZeroToOne ? 0.0F : -1.0F;
+        Matrix4f inverse = projection.invert(new Matrix4f());
+        float maxPlaneDistance = 1.0E-4F;
+        for (int corner = 0; corner < 4; corner++) {
+            Vector4f farCorner = inverse.transform(new Vector4f((corner & 1) == 0 ? -1.0F : 1.0F,
+                    (corner & 2) == 0 ? -1.0F : 1.0F, farNdc, 1.0F));
+            maxPlaneDistance = Math.max(maxPlaneDistance, plane.dot(farCorner));
+        }
+        float scale = (1.0F - farNdc) / maxPlaneDistance;
+        Matrix4f clipped = new Matrix4f(projection);
+        clipped.m02(projection.m03() - scale * plane.x);
+        clipped.m12(projection.m13() - scale * plane.y);
+        clipped.m22(projection.m23() - scale * plane.z);
+        clipped.m32(projection.m33() - scale * plane.w);
+        return clipped;
     }
 
     private static void applyCamera(
@@ -1216,12 +1247,14 @@ public final class ProjectionRenderManager {
             Vec3 cameraPosition,
             Quaternionf cameraRotation,
             Matrix4f projection,
+            Matrix4f skyProjection,
             int targetWidth,
             int targetHeight
     ) {
         private PortalView {
             cameraRotation = new Quaternionf(cameraRotation);
             projection = new Matrix4f(projection);
+            skyProjection = new Matrix4f(skyProjection);
         }
     }
 

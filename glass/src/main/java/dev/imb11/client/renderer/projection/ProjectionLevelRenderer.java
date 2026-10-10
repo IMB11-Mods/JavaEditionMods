@@ -29,6 +29,7 @@ import dev.imb11.mixins.ProjectionRendererAccessor;
 import net.minecraft.client.Camera;
 import net.minecraft.client.CloudStatus;
 import net.minecraft.client.renderer.GlobalSettingsUniform;
+import net.minecraft.client.renderer.LevelTargetBundle;
 import net.minecraft.client.renderer.SkyRenderer;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.state.level.BlockBreakingRenderState;
@@ -72,6 +73,7 @@ public class ProjectionLevelRenderer extends LevelRenderer {
     private final FeatureRenderDispatcher features;
     private final FogRenderer fog = new FogRenderer();
     private final ProjectionMatrixBuffer projectionBuffer = new ProjectionMatrixBuffer("GLASS projection");
+    private final ProjectionMatrixBuffer skyProjectionBuffer = new ProjectionMatrixBuffer("GLASS sky projection");
     private final GlobalSettingsUniform globals = new GlobalSettingsUniform();
     private ClientLevel projectionLevel;
     private SectionRenderDispatcher dispatcher;
@@ -166,7 +168,7 @@ public class ProjectionLevelRenderer extends LevelRenderer {
         section.compileAsync(regions.createRegion(projectionLevel, section.getSectionNode()));
     }
 
-    public void renderScene(ProjectionCamera camera, Matrix4f projection, DeltaTracker deltaTracker) {
+    public void renderScene(ProjectionCamera camera, Matrix4f projection, Matrix4f skyProjection, DeltaTracker deltaTracker) {
         var savedProjection = RenderSystem.getProjectionMatrixBuffer();
         var savedFog = RenderSystem.getShaderFog();
         var savedGlobals = RenderSystem.getGlobalSettingsUniform();
@@ -199,11 +201,13 @@ public class ProjectionLevelRenderer extends LevelRenderer {
         try {
             extractLevel(deltaTracker, camera, partialTick);
             fog.updateBuffer(cameraState.fogData);
-            RenderSystem.setProjectionMatrix(projectionBuffer.getBuffer(projection), ProjectionType.PERSPECTIVE);
+            GpuBufferSlice sceneProjection = projectionBuffer.getBuffer(projection);
+            GpuBufferSlice unclippedProjection = skyProjectionBuffer.getBuffer(skyProjection);
+            RenderSystem.setProjectionMatrix(sceneProjection, ProjectionType.PERSPECTIVE);
             var target = minecraft.gameRenderer.mainRenderTarget();
             globals.update(target.width, target.height, mainOptions.glintStrength, projectionLevel.getGameTime(),
                     deltaTracker, 0, camera.position(), false);
-            renderProjectionLevel(deltaTracker);
+            renderProjectionLevel(deltaTracker, sceneProjection, unclippedProjection);
         } finally {
             buffers.endFrame();
             endFrame();
@@ -303,7 +307,7 @@ public class ProjectionLevelRenderer extends LevelRenderer {
         }
     }
 
-    private void renderProjectionLevel(DeltaTracker delta) {
+    private void renderProjectionLevel(DeltaTracker delta, GpuBufferSlice sceneProjection, GpuBufferSlice skyProjection) {
         var access = (ProjectionRendererAccessor) this;
         var targets = access.glass$targets();
         var levelState = state.levelRenderState;
@@ -323,7 +327,9 @@ public class ProjectionLevelRenderer extends LevelRenderer {
             clear.executes(() -> RenderSystem.getDevice().createCommandEncoder().clearColorAndDepthTextures(
                     target.getColorTexture(), new Vector4f(camera.fogData.color.x, camera.fogData.color.y,
                             camera.fogData.color.z, 1.0F), target.getDepthTexture(), 0.0));
+            useProjection(frame, targets, "glass_sky_projection", skyProjection);
             access.glass$skyPass(frame, camera, terrainFog);
+            useProjection(frame, targets, "glass_scene_projection", sceneProjection);
             access.glass$mainPass(frame, featureFrame, terrainFog, levelState, Profiler.get(),
                     prepareChunkRenders(camera.viewRotationMatrix));
             if (state.optionsRenderState.cloudStatus != CloudStatus.OFF && ARGB.alpha(levelState.cloudColor) > 0) {
@@ -339,6 +345,12 @@ public class ProjectionLevelRenderer extends LevelRenderer {
             modelView.popMatrix();
             levelState.reset();
         }
+    }
+
+    private static void useProjection(FrameGraphBuilder frame, LevelTargetBundle targets, String name, GpuBufferSlice projection) {
+        var pass = frame.addPass(name);
+        targets.main = pass.readsAndWrites(targets.main);
+        pass.executes(() -> RenderSystem.setProjectionMatrix(projection, ProjectionType.PERSPECTIVE));
     }
 
     @Override
@@ -440,6 +452,7 @@ public class ProjectionLevelRenderer extends LevelRenderer {
         features.close();
         fog.close();
         projectionBuffer.close();
+        skyProjectionBuffer.close();
         globals.close();
     }
 }

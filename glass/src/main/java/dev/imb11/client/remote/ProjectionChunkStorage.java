@@ -9,6 +9,7 @@ import net.minecraft.network.protocol.game.ClientboundLevelChunkPacketData;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
 
 import java.util.Map;
@@ -65,6 +66,7 @@ public final class ProjectionChunkStorage {
         if (entry.chunk != null) {
             level.unload(entry.chunk);
             clearLight(level, pos);
+            markUnloaded(entry.chunk);
         }
     }
 
@@ -82,6 +84,7 @@ public final class ProjectionChunkStorage {
         }
         entry.vanilla |= vanilla;
         entry.chunk.replaceWithPacketData(data, heightmaps, blockEntities);
+        markLoaded(entry.chunk);
         level.onChunkLoaded(new ChunkPos(x, z));
         return entry.chunk;
     }
@@ -96,6 +99,7 @@ public final class ProjectionChunkStorage {
             chunks.remove(pos.pack());
             if (entry.chunk != null) {
                 level.unload(entry.chunk);
+                markUnloaded(entry.chunk);
             }
         }
         return true;
@@ -108,10 +112,39 @@ public final class ProjectionChunkStorage {
         }
         if (entry.references > 0) {
             entry.vanilla = false;
+            markLoaded(chunk);
             return true;
         }
         chunks.remove(chunk.getPos().pack());
         return false;
+    }
+
+    private void markLoaded(LevelChunk chunk) {
+        long chunkNode = chunk.getPos().pack();
+        cache.removedLoadedChunks().remove(chunkNode);
+        cache.addedLoadedChunks().add(chunkNode);
+        LevelChunkSection[] sections = chunk.getSections();
+        for (int index = 0; index < sections.length; index++) {
+            long sectionNode = SectionPos.asLong(chunk.getPos().x(), chunk.getSectionYFromSectionIndex(index), chunk.getPos().z());
+            if (sections[index].hasOnlyAir()) {
+                cache.removedEmptySections().remove(sectionNode);
+                cache.addedEmptySections().add(sectionNode);
+            } else {
+                cache.addedEmptySections().remove(sectionNode);
+                cache.removedEmptySections().add(sectionNode);
+            }
+        }
+    }
+
+    private void markUnloaded(LevelChunk chunk) {
+        long chunkNode = chunk.getPos().pack();
+        cache.addedLoadedChunks().remove(chunkNode);
+        cache.removedLoadedChunks().add(chunkNode);
+        for (int index = 0; index < chunk.getSections().length; index++) {
+            long sectionNode = SectionPos.asLong(chunk.getPos().x(), chunk.getSectionYFromSectionIndex(index), chunk.getPos().z());
+            cache.addedEmptySections().remove(sectionNode);
+            cache.removedEmptySections().add(sectionNode);
+        }
     }
 
     private static void clearLight(ClientLevel level, ChunkPos pos) {

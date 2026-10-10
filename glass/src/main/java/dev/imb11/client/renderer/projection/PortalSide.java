@@ -44,7 +44,7 @@ final class PortalSide {
             }
             return;
         }
-        if (side == 0.0D) {
+        if (side == 0.0D || !view.bounds().contains(viewer)) {
             side = classify(view, viewer);
             lastViewerPosition = viewer;
             return;
