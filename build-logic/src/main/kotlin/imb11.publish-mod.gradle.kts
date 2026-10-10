@@ -65,7 +65,6 @@ publishMods {
         val targetName = "${minecraftVersion.replace('.', '_')}$loaderName"
         val options = publishOptions {
             file = jar
-            additionalFiles.from(sources)
             version = "$releaseVersion-$loader"
             displayName = "${modData.required("mod.name")} ${modData.version} for $minecraftVersion $loaderName"
             modLoaders.add(loader)
@@ -77,6 +76,9 @@ publishMods {
             accessToken = providers.environmentVariable("MODRINTH_TOKEN")
             minecraftVersions.add(minecraftVersion)
             environment = if (clientOnly) ModrinthEnvironment.CLIENT_ONLY else ModrinthEnvironment.CLIENT_AND_SERVER
+            additionalFile(sources) {
+                type.set(SOURCES_JAR)
+            }
             requiredMods.forEach { requires(it) }
         }
 
@@ -87,6 +89,7 @@ publishMods {
             minecraftVersions.add(minecraftVersion)
             client = true
             server = !clientOnly
+            additionalFiles.from(sources)
             requiredMods.forEach { requires(it) }
         }
     }
