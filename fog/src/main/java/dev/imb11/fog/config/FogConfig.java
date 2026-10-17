@@ -21,7 +21,7 @@ import java.util.List;
 import static dev.imb11.fog.client.FogClient.MOD_ID;
 
 public class FogConfig {
-	private static final String CONFIG_FILE_NAME = "config";
+	private static final String CONFIG_FILE_NAME = "fog";
 	private static final String CONFIG_FILE_EXTENSION = "json";
 	private static final ConfigClassHandler<FogConfig> HANDLER = ConfigClassHandler
 			.createBuilder(FogConfig.class)
