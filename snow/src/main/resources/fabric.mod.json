@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "snow",
+  "version": "${mod_version}",
+  "name": "Snow",
+  "description": "This is an example description! Tell everyone what your mod is about!",
+  "authors": [
+    "IMB11"
+  ],
+  "contact": {
+    "sources": "https://github.com/IMB11-Mods/JavaEditionMods",
+    "issues": "https://github.com/IMB11-Mods/JavaEditionMods/issues"
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/snow/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.imb11.snow.fabric.SnowFabric"
+    ],
+    "client": [
+      "dev.imb11.snow.fabric.SnowFabricClient"
+    ]
+  },
+  "mixins": [
+    "snow.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "minecraft": "${target_minecraft}",
+    "fabric-api": "*"
+  }
+}

@@ -1,0 +1,26 @@
+modLoader = "javafml"
+loaderVersion = "[2,)"
+license = "All-Rights-Reserved"
+
+[[mods]]
+modId = "snow"
+displayName="${mod_name}"
+version = "${version}"
+logoFile = "assets/snow/icon.png"
+authors = "IMB11"
+description="${mod_description}"
+
+[[mixins]]
+config = "snow.mixins.json"
+
+[[dependencies.snow]]
+modId = "neoforge"
+type = "required"
+versionRange="${target_loader}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.snow]]
+modId = "minecraft"
+type = "required"
+versionRange="${target_minecraft}"
