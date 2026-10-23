@@ -2,11 +2,15 @@
 package dev.imb11.snow.fabric;
 
 import dev.imb11.snow.Snow;
+import dev.imb11.snow.accumulation.SnowProfile;
+import dev.imb11.snow.accumulation.SnowProfiles;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 
 public class SnowFabric implements ModInitializer {
     @Override
     public void onInitialize() {
+        DynamicRegistries.register(SnowProfiles.KEY, SnowProfile.CODEC);
         Snow.init();
     }
 }

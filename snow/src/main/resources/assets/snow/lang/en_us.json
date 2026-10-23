@@ -1,0 +1,14 @@
+{
+  "snow.config.title": "Snow",
+  "snow.config.category.accumulation": "Accumulation",
+  "snow.config.option.accumulation.enabled": "Variable Snowfall",
+  "snow.config.option.description.accumulation.enabled": "Snow builds up to a per-biome height during snowfall, at a per-biome rate. Very snowy biomes can reach 12 layers.",
+  "snow.config.category.generation": "Generation",
+  "snow.config.option.generation.enabled": "Multi-Layer Generation",
+  "snow.config.option.description.generation.enabled": "Newly generated chunks place a random number of snow layers based on the biome.",
+  "snow.config.category.melting": "Melting",
+  "snow.config.option.melting.gradual_melting": "Gradual Melting",
+  "snow.config.option.description.melting.gradual_melting": "Snow melts one layer at a time instead of all at once.",
+  "snow.config.option.melting.melt_in_warm_biomes": "Melt in Warm Biomes",
+  "snow.config.option.description.melting.melt_in_warm_biomes": "Snow melts in biomes where it would rain instead of snow, regardless of light level."
+}

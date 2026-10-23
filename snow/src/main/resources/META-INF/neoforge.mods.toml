@@ -24,3 +24,17 @@ side = "BOTH"
 modId = "minecraft"
 type = "required"
 versionRange="${target_minecraft}"
+
+[[dependencies.snow]]
+modId="mru"
+type="required"
+versionRange="[${target_mru},)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.snow]]
+modId="yet_another_config_lib_v3"
+type="required"
+versionRange="[${target_yacl},)"
+ordering="NONE"
+side="BOTH"

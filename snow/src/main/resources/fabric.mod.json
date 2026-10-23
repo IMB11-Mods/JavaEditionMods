@@ -3,7 +3,7 @@
   "id": "snow",
   "version": "${mod_version}",
   "name": "Snow",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "Brings Bedrock Edition's snow mechanics to Java Edition.",
   "authors": [
     "IMB11"
   ],
@@ -18,16 +18,21 @@
     "main": [
       "dev.imb11.snow.fabric.SnowFabric"
     ],
-    "client": [
-      "dev.imb11.snow.fabric.SnowFabricClient"
+    "modmenu": [
+      "dev.imb11.snow.fabric.ModMenuCompat"
+    ],
+    "fabric-datagen": [
+      "dev.imb11.snow.datagen.SnowDatagen"
     ]
   },
   "mixins": [
     "snow.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.15.0",
+    "fabricloader": ">=${target_loader}",
     "minecraft": "${target_minecraft}",
-    "fabric-api": "*"
+    "fabric-api": "*",
+    "mru": "${target_mru}",
+    "yet_another_config_lib_v3": "${target_yacl}"
   }
 }
