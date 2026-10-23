@@ -9,13 +9,18 @@ import net.minecraft.world.level.biome.Biome;
 
 import java.util.Comparator;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class SnowProfiles {
     public static final ResourceKey<Registry<SnowProfile>> KEY = ResourceKey.createRegistryKey(Snow.id("snow_profile"));
 
     public static Optional<SnowProfile> get(LevelReader level, Holder<Biome> biome) {
-        return level.registryAccess().lookup(KEY).flatMap(registry -> registry.stream()
+        return level.registryAccess().lookup(KEY).flatMap(registry -> resolve(registry.stream(), biome));
+    }
+
+    public static Optional<SnowProfile> resolve(Stream<SnowProfile> profiles, Holder<Biome> biome) {
+        return profiles
                 .filter(profile -> profile.biomes().contains(biome))
-                .max(Comparator.comparingInt(SnowProfile::priority)));
+                .max(Comparator.comparingInt(SnowProfile::priority));
     }
 }

@@ -35,6 +35,13 @@ neoForge {
                 gameDirectory.set(rootProject.layout.projectDirectory.dir("run/${metadata.id}/$minecraftVersion/neoforge/server"))
             }
         }
+        if (providers.gradleProperty("gametest").isPresent && metadata.optional("mod.gametest").toBoolean()) {
+            register("gameTestServer") {
+                type = "gameTestServer"
+                gameDirectory.set(rootProject.layout.projectDirectory.dir("run/${metadata.id}/$minecraftVersion/neoforge/gametest"))
+                systemProperty("neoforge.enabledGameTestNamespaces", metadata.id)
+            }
+        }
     }
 }
 

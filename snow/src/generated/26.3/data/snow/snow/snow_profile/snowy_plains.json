@@ -1,0 +1,6 @@
+{
+  "accumulation_rate": 2.0,
+  "biomes": "minecraft:snowy_plains",
+  "max_layers": 8,
+  "min_layers": 2
+}

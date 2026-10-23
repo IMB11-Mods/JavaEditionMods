@@ -1,0 +1,6 @@
+{
+  "accumulation_rate": 3.0,
+  "biomes": "minecraft:ice_spikes",
+  "max_layers": 12,
+  "min_layers": 4
+}

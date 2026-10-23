@@ -1,0 +1,9 @@
+{
+  "biomes": [
+    "minecraft:windswept_hills",
+    "minecraft:stony_shore",
+    "minecraft:taiga"
+  ],
+  "max_layers": 2,
+  "min_layers": 0
+}

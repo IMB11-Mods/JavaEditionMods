@@ -4,6 +4,7 @@
 import dev.imb11.snow.Snow;
 import dev.imb11.snow.accumulation.SnowProfile;
 import dev.imb11.snow.accumulation.SnowProfiles;
+import dev.imb11.snow.gametest.SnowGameTests;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 //? if >=26.3 {
@@ -21,6 +22,9 @@ public class SnowNeoForge {
         bus.addListener(DataPackRegistryEvent.NewRegistry.class, event -> event.dataPackRegistry(SnowProfiles.KEY, SnowProfile.CODEC));
         //?}
         Snow.init();
+        if (SnowGameTests.enabled()) {
+            SnowNeoForgeGameTests.register(bus);
+        }
     }
 }
 *///?}

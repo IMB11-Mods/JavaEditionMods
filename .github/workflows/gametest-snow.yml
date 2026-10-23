@@ -1,0 +1,27 @@
+name: Snow game tests
+
+on:
+  push:
+    branches: ['**']
+    paths: ['snow/**']
+  pull_request:
+    paths: ['snow/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gametest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-read-only: ${{ github.event_name == 'pull_request' }}
+      - name: Run game tests
+        run: bash ./gradlew --no-daemon --build-cache --continue -Pgametest :snow:runGameTests
