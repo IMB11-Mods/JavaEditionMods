@@ -16,7 +16,7 @@ public class SnowMelting {
     public static final int MELT_LIGHT_LEVEL = 11;
 
     public static boolean randomTick(BlockState state, ServerLevel level, BlockPos pos) {
-        MeltingConfig config = SnowConfig.get().melting;
+        SnowConfig config = SnowConfig.get();
         if (!config.gradualMelting && !config.meltInWarmBiomes) {
             return false;
         }
@@ -39,7 +39,7 @@ public class SnowMelting {
         return true;
     }
 
-    private static boolean shouldMelt(ServerLevel level, BlockPos pos, MeltingConfig config) {
+    private static boolean shouldMelt(ServerLevel level, BlockPos pos, SnowConfig config) {
         if (level.getBrightness(LightLayer.BLOCK, pos) > MELT_LIGHT_LEVEL) {
             return true;
         }

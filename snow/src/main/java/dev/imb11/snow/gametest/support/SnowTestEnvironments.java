@@ -71,12 +71,12 @@ public class SnowTestEnvironments {
         @Override
         public ConfigEnvironment setup(ServerLevel level) {
             SnowConfig config = SnowConfig.get();
-            ConfigEnvironment previous = new ConfigEnvironment(config.accumulation.enabled, config.generation.enabled, config.melting.gradualMelting, config.melting.meltInWarmBiomes, config.harvesting.shovelHarvesting);
-            config.accumulation.enabled = this.accumulation;
-            config.generation.enabled = this.generation;
-            config.melting.gradualMelting = this.gradualMelting;
-            config.melting.meltInWarmBiomes = this.meltInWarmBiomes;
-            config.harvesting.shovelHarvesting = this.shovelHarvesting;
+            ConfigEnvironment previous = new ConfigEnvironment(config.accumulation, config.generation, config.gradualMelting, config.meltInWarmBiomes, config.shovelHarvesting);
+            config.accumulation = this.accumulation;
+            config.generation = this.generation;
+            config.gradualMelting = this.gradualMelting;
+            config.meltInWarmBiomes = this.meltInWarmBiomes;
+            config.shovelHarvesting = this.shovelHarvesting;
             return previous;
         }
 

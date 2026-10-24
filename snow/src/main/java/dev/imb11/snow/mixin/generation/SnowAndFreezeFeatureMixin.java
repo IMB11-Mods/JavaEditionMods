@@ -27,7 +27,7 @@ public class SnowAndFreezeFeatureMixin {
     private boolean snow$placeLayers(WorldGenLevel level, BlockPos pos, BlockState state, int flags, Operation<Boolean> original, @Local(argsOnly = true) FeaturePlaceContext<NoneFeatureConfiguration> context) {
         RandomSource random = context.random();
     //?}
-        if (state.is(Blocks.SNOW) && SnowConfig.get().generation.enabled && SnowGeneration.place(level, pos, random, flags)) {
+        if (state.is(Blocks.SNOW) && SnowConfig.get().generation && SnowGeneration.place(level, pos, random, flags)) {
             return true;
         }
 

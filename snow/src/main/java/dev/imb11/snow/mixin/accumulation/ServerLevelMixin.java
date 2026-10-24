@@ -16,7 +16,7 @@ public class ServerLevelMixin {
     @WrapOperation(method = "tickPrecipitation", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/biome/Biome;shouldSnow(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;)Z"))
     private boolean snow$accumulate(Biome biome, LevelReader level, BlockPos pos, Operation<Boolean> original) {
         boolean shouldSnow = original.call(biome, level, pos);
-        if (!shouldSnow || !SnowConfig.get().accumulation.enabled) {
+        if (!shouldSnow || !SnowConfig.get().accumulation) {
             return shouldSnow;
         }
 

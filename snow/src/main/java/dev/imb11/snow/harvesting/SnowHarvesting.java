@@ -16,7 +16,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 
 public class SnowHarvesting {
     public static boolean useOn(UseOnContext context) {
-        if (!SnowConfig.get().harvesting.shovelHarvesting || context.getClickedFace() == Direction.DOWN) {
+        if (!SnowConfig.get().shovelHarvesting || context.getClickedFace() == Direction.DOWN) {
             return false;
         }
 

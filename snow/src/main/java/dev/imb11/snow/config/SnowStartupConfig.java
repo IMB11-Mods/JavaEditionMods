@@ -4,7 +4,6 @@ import cc.cassian.mru.Platform;
 import com.google.gson.GsonBuilder;
 import dev.imb11.mru.yacl.EntryType;
 import dev.imb11.snow.Snow;
-import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.Option;
 import dev.isxander.yacl3.api.OptionFlag;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
@@ -40,18 +39,15 @@ public class SnowStartupConfig {
         HANDLER.save();
     }
 
-    public static ConfigCategory category() {
+    public static Option<Boolean> option() {
         SnowStartupConfig config = HANDLER.instance();
         SnowStartupConfig defaults = HANDLER.defaults();
-        return ConfigCategory.createBuilder()
-                .name(HELPER.getText(EntryType.CATEGORY_NAME, "startup"))
-                .option(Option.<Boolean>createBuilder()
-                        .name(HELPER.getText(EntryType.OPTION_NAME, "startup.snowlogging"))
-                        .description(HELPER.get("startup.snowlogging", false))
-                        .binding(defaults.snowlogging, () -> config.snowlogging, value -> config.snowlogging = value)
-                        .controller(option -> BooleanControllerBuilder.create(option).coloured(true).trueFalseFormatter())
-                        .flag(OptionFlag.GAME_RESTART)
-                        .build())
+        return Option.<Boolean>createBuilder()
+                .name(HELPER.getText(EntryType.OPTION_NAME, "startup.snowlogging"))
+                .description(HELPER.get("startup.snowlogging", false))
+                .binding(defaults.snowlogging, () -> config.snowlogging, value -> config.snowlogging = value)
+                .controller(option -> BooleanControllerBuilder.create(option).coloured(true).trueFalseFormatter())
+                .flag(OptionFlag.GAME_RESTART)
                 .build();
     }
 }
