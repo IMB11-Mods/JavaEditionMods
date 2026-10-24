@@ -23,6 +23,10 @@ public class SnowHarvesting {
         }
 
         Level level = context.getLevel();
+        if (level.isClientSide() && !SnowConfig.SYNC.serverPresent()) {
+            return null;
+        }
+
         BlockPos pos = context.getClickedPos();
         BlockState state = level.getBlockState(pos);
         if (!state.is(Blocks.SNOW) || !level.getBlockState(pos.above()).isAir()) {

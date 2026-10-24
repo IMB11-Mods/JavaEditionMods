@@ -2,16 +2,19 @@
   "snow.config.title": "Snow",
   "snow.config.category.accumulation": "Accumulation",
   "snow.config.option.accumulation.enabled": "Variable Snowfall",
-  "snow.config.option.description.accumulation.enabled": "Snow builds up to a per-biome height during snowfall, at a per-biome rate. Very snowy biomes can reach 12 layers.",
+  "snow.config.option.description.accumulation.enabled": "Snow piles up while it snows. How deep and how fast depends on the biome, and the snowiest biomes can reach 12 layers.",
   "snow.config.category.generation": "Generation",
   "snow.config.option.generation.enabled": "Multi-Layer Generation",
-  "snow.config.option.description.generation.enabled": "Newly generated chunks place a random number of snow layers based on the biome.",
+  "snow.config.option.description.generation.enabled": "Newly explored areas start with snow of different depths, depending on the biome.",
   "snow.config.category.melting": "Melting",
   "snow.config.option.melting.gradual_melting": "Gradual Melting",
   "snow.config.option.description.melting.gradual_melting": "Snow melts one layer at a time instead of all at once.",
   "snow.config.option.melting.melt_in_warm_biomes": "Melt in Warm Biomes",
-  "snow.config.option.description.melting.melt_in_warm_biomes": "Snow melts in biomes where it would rain instead of snow, regardless of light level.",
+  "snow.config.option.description.melting.melt_in_warm_biomes": "Snow melts in warm biomes where it would normally rain, even in the dark.",
   "snow.config.category.harvesting": "Harvesting",
   "snow.config.option.harvesting.shovel_harvesting": "Shovel Harvesting",
-  "snow.config.option.description.harvesting.shovel_harvesting": "Using a shovel on snow with nothing above it removes the snow instantly and drops snowballs."
+  "snow.config.option.description.harvesting.shovel_harvesting": "Right-click snow with a shovel to clear it instantly and collect snowballs. Only works when nothing is on top of the snow.",
+  "snow.config.category.startup": "Startup",
+  "snow.config.option.startup.snowlogging": "Snowlogging",
+  "snow.config.option.description.startup.snowlogging": "Lets snow settle in the same space as plants and other blocks. While this is on, players joining your server need Snow installed. Takes effect after restarting the game."
 }

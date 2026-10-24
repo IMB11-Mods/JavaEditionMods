@@ -2,6 +2,7 @@ package dev.imb11.snow;
 
 import cc.cassian.mru.util.CommonUtils;
 import dev.imb11.snow.config.SnowConfig;
+import dev.imb11.snow.config.SnowStartupConfig;
 import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ public class Snow {
     }
 
     public static void init() {
+        SnowStartupConfig.load();
         SnowConfig.load();
     }
 }
