@@ -1,12 +1,11 @@
 package dev.imb11.snow.gametest;
 
-import dev.imb11.snow.accumulation.SnowProfile;
+import dev.imb11.snow.profile.SnowProfile;
 import dev.imb11.snow.gametest.SnowGameTests.TestDefinition;
 import dev.imb11.snow.gametest.support.SnowTestHelper;
 import dev.imb11.snow.generation.SnowGeneration;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.biome.Biome;
@@ -48,7 +47,7 @@ public class GenerationTests {
             for (int i = 0; i < SAMPLES; i++) {
                 SnowTestHelper.clear(helper, SURFACE);
                 helper.assertTrue(SnowGeneration.place(level, pos, level.getRandom(), Block.UPDATE_ALL), name + " should generate snow from its profile");
-                helper.assertValueInBetween(Math.max(1, profile.minLayers()), SnowTestHelper.layers(helper, SURFACE), profile.maxLayers(), name + " generated layers");
+                helper.assertValueInBetween(profile.minLayers(), SnowTestHelper.layers(helper, SURFACE), profile.maxLayers(), name + " generated layers");
             }
         }
 
@@ -64,7 +63,7 @@ public class GenerationTests {
     }
 
     private static void featureHook(GameTestHelper helper) {
-        SnowProfile profile = SnowTestHelper.setBiome(helper, helper.getLevel().registryAccess().lookupOrThrow(Registries.BIOME).getOrThrow(Biomes.ICE_SPIKES));
+        SnowProfile profile = SnowTestHelper.setBiome(helper, SnowTestHelper.biome(helper, Biomes.ICE_SPIKES));
         ServerLevel level = helper.getLevel();
         BlockPos origin = helper.absolutePos(BlockPos.ZERO);
         //? if >=26.3 {
@@ -75,7 +74,7 @@ public class GenerationTests {
 
         for (int x = CENTRE_MIN; x <= CENTRE_MAX; x++) {
             for (int z = CENTRE_MIN; z <= CENTRE_MAX; z++) {
-                helper.assertValueInBetween(Math.max(1, profile.minLayers()), SnowTestHelper.layers(helper, new BlockPos(x, 1, z)), profile.maxLayers(), "generated layers at " + x + ", " + z);
+                helper.assertValueInBetween(profile.minLayers(), SnowTestHelper.layers(helper, new BlockPos(x, 1, z)), profile.maxLayers(), "generated layers at " + x + ", " + z);
             }
         }
 

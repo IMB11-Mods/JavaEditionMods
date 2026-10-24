@@ -27,9 +27,8 @@ public class ShovelUseMixin {
             return;
         }
         *///?}
-        InteractionResult result = SnowHarvesting.useOn(context);
-        if (result != null) {
-            cir.setReturnValue(result);
+        if (SnowHarvesting.useOn(context)) {
+            cir.setReturnValue(InteractionResult.SUCCESS);
         }
     }
 }

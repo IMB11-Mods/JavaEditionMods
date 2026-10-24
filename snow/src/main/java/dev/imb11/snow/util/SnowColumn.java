@@ -36,10 +36,6 @@ public class SnowColumn {
     private static void setLayers(LevelAccessor level, BlockPos pos, int layers, int flags, boolean pushEntities) {
         BlockState state = level.getBlockState(pos);
         BlockState newState = Blocks.SNOW.defaultBlockState().setValue(SnowLayerBlock.LAYERS, layers);
-        if (state == newState) {
-            return;
-        }
-
         if (pushEntities) {
             Block.pushEntitiesUp(state, newState, level, pos);
         }

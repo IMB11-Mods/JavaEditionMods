@@ -72,7 +72,10 @@ public class SnowConfig {
                 config.harvesting.category(defaults.harvesting)
         );
         if (!editable) {
-            categories.forEach(category -> category.groups().forEach(group -> group.options().forEach(option -> option.setAvailable(false))));
+            categories.stream()
+                    .flatMap(category -> category.groups().stream())
+                    .flatMap(group -> group.options().stream())
+                    .forEach(option -> option.setAvailable(false));
         }
 
         return YetAnotherConfigLib.createBuilder()

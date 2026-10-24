@@ -2,8 +2,8 @@
 /*package dev.imb11.snow.neoforge;
 
 import dev.imb11.snow.Snow;
-import dev.imb11.snow.accumulation.SnowProfile;
-import dev.imb11.snow.accumulation.SnowProfiles;
+import dev.imb11.snow.profile.SnowProfile;
+import dev.imb11.snow.profile.SnowProfiles;
 import dev.imb11.snow.gametest.SnowGameTests;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;

@@ -1,14 +1,16 @@
 package dev.imb11.snow.gametest.support;
 
 import dev.imb11.snow.Snow;
-import dev.imb11.snow.accumulation.SnowProfile;
-import dev.imb11.snow.accumulation.SnowProfiles;
+import dev.imb11.snow.profile.SnowProfile;
+import dev.imb11.snow.profile.SnowProfiles;
 import dev.imb11.snow.util.SnowColumn;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -28,6 +30,10 @@ public class SnowTestHelper {
                 .toList();
         helper.assertFalse(biomes.isEmpty(), "No snow profiles are loaded");
         return biomes;
+    }
+
+    public static Holder<Biome> biome(GameTestHelper helper, ResourceKey<Biome> key) {
+        return helper.getLevel().registryAccess().lookupOrThrow(Registries.BIOME).getOrThrow(key);
     }
 
     public static SnowProfile setBiome(GameTestHelper helper, Holder<Biome> biome) {

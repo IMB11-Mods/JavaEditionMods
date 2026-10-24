@@ -1,4 +1,4 @@
-package dev.imb11.snow.accumulation;
+package dev.imb11.snow.profile;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
@@ -20,7 +20,7 @@ public record SnowProfile(HolderSet<Biome> biomes, int minLayers, int maxLayers,
             *///?} else {
             RegistryCodecs.homogeneousList(Registries.BIOME).fieldOf("biomes").forGetter(SnowProfile::biomes),
             //?}
-            Codec.intRange(0, SnowColumn.MAX_LAYERS).fieldOf("min_layers").forGetter(SnowProfile::minLayers),
+            Codec.intRange(1, SnowColumn.MAX_LAYERS).fieldOf("min_layers").forGetter(SnowProfile::minLayers),
             Codec.intRange(1, SnowColumn.MAX_LAYERS).fieldOf("max_layers").forGetter(SnowProfile::maxLayers),
             Codec.floatRange(0, 8).optionalFieldOf("accumulation_rate", 1f).forGetter(SnowProfile::accumulationRate),
             Codec.INT.optionalFieldOf("priority", 0).forGetter(SnowProfile::priority)

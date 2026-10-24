@@ -2,7 +2,7 @@
 package dev.imb11.snow.datagen;
 
 import dev.imb11.snow.Snow;
-import dev.imb11.snow.accumulation.SnowProfiles;
+import dev.imb11.snow.profile.SnowProfiles;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.core.RegistrySetBuilder;

@@ -24,11 +24,11 @@ public class SnowTestEnvironments {
     public static final ResourceKey<TestEnvironmentDefinition<?>> HARVESTING_OFF = key("harvesting_off");
 
     public static final Map<ResourceKey<TestEnvironmentDefinition<?>>, TestEnvironmentDefinition<?>> ALL = Map.of(
-            SNOWFALL, new TestEnvironmentDefinition.AllOf(rain(), rules(GameRules.MAX_SNOW_ACCUMULATION_HEIGHT.defaultValue()), new ConfigEnvironment(true, true, true, false, true)),
-            SNOWFALL_CAPPED, new TestEnvironmentDefinition.AllOf(rain(), rules(5), new ConfigEnvironment(true, true, true, false, true)),
-            MELTING, new TestEnvironmentDefinition.AllOf(rules(GameRules.MAX_SNOW_ACCUMULATION_HEIGHT.defaultValue()), new ConfigEnvironment(true, true, true, false, true)),
-            WARM_MELTING, new TestEnvironmentDefinition.AllOf(rules(GameRules.MAX_SNOW_ACCUMULATION_HEIGHT.defaultValue()), new ConfigEnvironment(true, true, true, true, true)),
-            HARVESTING_OFF, new TestEnvironmentDefinition.AllOf(rules(GameRules.MAX_SNOW_ACCUMULATION_HEIGHT.defaultValue()), new ConfigEnvironment(true, true, true, false, false))
+            SNOWFALL, new TestEnvironmentDefinition.AllOf(rain(), rules(), ConfigEnvironment.DEFAULT),
+            SNOWFALL_CAPPED, new TestEnvironmentDefinition.AllOf(rain(), rules(5), ConfigEnvironment.DEFAULT),
+            MELTING, new TestEnvironmentDefinition.AllOf(rules(), ConfigEnvironment.DEFAULT),
+            WARM_MELTING, new TestEnvironmentDefinition.AllOf(rules(), ConfigEnvironment.DEFAULT.withMeltInWarmBiomes(true)),
+            HARVESTING_OFF, new TestEnvironmentDefinition.AllOf(rules(), ConfigEnvironment.DEFAULT.withShovelHarvesting(false))
     );
 
     private static ResourceKey<TestEnvironmentDefinition<?>> key(String name) {
@@ -37,6 +37,10 @@ public class SnowTestEnvironments {
 
     private static TestEnvironmentDefinition<?> rain() {
         return new TestEnvironmentDefinition.Weather(TestEnvironmentDefinition.Weather.Type.RAIN);
+    }
+
+    private static TestEnvironmentDefinition<?> rules() {
+        return rules(GameRules.MAX_SNOW_ACCUMULATION_HEIGHT.defaultValue());
     }
 
     private static TestEnvironmentDefinition<?> rules(int maxSnowAccumulationHeight) {
@@ -54,6 +58,15 @@ public class SnowTestEnvironments {
                 Codec.BOOL.fieldOf("melt_in_warm_biomes").forGetter(ConfigEnvironment::meltInWarmBiomes),
                 Codec.BOOL.fieldOf("shovel_harvesting").forGetter(ConfigEnvironment::shovelHarvesting)
         ).apply(instance, ConfigEnvironment::new));
+        public static final ConfigEnvironment DEFAULT = new ConfigEnvironment(true, true, true, false, true);
+
+        public ConfigEnvironment withMeltInWarmBiomes(boolean meltInWarmBiomes) {
+            return new ConfigEnvironment(this.accumulation, this.generation, this.gradualMelting, meltInWarmBiomes, this.shovelHarvesting);
+        }
+
+        public ConfigEnvironment withShovelHarvesting(boolean shovelHarvesting) {
+            return new ConfigEnvironment(this.accumulation, this.generation, this.gradualMelting, this.meltInWarmBiomes, shovelHarvesting);
+        }
 
         @Override
         public ConfigEnvironment setup(ServerLevel level) {

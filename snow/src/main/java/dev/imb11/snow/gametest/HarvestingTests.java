@@ -17,6 +17,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import static dev.imb11.snow.gametest.support.SnowTestEnvironments.HARVESTING_OFF;
 import static dev.imb11.snow.gametest.support.SnowTestEnvironments.MELTING;
@@ -29,8 +30,8 @@ public class HarvestingTests {
                 new TestDefinition("harvesting/removes_layers", MELTING, PLATFORM, 20, HarvestingTests::removesLayers),
                 new TestDefinition("harvesting/blocked_above", MELTING, PLATFORM, 20, HarvestingTests::blockedAbove),
                 new TestDefinition("harvesting/stacked_column", MELTING, PLATFORM, 20, HarvestingTests::stackedColumn),
-                new TestDefinition("harvesting/requires_shovel", MELTING, PLATFORM, 20, HarvestingTests::requiresShovel),
-                new TestDefinition("harvesting/disabled", HARVESTING_OFF, PLATFORM, 20, HarvestingTests::disabled)
+                new TestDefinition("harvesting/requires_shovel", MELTING, PLATFORM, 20, keepsLayers(Items.STICK)),
+                new TestDefinition("harvesting/disabled", HARVESTING_OFF, PLATFORM, 20, keepsLayers(Items.IRON_SHOVEL))
         );
     }
 
@@ -61,18 +62,13 @@ public class HarvestingTests {
         helper.succeed();
     }
 
-    private static void requiresShovel(GameTestHelper helper) {
-        SnowTestHelper.place(helper, SURFACE, 4);
-        use(helper, SURFACE, Items.STICK);
-        SnowTestHelper.assertLayers(helper, SURFACE, 4);
-        helper.succeed();
-    }
-
-    private static void disabled(GameTestHelper helper) {
-        SnowTestHelper.place(helper, SURFACE, 4);
-        use(helper, SURFACE, Items.IRON_SHOVEL);
-        SnowTestHelper.assertLayers(helper, SURFACE, 4);
-        helper.succeed();
+    private static Consumer<GameTestHelper> keepsLayers(Item item) {
+        return helper -> {
+            SnowTestHelper.place(helper, SURFACE, 4);
+            use(helper, SURFACE, item);
+            SnowTestHelper.assertLayers(helper, SURFACE, 4);
+            helper.succeed();
+        };
     }
 
     private static ItemStack use(GameTestHelper helper, BlockPos pos, Item item) {

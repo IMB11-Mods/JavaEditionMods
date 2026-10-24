@@ -2,8 +2,8 @@
 package dev.imb11.snow.datagen;
 
 import dev.imb11.snow.Snow;
-import dev.imb11.snow.accumulation.SnowProfile;
-import dev.imb11.snow.accumulation.SnowProfiles;
+import dev.imb11.snow.profile.SnowProfile;
+import dev.imb11.snow.profile.SnowProfiles;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
 import net.minecraft.core.HolderGetter;
@@ -29,7 +29,7 @@ public class SnowProfileProvider extends FabricDynamicRegistryProvider {
         register(context, biomes, "snowy_plains", 2, 8, 2f, Biomes.SNOWY_PLAINS);
         register(context, biomes, "snowy_taiga", 1, 4, 1.5f, Biomes.SNOWY_TAIGA, Biomes.SNOWY_SLOPES);
         register(context, biomes, "frozen", 1, 2, 1f, Biomes.SNOWY_BEACH, Biomes.GROVE, Biomes.FROZEN_PEAKS, Biomes.JAGGED_PEAKS, Biomes.FROZEN_RIVER, Biomes.FROZEN_OCEAN, Biomes.DEEP_FROZEN_OCEAN);
-        register(context, biomes, "cold", 0, 2, 1f, Biomes.WINDSWEPT_HILLS, Biomes.STONY_SHORE, Biomes.TAIGA);
+        register(context, biomes, "cold", 1, 2, 1f, Biomes.WINDSWEPT_HILLS, Biomes.STONY_SHORE, Biomes.TAIGA);
     }
 
     @SafeVarargs

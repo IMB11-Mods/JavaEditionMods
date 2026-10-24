@@ -4,7 +4,6 @@ import dev.imb11.snow.config.SnowConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
@@ -14,23 +13,22 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import org.jetbrains.annotations.Nullable;
 
 public class SnowHarvesting {
-    public static @Nullable InteractionResult useOn(UseOnContext context) {
+    public static boolean useOn(UseOnContext context) {
         if (!SnowConfig.get().harvesting.shovelHarvesting || context.getClickedFace() == Direction.DOWN) {
-            return null;
+            return false;
         }
 
         Level level = context.getLevel();
         if (level.isClientSide() && !SnowConfig.SYNC.serverPresent()) {
-            return null;
+            return false;
         }
 
         BlockPos pos = context.getClickedPos();
         BlockState state = level.getBlockState(pos);
         if (!state.is(Blocks.SNOW) || !level.getBlockState(pos.above()).isAir()) {
-            return null;
+            return false;
         }
 
         if (level instanceof ServerLevel serverLevel) {
@@ -45,6 +43,6 @@ public class SnowHarvesting {
             }
         }
 
-        return InteractionResult.SUCCESS;
+        return true;
     }
 }

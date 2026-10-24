@@ -1,4 +1,4 @@
-package dev.imb11.snow.accumulation;
+package dev.imb11.snow.profile;
 
 import dev.imb11.snow.Snow;
 import net.minecraft.core.Holder;

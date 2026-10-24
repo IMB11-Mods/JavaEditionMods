@@ -1,16 +1,14 @@
 package dev.imb11.snow.gametest;
 
 import dev.imb11.snow.accumulation.SnowAccumulation;
-import dev.imb11.snow.accumulation.SnowProfile;
-import dev.imb11.snow.accumulation.SnowProfiles;
+import dev.imb11.snow.profile.SnowProfile;
+import dev.imb11.snow.profile.SnowProfiles;
 import dev.imb11.snow.gametest.SnowGameTests.TestDefinition;
 import dev.imb11.snow.gametest.support.SnowTestHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.animal.pig.Pig;
@@ -61,7 +59,7 @@ public class AccumulationTests {
     }
 
     private static void snowfallHook(GameTestHelper helper) {
-        SnowProfile profile = SnowTestHelper.setBiome(helper, biome(helper, Biomes.ICE_SPIKES));
+        SnowProfile profile = SnowTestHelper.setBiome(helper, SnowTestHelper.biome(helper, Biomes.ICE_SPIKES));
         helper.assertTrue(profile.maxLayers() > 1, "Ice Spikes should accumulate more than one layer");
         helper.startSequence()
                 .thenWaitUntil(() -> helper.assertTrue(helper.getLevel().isRaining(), "Rain should be falling"))
@@ -90,7 +88,7 @@ public class AccumulationTests {
     }
 
     private static void pushesEntities(GameTestHelper helper) {
-        SnowProfile profile = SnowTestHelper.setBiome(helper, biome(helper, Biomes.ICE_SPIKES));
+        SnowProfile profile = SnowTestHelper.setBiome(helper, SnowTestHelper.biome(helper, Biomes.ICE_SPIKES));
         helper.assertTrue(profile.maxLayers() > SnowLayerBlock.MAX_HEIGHT, "Ice Spikes should stack snow above one block");
         Pig pig = helper.spawnWithNoFreeWill(EntityTypes.PIG, SURFACE);
         fill(helper);
@@ -100,7 +98,7 @@ public class AccumulationTests {
     }
 
     private static void priority(GameTestHelper helper) {
-        Holder<Biome> plains = biome(helper, Biomes.PLAINS);
+        Holder<Biome> plains = SnowTestHelper.biome(helper, Biomes.PLAINS);
         SnowProfile low = new SnowProfile(HolderSet.direct(plains), 1, 2, 1f, 0);
         SnowProfile high = new SnowProfile(HolderSet.direct(plains), 1, 6, 1f, 5);
         SnowProfile resolved = SnowProfiles.resolve(Stream.of(low, high), plains).orElseThrow();
@@ -113,9 +111,5 @@ public class AccumulationTests {
         for (int i = 0; i < FILL_ATTEMPTS; i++) {
             SnowAccumulation.accumulate(helper.getLevel(), pos);
         }
-    }
-
-    private static Holder<Biome> biome(GameTestHelper helper, ResourceKey<Biome> key) {
-        return helper.getLevel().registryAccess().lookupOrThrow(Registries.BIOME).getOrThrow(key);
     }
 }

@@ -13,6 +13,8 @@ import net.minecraft.world.level.block.state.BlockState;
 *///?}
 
 public class SnowMelting {
+    public static final int MELT_LIGHT_LEVEL = 11;
+
     public static boolean randomTick(BlockState state, ServerLevel level, BlockPos pos) {
         MeltingConfig config = SnowConfig.get().melting;
         if (!config.gradualMelting && !config.meltInWarmBiomes) {
@@ -38,7 +40,7 @@ public class SnowMelting {
     }
 
     private static boolean shouldMelt(ServerLevel level, BlockPos pos, MeltingConfig config) {
-        if (level.getBrightness(LightLayer.BLOCK, pos) > 11) {
+        if (level.getBrightness(LightLayer.BLOCK, pos) > MELT_LIGHT_LEVEL) {
             return true;
         }
 
