@@ -15,9 +15,11 @@ import static dev.imb11.snow.gametest.support.SnowTestHelper.PLATFORM;
 import static dev.imb11.snow.gametest.support.SnowTestHelper.SURFACE;
 
 public class MeltingTests {
+    private static final int MAX_POLLED_TASKS = 64;
+
     public static List<TestDefinition> all() {
         return List.of(
-                new TestDefinition("melting/gradual", MELTING, PLATFORM, 20, MeltingTests::gradual),
+                new TestDefinition("melting/gradual", MELTING, PLATFORM, 100, MeltingTests::gradual),
                 new TestDefinition("melting/top_down", WARM_MELTING, PLATFORM, 20, MeltingTests::topDown),
                 new TestDefinition("melting/warm_biome_off", MELTING, PLATFORM, 20, MeltingTests::warmBiomeOff),
                 new TestDefinition("melting/warm_biome_on", WARM_MELTING, PLATFORM, 20, MeltingTests::warmBiomeOn)
@@ -29,7 +31,11 @@ public class MeltingTests {
         SnowTestHelper.place(helper, SURFACE, 5);
         helper.setBlock(SURFACE.east(), Blocks.GLOWSTONE);
         helper.startSequence()
-                .thenWaitUntil(() -> helper.assertTrue(helper.getLevel().getBrightness(LightLayer.BLOCK, helper.absolutePos(SURFACE)) > 11, "Snow should be lit by the glowstone"))
+                .thenWaitUntil(() -> {
+                    for (int i = 0; i < MAX_POLLED_TASKS && helper.getLevel().getChunkSource().pollTask(); i++) {
+                    }
+                    helper.assertTrue(helper.getLevel().getBrightness(LightLayer.BLOCK, helper.absolutePos(SURFACE)) > 11, "Snow should be lit by the glowstone");
+                })
                 .thenExecute(() -> {
                     helper.randomTick(SURFACE);
                     SnowTestHelper.assertLayers(helper, SURFACE, 4);

@@ -5,12 +5,14 @@ import dev.imb11.snow.accumulation.SnowProfile;
 import dev.imb11.snow.accumulation.SnowProfiles;
 import dev.imb11.snow.util.SnowColumn;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SnowLayerBlock;
 
 import java.util.List;
 
@@ -35,6 +37,11 @@ public class SnowTestHelper {
 
     public static int layers(GameTestHelper helper, BlockPos pos) {
         return SnowColumn.layers(helper.getLevel(), helper.absolutePos(pos));
+    }
+
+    public static double surfaceY(GameTestHelper helper, BlockPos pos) {
+        BlockPos top = helper.absolutePos(layers(helper, pos) > SnowLayerBlock.MAX_HEIGHT ? pos.above() : pos);
+        return top.getY() + helper.getLevel().getBlockState(top).getCollisionShape(helper.getLevel(), top).max(Direction.Axis.Y);
     }
 
     public static void assertLayers(GameTestHelper helper, BlockPos pos, int expected) {

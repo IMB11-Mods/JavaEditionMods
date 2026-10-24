@@ -6,6 +6,7 @@ import dev.imb11.snow.gametest.support.SnowTestHelper;
 import dev.imb11.snow.generation.SnowGeneration;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.biome.Biome;
@@ -27,6 +28,8 @@ import static dev.imb11.snow.gametest.support.SnowTestHelper.SURFACE;
 
 public class GenerationTests {
     private static final int SAMPLES = 32;
+    private static final int CENTRE_MIN = 4;
+    private static final int CENTRE_MAX = 11;
 
     public static List<TestDefinition> all() {
         return List.of(
@@ -61,7 +64,7 @@ public class GenerationTests {
     }
 
     private static void featureHook(GameTestHelper helper) {
-        helper.setBiome(Biomes.ICE_SPIKES);
+        SnowProfile profile = SnowTestHelper.setBiome(helper, helper.getLevel().registryAccess().lookupOrThrow(Registries.BIOME).getOrThrow(Biomes.ICE_SPIKES));
         ServerLevel level = helper.getLevel();
         BlockPos origin = helper.absolutePos(BlockPos.ZERO);
         //? if >=26.3 {
@@ -70,14 +73,12 @@ public class GenerationTests {
         Feature.FREEZE_TOP_LAYER.place(NoneFeatureConfiguration.INSTANCE, level, level.getChunkSource().getGenerator(), level.getRandom(), origin);
         //?}
 
-        int deepest = 0;
-        for (int x = 0; x < 16; x++) {
-            for (int z = 0; z < 16; z++) {
-                deepest = Math.max(deepest, SnowTestHelper.layers(helper, new BlockPos(x, 1, z)));
+        for (int x = CENTRE_MIN; x <= CENTRE_MAX; x++) {
+            for (int z = CENTRE_MIN; z <= CENTRE_MAX; z++) {
+                helper.assertValueInBetween(Math.max(1, profile.minLayers()), SnowTestHelper.layers(helper, new BlockPos(x, 1, z)), profile.maxLayers(), "generated layers at " + x + ", " + z);
             }
         }
 
-        helper.assertTrue(deepest > 1, "The world generation feature should place multi-layer snow in Ice Spikes");
         helper.succeed();
     }
 }

@@ -16,6 +16,7 @@ import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.animal.pig.Pig;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.world.level.block.SnowLayerBlock;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -26,7 +27,8 @@ import static dev.imb11.snow.gametest.support.SnowTestHelper.PLATFORM;
 import static dev.imb11.snow.gametest.support.SnowTestHelper.SURFACE;
 
 public class AccumulationTests {
-    private static final int FILL_ATTEMPTS = 64;
+    private static final int FILL_ATTEMPTS = 1024;
+    private static final double TOLERANCE = 1.0E-5;
 
     public static List<TestDefinition> all() {
         return List.of(
@@ -51,7 +53,8 @@ public class AccumulationTests {
             helper.assertValueInBetween(lowest, SnowTestHelper.layers(helper, SURFACE), highest, name + " layers after one snowfall tick");
 
             fill(helper);
-            helper.assertValueEqual(SnowTestHelper.layers(helper, SURFACE), profile.maxLayers(), name + " maximum layers");
+            int expectedMax = profile.accumulationRate() > 0 ? profile.maxLayers() : 0;
+            helper.assertValueEqual(SnowTestHelper.layers(helper, SURFACE), expectedMax, name + " maximum layers");
         }
 
         helper.succeed();
@@ -87,10 +90,12 @@ public class AccumulationTests {
     }
 
     private static void pushesEntities(GameTestHelper helper) {
-        helper.setBiome(Biomes.ICE_SPIKES);
+        SnowProfile profile = SnowTestHelper.setBiome(helper, biome(helper, Biomes.ICE_SPIKES));
+        helper.assertTrue(profile.maxLayers() > SnowLayerBlock.MAX_HEIGHT, "Ice Spikes should stack snow above one block");
         Pig pig = helper.spawnWithNoFreeWill(EntityTypes.PIG, SURFACE);
         fill(helper);
-        helper.assertTrue(pig.getY() >= helper.absolutePos(SURFACE).getY() + 1, "Pig should be pushed above the full snow block");
+        double surface = SnowTestHelper.surfaceY(helper, SURFACE);
+        helper.assertValueInBetween(surface - TOLERANCE, pig.getY(), surface + TOLERANCE, "pig height");
         helper.succeed();
     }
 
