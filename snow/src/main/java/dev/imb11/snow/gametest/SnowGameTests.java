@@ -30,7 +30,7 @@ public class SnowGameTests {
 
     public static List<TestDefinition> all() {
         if (tests == null) {
-            tests = Stream.of(AccumulationTests.all(), GenerationTests.all(), MeltingTests.all())
+            tests = Stream.of(AccumulationTests.all(), GenerationTests.all(), MeltingTests.all(), HarvestingTests.all())
                     .flatMap(List::stream)
                     .toList();
         }

@@ -6,6 +6,7 @@ import dev.imb11.mru.yacl.ConfigHelper;
 import dev.imb11.snow.Snow;
 import dev.imb11.snow.accumulation.AccumulationConfig;
 import dev.imb11.snow.generation.GenerationConfig;
+import dev.imb11.snow.harvesting.HarvestingConfig;
 import dev.imb11.snow.melting.MeltingConfig;
 import dev.isxander.yacl3.api.YetAnotherConfigLib;
 import dev.isxander.yacl3.config.v2.api.ConfigClassHandler;
@@ -31,6 +32,8 @@ public class SnowConfig {
     public GenerationConfig generation = new GenerationConfig();
     @SerialEntry
     public MeltingConfig melting = new MeltingConfig();
+    @SerialEntry
+    public HarvestingConfig harvesting = new HarvestingConfig();
 
     public static SnowConfig get() {
         return HANDLER.instance();
@@ -46,6 +49,7 @@ public class SnowConfig {
                 .category(config.accumulation.category(defaults.accumulation))
                 .category(config.generation.category(defaults.generation))
                 .category(config.melting.category(defaults.melting))
+                .category(config.harvesting.category(defaults.harvesting))
                 .save(HANDLER::save));
     }
 }

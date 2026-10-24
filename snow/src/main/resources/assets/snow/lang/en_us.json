@@ -10,5 +10,8 @@
   "snow.config.option.melting.gradual_melting": "Gradual Melting",
   "snow.config.option.description.melting.gradual_melting": "Snow melts one layer at a time instead of all at once.",
   "snow.config.option.melting.melt_in_warm_biomes": "Melt in Warm Biomes",
-  "snow.config.option.description.melting.melt_in_warm_biomes": "Snow melts in biomes where it would rain instead of snow, regardless of light level."
+  "snow.config.option.description.melting.melt_in_warm_biomes": "Snow melts in biomes where it would rain instead of snow, regardless of light level.",
+  "snow.config.category.harvesting": "Harvesting",
+  "snow.config.option.harvesting.shovel_harvesting": "Shovel Harvesting",
+  "snow.config.option.description.harvesting.shovel_harvesting": "Using a shovel on snow with nothing above it removes the snow instantly and drops snowballs."
 }

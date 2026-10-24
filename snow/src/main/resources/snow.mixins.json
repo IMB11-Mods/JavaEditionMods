@@ -6,6 +6,7 @@
   "mixins": [
     "accumulation.ServerLevelMixin",
     "generation.SnowAndFreezeFeatureMixin",
+    "harvesting.ShovelUseMixin",
     "melting.SnowLayerBlockMixin"
   ],
   "injectors": {
