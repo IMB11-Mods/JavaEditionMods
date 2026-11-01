@@ -2,6 +2,7 @@ package dev.imb11.snow.gametest;
 
 import cc.cassian.mru.Platform;
 import dev.imb11.snow.Snow;
+import dev.imb11.snow.compat.SeasonCompat;
 import dev.imb11.snow.gametest.support.SnowTestEnvironments;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
@@ -27,7 +28,7 @@ import java.util.stream.Stream;
 
 public class SnowGameTests {
     private static final int PADDING = 4;
-    private static final List<TestDefinition> TESTS = Stream.of(AccumulationTests.all(), GenerationTests.all(), MeltingTests.all(), HarvestingTests.all(), SnowloggingTests.all())
+    private static final List<TestDefinition> TESTS = Stream.of(AccumulationTests.all(), GenerationTests.all(), CanopyTests.all(), MeltingTests.all(), HarvestingTests.all(), SnowloggingTests.all(), SeasonCompat.LOADED ? SeasonTests.all() : List.<TestDefinition>of())
             .flatMap(List::stream)
             .toList();
 

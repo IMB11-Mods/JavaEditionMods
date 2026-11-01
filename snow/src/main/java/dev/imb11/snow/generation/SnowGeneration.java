@@ -1,5 +1,6 @@
 package dev.imb11.snow.generation;
 
+import dev.imb11.snow.config.SnowConfig;
 import dev.imb11.snow.profile.SnowProfile;
 import dev.imb11.snow.profile.SnowProfiles;
 import dev.imb11.snow.util.SnowColumn;
@@ -10,6 +11,10 @@ import net.minecraft.world.level.block.SnowLayerBlock;
 
 public class SnowGeneration {
     public static boolean place(WorldGenLevel level, BlockPos pos, int flags) {
+        if (!SnowConfig.get().generation) {
+            return false;
+        }
+
         return SnowProfiles.get(level, level.getBiome(pos)).map(profile -> {
             SnowColumn.place(level, pos, layers(level, pos, profile), flags, false);
             return true;

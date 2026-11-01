@@ -10,9 +10,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.LightLayer;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -71,16 +68,6 @@ public class Snowlogging {
         }
 
         return true;
-    }
-
-    public static boolean shouldSnow(Biome biome, LevelReader level, BlockPos pos) {
-        if (!canSnowlog(level.getBlockState(pos)) || biome.getPrecipitationAt(pos, level.getSeaLevel()) != Biome.Precipitation.SNOW) {
-            return false;
-        }
-
-        return level.isInsideBuildHeight(pos.getY())
-                && level.getBrightness(LightLayer.BLOCK, pos) < 10
-                && Blocks.SNOW.defaultBlockState().canSurvive(level, pos);
     }
 
     public static @Nullable BlockState plantAt(LevelAccessor level, BlockPos pos) {

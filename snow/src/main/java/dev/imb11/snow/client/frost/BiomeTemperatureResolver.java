@@ -1,15 +1,27 @@
 package dev.imb11.snow.client.frost;
 
+import dev.imb11.snow.client.SnowClient;
+import dev.imb11.snow.compat.SeasonCompat;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.ColorResolver;
+import net.minecraft.world.level.biome.Biome;
+
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 public final class BiomeTemperatureResolver {
     private static final float MIN_TEMPERATURE = -1.0F;
     private static final float MAX_TEMPERATURE = 1.0F;
-    public static final ColorResolver RESOLVER = (biome, x, z) -> encode(biome.hasPrecipitation() ? biome.getBaseTemperature() : MAX_TEMPERATURE);
+    private static final Map<Biome, Holder<Biome>> HOLDERS = new ConcurrentHashMap<>();
+    public static final ColorResolver RESOLVER = (biome, x, z) -> encode(biome.hasPrecipitation() ? baseTemperature(biome) : MAX_TEMPERATURE);
 
     public static float temperatureAt(BlockAndTintGetter level, BlockPos pos, int seaLevel) {
         float temperature = decode(level.getBlockTint(pos, RESOLVER));
@@ -19,6 +31,25 @@ public final class BiomeTemperatureResolver {
         }
 
         return temperature;
+    }
+
+    public static void levelChanged() {
+        HOLDERS.clear();
+    }
+
+    private static float baseTemperature(Biome biome) {
+        ClientLevel level = SnowClient.level();
+        if (!SeasonCompat.LOADED || level == null) {
+            return biome.getBaseTemperature();
+        }
+
+        return SeasonCompat.baseTemperature(level, HOLDERS.computeIfAbsent(biome, key -> holder(level, key)));
+    }
+
+    private static Holder<Biome> holder(ClientLevel level, Biome biome) {
+        Registry<Biome> registry = level.registryAccess().lookupOrThrow(Registries.BIOME);
+        Optional<Holder.Reference<Biome>> reference = registry.getResourceKey(biome).flatMap(registry::get);
+        return reference.isPresent() ? reference.get() : Holder.direct(biome);
     }
 
     private static int encode(float temperature) {

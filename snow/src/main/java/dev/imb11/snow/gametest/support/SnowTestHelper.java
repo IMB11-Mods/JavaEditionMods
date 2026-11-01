@@ -14,7 +14,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SnowLayerBlock;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.List;
 
@@ -46,8 +46,16 @@ public class SnowTestHelper {
     }
 
     public static double surfaceY(GameTestHelper helper, BlockPos pos) {
-        BlockPos top = helper.absolutePos(layers(helper, pos) > SnowLayerBlock.MAX_HEIGHT ? pos.above() : pos);
-        return top.getY() + helper.getLevel().getBlockState(top).getCollisionShape(helper.getLevel(), top).max(Direction.Axis.Y);
+        BlockPos base = helper.absolutePos(pos);
+        double surface = base.getY();
+        for (BlockPos block : List.of(base, base.above())) {
+            VoxelShape shape = helper.getLevel().getBlockState(block).getCollisionShape(helper.getLevel(), block);
+            if (!shape.isEmpty()) {
+                surface = Math.max(surface, block.getY() + shape.max(Direction.Axis.Y));
+            }
+        }
+
+        return surface;
     }
 
     public static void assertLayers(GameTestHelper helper, BlockPos pos, int expected) {

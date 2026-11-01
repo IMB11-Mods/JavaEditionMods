@@ -19,6 +19,7 @@ public class SnowTestEnvironments {
     public static final Identifier CONFIG_TYPE = Snow.id("config");
     public static final ResourceKey<TestEnvironmentDefinition<?>> SNOWFALL = key("snowfall");
     public static final ResourceKey<TestEnvironmentDefinition<?>> SNOWFALL_CAPPED = key("snowfall_capped");
+    public static final ResourceKey<TestEnvironmentDefinition<?>> CANOPY_OFF = key("canopy_off");
     public static final ResourceKey<TestEnvironmentDefinition<?>> MELTING = key("melting");
     public static final ResourceKey<TestEnvironmentDefinition<?>> WARM_MELTING = key("warm_melting");
     public static final ResourceKey<TestEnvironmentDefinition<?>> HARVESTING_OFF = key("harvesting_off");
@@ -27,6 +28,7 @@ public class SnowTestEnvironments {
     public static final Map<ResourceKey<TestEnvironmentDefinition<?>>, TestEnvironmentDefinition<?>> ALL = Map.of(
             SNOWFALL, new TestEnvironmentDefinition.AllOf(rain(), rules(), ConfigEnvironment.DEFAULT),
             SNOWFALL_CAPPED, new TestEnvironmentDefinition.AllOf(rain(), rules(5), ConfigEnvironment.DEFAULT),
+            CANOPY_OFF, new TestEnvironmentDefinition.AllOf(rain(), rules(), ConfigEnvironment.DEFAULT.withSnowUnderTrees(false)),
             MELTING, new TestEnvironmentDefinition.AllOf(rules(), ConfigEnvironment.DEFAULT),
             WARM_MELTING, new TestEnvironmentDefinition.AllOf(rules(), ConfigEnvironment.DEFAULT.withMeltInWarmBiomes(true)),
             HARVESTING_OFF, new TestEnvironmentDefinition.AllOf(rules(), ConfigEnvironment.DEFAULT.withShovelHarvesting(false)),
@@ -52,35 +54,41 @@ public class SnowTestEnvironments {
         return new TestEnvironmentDefinition.SetGameRules(rules);
     }
 
-    public record ConfigEnvironment(boolean accumulation, boolean generation, boolean gradualMelting, boolean meltInWarmBiomes, boolean shovelHarvesting, boolean snowlogging) implements TestEnvironmentDefinition<ConfigEnvironment> {
+    public record ConfigEnvironment(boolean accumulation, boolean generation, boolean snowUnderTrees, boolean gradualMelting, boolean meltInWarmBiomes, boolean shovelHarvesting, boolean snowlogging) implements TestEnvironmentDefinition<ConfigEnvironment> {
         public static final MapCodec<ConfigEnvironment> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                 Codec.BOOL.fieldOf("accumulation").forGetter(ConfigEnvironment::accumulation),
                 Codec.BOOL.fieldOf("generation").forGetter(ConfigEnvironment::generation),
+                Codec.BOOL.fieldOf("snow_under_trees").forGetter(ConfigEnvironment::snowUnderTrees),
                 Codec.BOOL.fieldOf("gradual_melting").forGetter(ConfigEnvironment::gradualMelting),
                 Codec.BOOL.fieldOf("melt_in_warm_biomes").forGetter(ConfigEnvironment::meltInWarmBiomes),
                 Codec.BOOL.fieldOf("shovel_harvesting").forGetter(ConfigEnvironment::shovelHarvesting),
                 Codec.BOOL.fieldOf("snowlogging").forGetter(ConfigEnvironment::snowlogging)
         ).apply(instance, ConfigEnvironment::new));
-        public static final ConfigEnvironment DEFAULT = new ConfigEnvironment(true, true, true, false, true, true);
+        public static final ConfigEnvironment DEFAULT = new ConfigEnvironment(true, true, true, true, false, true, true);
+
+        public ConfigEnvironment withSnowUnderTrees(boolean snowUnderTrees) {
+            return new ConfigEnvironment(this.accumulation, this.generation, snowUnderTrees, this.gradualMelting, this.meltInWarmBiomes, this.shovelHarvesting, this.snowlogging);
+        }
 
         public ConfigEnvironment withMeltInWarmBiomes(boolean meltInWarmBiomes) {
-            return new ConfigEnvironment(this.accumulation, this.generation, this.gradualMelting, meltInWarmBiomes, this.shovelHarvesting, this.snowlogging);
+            return new ConfigEnvironment(this.accumulation, this.generation, this.snowUnderTrees, this.gradualMelting, meltInWarmBiomes, this.shovelHarvesting, this.snowlogging);
         }
 
         public ConfigEnvironment withShovelHarvesting(boolean shovelHarvesting) {
-            return new ConfigEnvironment(this.accumulation, this.generation, this.gradualMelting, this.meltInWarmBiomes, shovelHarvesting, this.snowlogging);
+            return new ConfigEnvironment(this.accumulation, this.generation, this.snowUnderTrees, this.gradualMelting, this.meltInWarmBiomes, shovelHarvesting, this.snowlogging);
         }
 
         public ConfigEnvironment withSnowlogging(boolean snowlogging) {
-            return new ConfigEnvironment(this.accumulation, this.generation, this.gradualMelting, this.meltInWarmBiomes, this.shovelHarvesting, snowlogging);
+            return new ConfigEnvironment(this.accumulation, this.generation, this.snowUnderTrees, this.gradualMelting, this.meltInWarmBiomes, this.shovelHarvesting, snowlogging);
         }
 
         @Override
         public ConfigEnvironment setup(ServerLevel level) {
             SnowConfig config = SnowConfig.get();
-            ConfigEnvironment previous = new ConfigEnvironment(config.accumulation, config.generation, config.gradualMelting, config.meltInWarmBiomes, config.shovelHarvesting, config.snowlogging);
+            ConfigEnvironment previous = new ConfigEnvironment(config.accumulation, config.generation, config.snowUnderTrees, config.gradualMelting, config.meltInWarmBiomes, config.shovelHarvesting, config.snowlogging);
             config.accumulation = this.accumulation;
             config.generation = this.generation;
+            config.snowUnderTrees = this.snowUnderTrees;
             config.gradualMelting = this.gradualMelting;
             config.meltInWarmBiomes = this.meltInWarmBiomes;
             config.shovelHarvesting = this.shovelHarvesting;

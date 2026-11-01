@@ -1,5 +1,7 @@
 <a href="https://discord.imb11.dev/"><img alt="Join the discord server" src="https://cdn.modrinth.com/data/cached_images/3f55fd91f50434035c0d838604a68c5caa9fa8ad.png" height="48px" /></a> <a href="https://github.com/IMB11-Mods/JavaEditionMods/issues/new/choose"><img alt="Report a bug" src="https://cdn.modrinth.com/data/cached_images/47cb22f509eaf54c8df1fca84b9d7e46fda73d11.png" height="48px" /></a>
 
+_Note: Snow Under Trees (Fabric) is now **Snow** - enjoy all the new features!_
+
 **Complete parity with Bedrock Edition's snow mechanics while being as unobtrusive as possible.**
 
 *Snow* is a mod that is focused around Minecraft's snow mechanics, specifically bringing much-requested features from Bedrock Edition. Most of the mod is client-side only, some things will be needed to be installed on both client and server to use though, like Snowlogging.
@@ -16,7 +18,7 @@ Plants can be snowlogged if they're in the `snow:snowloggable` block tag. To rem
 
 > This is completely client-side only, you don't need to install _Snow_ on the server-side to use this!
 
-When you're in a snowy biome, and it starts snowing, leaves will slowly turn white! This uses core shaders, and is fully compatible with Sodium and Iris.
+When you're in a snowy biome, and it starts snowing, leaves will slowly turn white! This uses core shaders, and is fully compatible with [Sodium](https://modrinth.com/mod/sodium) and [Iris](https://modrinth.com/mod/iris).
 
 ![Example of snowy leaves in a snowy biome when snowing](https://cdn.modrinth.com/data/MlSnJj7B/images/b0eb9a37b5fff19c882c856f733377fe2500ac8b.webp)
 
@@ -28,15 +30,39 @@ When you're in a snowy biome, and it starts snowing, leaves will slowly turn whi
 
 ![Example of snow generation changes](https://cdn.modrinth.com/data/MlSnJj7B/images/0511b2f5184757076ccf72504457c32771ff5f88.webp)
 
-## Coming soon:
+## Snow under trees
 
-- Snow placement under trees: Currently the mod does not support placing snow under trees, you can use [Snow Under Trees](https://modrinth.com/mod/snow-under-trees-remastered) for this, but future updates will move this functionality into this mod.
+> You need to install *Snow* on the server-side to use this on multiplayer servers - but if you have *Snow* installed client-side you'll still be able to join Vanilla servers.
+
+Self-explanatory! Snow will generate below trees to make snowy tree biomes more immersive. This works for any vanilla and modded biome with trees that have snow precipitation.
+
+![Example of snow under trees](https://cdn.modrinth.com/data/XVnUIUAQ/images/95acbae40da17b074a1133d26a213107e43393ef.webp)
+
+## Configuration
+
+You can configure the mod with [YACL](https://modrinth.com/mod/yacl) through [Mod Menu](https://modrinth.com/mod/modmenu), or through the mod list on NeoForge. On servers running _Snow_, the config is controlled by the server, only /op players can change it from in-game.
+
+- Variable Snowfall (`accumulation`, default `true`): This lets each biome have its own snowfall rate, you can modify this using a datapack.
+- Multi-Layer Generation (`generation`, default `true`): If enabled, snowy biomes will generate with several layers of snow instead of just one.
+- Snow Under Trees (`snowUnderTrees`, default `true`): When enabled, snow falls and generates on the ground beneath tree canopies.
+- Gradual Melting (`gradualMelting`, default `true`): When enabled, snow melts one layer at a time instead of disappearing all at once.
+- Melt in Warm Biomes (`meltInWarmBiomes`, default `false`): If enabled snow will melt in biomes that are warm enough to rain.
+- Shovel Harvesting (`shovelHarvesting`, default `true`): Using a shovel on snow clears it and drops snowballs.
+- Snowlogging (`snowlogging`, default `true`): If enabled, snow can cover small plants like flowers and grass - similar to waterlogging.
+
+The config file is `config/snow.json`. Some features can be tweaked with a datapack (the wiki is being worked on! come back later for a link)
+
+## Compatibility
+
+_Snow_ is compatible with:
+
+- [Sodium](https://modrinth.com/mod/sodium)
+- [Iris](https://modrinth.com/mod/iris)
+- [Serene Seasons](https://modrinth.com/mod/serene-seasons): *snowfall, snowlogging, melting and snowy leaves all follow the seasonal temperature, and seasonal melting respects Gradual Melting.*
 
 ---
 
 <small>
-
-Custom sound effects obtained from [Zapsplat](https://www.zapsplat.com) under ZapSplat Standard License for Gold Members.
 
 By using my mods, you agree to the [End User License Agreement](https://legal.imb11.dev/mods/eula). You are free to use this mod within your Modrinth & CurseForge modpacks as long as the EULA is respected.
 

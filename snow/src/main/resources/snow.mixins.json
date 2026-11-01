@@ -8,6 +8,7 @@
     "generation.SnowAndFreezeFeatureMixin",
     "harvesting.ShovelUseMixin",
     "melting.SnowLayerBlockMixin",
+    "melting.compat.RandomUpdateHandlerMixin",
     "snowlogging.BlockBehaviourMixin",
     "snowlogging.BlockItemMixin",
     "snowlogging.LevelMixin",

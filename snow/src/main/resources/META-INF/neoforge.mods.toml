@@ -42,7 +42,15 @@ side="BOTH"
 [[dependencies.snow]]
 modId="snowrealmagic"
 type="incompatible"
-reason="Snow already provides snowlogging and even more features compared to Snow! Real Magic! which is incompatible."
+reason="Uninstall Snow! Real Magic! as it is redundant with Snow installed."
+versionRange="[0,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.snow]]
+modId="snowundertrees"
+type="incompatible"
+reason="Uninstall Snow Under Trees as it is redundant with Snow installed."
 versionRange="[0,)"
 ordering="NONE"
 side="BOTH"

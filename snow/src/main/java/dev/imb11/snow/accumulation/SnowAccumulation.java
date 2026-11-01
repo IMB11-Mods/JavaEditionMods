@@ -1,10 +1,11 @@
 package dev.imb11.snow.accumulation;
 
+import dev.imb11.snow.config.SnowConfig;
 import dev.imb11.snow.generation.SnowGeneration;
 import dev.imb11.snow.profile.SnowProfile;
 import dev.imb11.snow.profile.SnowProfiles;
-import dev.imb11.snow.snowlogging.Snowlogging;
 import dev.imb11.snow.util.SnowColumn;
+import dev.imb11.snow.util.SnowSurface;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -18,6 +19,16 @@ import java.util.Optional;
 
 public class SnowAccumulation {
     private static final int SETTLE_RADIUS = 1;
+
+    public static boolean snowfall(ServerLevel level, Biome biome, BlockPos pos, boolean vanilla) {
+        boolean shouldSnow = SnowSurface.shouldSnow(biome, level, pos, vanilla);
+        if (!shouldSnow || !SnowConfig.get().accumulation) {
+            return shouldSnow;
+        }
+
+        accumulate(level, pos);
+        return false;
+    }
 
     public static void accumulate(ServerLevel level, BlockPos base) {
         float rate = SnowProfiles.get(level, level.getBiome(base)).map(SnowProfile::accumulationRate).orElse(1f);
@@ -54,7 +65,7 @@ public class SnowAccumulation {
                 }
 
                 BlockPos pos = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, cursor.set(base.getX() + dx, base.getY(), base.getZ() + dz));
-                if (Math.abs(pos.getY() - base.getY()) > 1 || !canSnow(level, pos)) {
+                if (Math.abs(pos.getY() - base.getY()) > 1 || !SnowSurface.shouldSnow(level.getBiome(pos).value(), level, pos)) {
                     continue;
                 }
 
@@ -72,11 +83,6 @@ public class SnowAccumulation {
         int target = target(level, pos);
         int current = SnowColumn.layers(level, pos);
         return current < target ? new Column(pos.immutable(), current, target) : null;
-    }
-
-    private static boolean canSnow(ServerLevel level, BlockPos pos) {
-        Biome biome = level.getBiome(pos).value();
-        return biome.shouldSnow(level, pos) || Snowlogging.shouldSnow(biome, level, pos);
     }
 
     private record Column(BlockPos pos, int current, int target) {

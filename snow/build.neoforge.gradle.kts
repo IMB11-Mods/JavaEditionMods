@@ -15,6 +15,9 @@ dependencies {
     implementation(mcLibrary("yacl-neoforge"))
     add(sodiumDistribution.name, mcLibrary("sodium-neoforge"))
     compileOnly(mcLibrary("iris-neoforge"))
+    compileOnly(mcLibrary("serene-seasons-neoforge"))
+    compileOnly(mcLibrary("glitchcore-neoforge"))
+    compileOnly(mcLibrary("nightconfig-core"))
     compileOnly(files(provider {
         sodiumDistribution.files.flatMap { zipTree(it).matching { include("META-INF/jarjar/net.caffeinemc.sodium-*-mod.jar") }.files }
     }))
@@ -24,6 +27,10 @@ dependencies {
     }
     if (withIris) {
         runtimeOnly(mcLibrary("iris-neoforge"))
+    }
+    if (providers.gradleProperty("with_seasons").isPresent) {
+        runtimeOnly(mcLibrary("serene-seasons-neoforge"))
+        runtimeOnly(mcLibrary("glitchcore-neoforge"))
     }
 }
 

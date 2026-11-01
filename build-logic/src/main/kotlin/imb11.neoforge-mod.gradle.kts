@@ -28,6 +28,10 @@ neoForge {
         register("client") {
             client()
             gameDirectory.set(rootProject.layout.projectDirectory.dir("run/${metadata.id}/$minecraftVersion/neoforge/client"))
+            if (providers.gradleProperty("with_iris").isPresent || providers.gradleProperty("with_sodium").isPresent) {
+                systemProperty("neoforge.disableGlValidation", "true")
+                systemProperty("neoforge.disableBlaze3DValidation", "true")
+            }
         }
         if (metadata.optional("mod.environment") != "client") {
             register("server") {

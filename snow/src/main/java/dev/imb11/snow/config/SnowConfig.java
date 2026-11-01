@@ -35,6 +35,8 @@ public class SnowConfig {
     @SerialEntry
     public boolean generation = true;
     @SerialEntry
+    public boolean snowUnderTrees = true;
+    @SerialEntry
     public boolean gradualMelting = true;
     @SerialEntry
     public boolean meltInWarmBiomes = false;
@@ -55,6 +57,7 @@ public class SnowConfig {
         SnowConfig config = HANDLER.instance();
         config.accumulation = received.accumulation;
         config.generation = received.generation;
+        config.snowUnderTrees = received.snowUnderTrees;
         config.gradualMelting = received.gradualMelting;
         config.meltInWarmBiomes = received.meltInWarmBiomes;
         config.shovelHarvesting = received.shovelHarvesting;
@@ -70,6 +73,7 @@ public class SnowConfig {
         List<Option<Boolean>> options = List.of(
                 HELPER.get("accumulation.enabled", defaults.accumulation, () -> config.accumulation, value -> config.accumulation = value),
                 HELPER.get("generation.enabled", defaults.generation, () -> config.generation, value -> config.generation = value),
+                HELPER.get("canopy.snow_under_trees", defaults.snowUnderTrees, () -> config.snowUnderTrees, value -> config.snowUnderTrees = value),
                 HELPER.get("melting.gradual_melting", defaults.gradualMelting, () -> config.gradualMelting, value -> config.gradualMelting = value),
                 HELPER.get("melting.melt_in_warm_biomes", defaults.meltInWarmBiomes, () -> config.meltInWarmBiomes, value -> config.meltInWarmBiomes = value),
                 HELPER.get("harvesting.shovel_harvesting", defaults.shovelHarvesting, () -> config.shovelHarvesting, value -> config.shovelHarvesting = value),

@@ -2,9 +2,10 @@ package dev.imb11.snow.mixin.generation;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.imb11.snow.config.SnowConfig;
+import dev.imb11.snow.canopy.CanopySnow;
 import dev.imb11.snow.generation.SnowGeneration;
 import dev.imb11.snow.snowlogging.Snowlogging;
+import dev.imb11.snow.util.SnowSurface;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.WorldGenLevel;
@@ -21,7 +22,7 @@ public class SnowAndFreezeFeatureMixin {
     private boolean snow$placeLayers(WorldGenLevel level, BlockPos pos, BlockState state, int flags, Operation<Boolean> original) {
         if (state.is(Blocks.SNOW)) {
             Snowlogging.snowlog(level, pos);
-            if (SnowConfig.get().generation && SnowGeneration.place(level, pos, flags)) {
+            if (SnowGeneration.place(level, pos, flags)) {
                 return true;
             }
         }
@@ -30,7 +31,8 @@ public class SnowAndFreezeFeatureMixin {
     }
 
     @WrapOperation(method = "place", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/biome/Biome;shouldSnow(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;)Z"))
-    private boolean snow$snowOnPlants(Biome biome, LevelReader level, BlockPos pos, Operation<Boolean> original) {
-        return original.call(biome, level, pos) || Snowlogging.shouldSnow(biome, level, pos);
+    private boolean snow$snowSurface(Biome biome, LevelReader level, BlockPos pos, Operation<Boolean> original) {
+        CanopySnow.generate((WorldGenLevel) level, pos);
+        return SnowSurface.shouldSnow(biome, level, pos, original.call(biome, level, pos));
     }
 }

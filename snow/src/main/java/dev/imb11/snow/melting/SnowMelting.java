@@ -1,5 +1,6 @@
 package dev.imb11.snow.melting;
 
+import dev.imb11.snow.compat.SeasonCompat;
 import dev.imb11.snow.config.SnowConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -21,12 +22,16 @@ public class SnowMelting {
             return false;
         }
 
-        if (!shouldMelt(level, pos, config) || level.getBlockState(pos.above()).is(Blocks.SNOW)) {
-            return true;
+        if (shouldMelt(level, pos, config) && !level.getBlockState(pos.above()).is(Blocks.SNOW)) {
+            melt(level, pos, state);
         }
 
+        return true;
+    }
+
+    public static void melt(ServerLevel level, BlockPos pos, BlockState state) {
         int layers = state.getValue(SnowLayerBlock.LAYERS);
-        if (config.gradualMelting && layers > 1) {
+        if (SnowConfig.get().gradualMelting && layers > 1) {
             level.setBlockAndUpdate(pos, state.setValue(SnowLayerBlock.LAYERS, layers - 1));
         } else {
             Block.dropResources(state, level, pos);
@@ -35,8 +40,6 @@ public class SnowMelting {
             /*level.gameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Context.of(state));
             *///?}
         }
-
-        return true;
     }
 
     private static boolean shouldMelt(ServerLevel level, BlockPos pos, SnowConfig config) {
@@ -44,6 +47,6 @@ public class SnowMelting {
             return true;
         }
 
-        return config.meltInWarmBiomes && level.getBiome(pos).value().warmEnoughToRain(pos, level.getSeaLevel());
+        return config.meltInWarmBiomes && SeasonCompat.warmEnoughToRain(level, level.getBiome(pos).value(), pos);
     }
 }

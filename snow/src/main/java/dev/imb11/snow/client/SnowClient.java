@@ -1,5 +1,6 @@
 package dev.imb11.snow.client;
 
+import dev.imb11.snow.client.frost.BiomeTemperatureResolver;
 import dev.imb11.snow.client.frost.FrostBackend;
 import dev.imb11.snow.client.frost.FrostWeather;
 import dev.imb11.snow.snowlogging.Snowlogging;
@@ -18,12 +19,17 @@ public final class SnowClient {
         Snowlogging.setListener(SnowloggingClient.INSTANCE);
     }
 
+    public static @Nullable ClientLevel level() {
+        return level;
+    }
+
     public static boolean isCurrent(Level level) {
         return level == SnowClient.level;
     }
 
     public static void levelChanged(@Nullable ClientLevel level) {
         SnowClient.level = level;
+        BiomeTemperatureResolver.levelChanged();
         SnowloggingClient.INSTANCE.levelChanged();
         FrostWeather.INSTANCE.levelChanged(level);
         FrostBackend.INSTANCE.levelChanged();
