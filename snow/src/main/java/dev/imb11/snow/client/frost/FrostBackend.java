@@ -1,8 +1,6 @@
 package dev.imb11.snow.client.frost;
 
-import cc.cassian.mru.Platform;
 import dev.imb11.snow.client.frost.compat.IrisCompat;
-import dev.imb11.snow.client.frost.compat.SodiumFrostShader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -15,8 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public final class FrostBackend {
     public static final FrostBackend INSTANCE = new FrostBackend();
-    public static final int BAKED_STEPS = 8;
-    private static final boolean SODIUM = Platform.INSTANCE.isLoaded("sodium");
+    private static final int BAKED_STEPS = 8;
     private final Set<Long> sections = ConcurrentHashMap.newKeySet();
     private volatile float bakedProgress;
     private volatile boolean shaderMode;
@@ -41,21 +38,13 @@ public final class FrostBackend {
         return this.shaderMode;
     }
 
-    public float bakedProgress() {
-        return this.bakedProgress;
-    }
-
-    public void track(BlockPos pos) {
+    public int meshColor(int tint, float weight, BlockPos pos) {
         this.sections.add(SectionPos.asLong(pos));
-    }
-
-    public int bake(int color, float weight, BlockPos pos) {
-        this.track(pos);
-        return FrostColor.apply(color, weight * this.bakedProgress);
+        return this.shaderMode ? FrostColor.encode(tint, weight) : FrostColor.apply(tint, weight * this.bakedProgress);
     }
 
     private static boolean shaderAvailable() {
-        return SODIUM && SodiumFrostShader.ready() && !IrisCompat.shaderPackInUse();
+        return FrostShader.ready() && !IrisCompat.shaderPackInUse();
     }
 
     private static float quantize(float value) {

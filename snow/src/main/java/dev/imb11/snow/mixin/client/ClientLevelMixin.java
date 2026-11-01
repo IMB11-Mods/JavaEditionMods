@@ -3,7 +3,6 @@ package dev.imb11.snow.mixin.client;
 import dev.imb11.snow.client.SnowClient;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,11 +17,6 @@ public class ClientLevelMixin {
     @Inject(method = "tick", at = @At("TAIL"))
     private void snow$tick(BooleanSupplier haveTime, CallbackInfo ci) {
         SnowClient.tick((ClientLevel) (Object) this);
-    }
-
-    @Inject(method = "onChunkLoaded", at = @At("TAIL"))
-    private void snow$chunkLoaded(ChunkPos pos, CallbackInfo ci) {
-        SnowClient.chunkLoaded((ClientLevel) (Object) this, pos);
     }
 
     @Inject(method = "unload", at = @At("HEAD"))

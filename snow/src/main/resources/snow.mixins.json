@@ -19,9 +19,10 @@
     "client.ClientLevelMixin",
     "client.MinecraftMixin",
     "frost.client.BlockColorsMixin",
+    "frost.client.GlobalSettingsUniformMixin",
     "frost.compat.ShaderIncludeMixin",
     "frost.compat.ShaderManagerMixin",
-    "frost.compat.SodiumBlockRendererMixin",
+    "frost.compat.SodiumColorProviderRegistryMixin",
     "frost.compat.SodiumGlobalUniformsMixin",
     "snowlogging.client.BlockColorsMixin"
   ],

@@ -17,12 +17,18 @@ public record FrostedLeafTintSource(BlockTintSource delegate) implements BlockTi
 
     @Override
     public int colorInWorld(BlockState state, BlockAndTintGetter level, BlockPos pos) {
-        return this.frost(this.delegate.colorInWorld(state, level, pos), state, level, pos);
+        int color = this.delegate.colorInWorld(state, level, pos);
+        float weight = LeafFrost.weight(level, state, pos);
+        if (weight <= 0.0F) {
+            return color;
+        }
+
+        return level instanceof ClientLevel ? immediate(color, weight) : FrostBackend.INSTANCE.meshColor(color, weight, pos);
     }
 
     @Override
     public int colorAsTerrainParticle(BlockState state, BlockAndTintGetter level, BlockPos pos) {
-        return this.frost(this.delegate.colorAsTerrainParticle(state, level, pos), state, level, pos);
+        return immediate(this.delegate.colorAsTerrainParticle(state, level, pos), LeafFrost.weight(level, state, pos));
     }
 
     @Override
@@ -30,13 +36,7 @@ public record FrostedLeafTintSource(BlockTintSource delegate) implements BlockTi
         return this.delegate.relevantProperties();
     }
 
-    private int frost(int color, BlockState state, BlockAndTintGetter level, BlockPos pos) {
-        float weight = LeafFrost.weight(level, state, pos);
-        if (weight <= 0.0F) {
-            return color;
-        }
-
-        boolean meshing = !(level instanceof ClientLevel);
-        return meshing ? FrostBackend.INSTANCE.bake(color, weight, pos) : FrostColor.apply(color, weight * FrostWeather.INSTANCE.interpolatedProgress());
+    private static int immediate(int color, float weight) {
+        return FrostColor.apply(color, weight * FrostWeather.INSTANCE.interpolatedProgress());
     }
 }
