@@ -27,7 +27,7 @@ import java.util.stream.Stream;
 
 public class SnowGameTests {
     private static final int PADDING = 4;
-    private static final List<TestDefinition> TESTS = Stream.of(AccumulationTests.all(), GenerationTests.all(), MeltingTests.all(), HarvestingTests.all())
+    private static final List<TestDefinition> TESTS = Stream.of(AccumulationTests.all(), GenerationTests.all(), MeltingTests.all(), HarvestingTests.all(), SnowloggingTests.all())
             .flatMap(List::stream)
             .toList();
 

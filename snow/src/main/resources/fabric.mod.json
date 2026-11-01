@@ -18,6 +18,9 @@
     "main": [
       "dev.imb11.snow.fabric.SnowFabric"
     ],
+    "client": [
+      "dev.imb11.snow.fabric.SnowFabricClient"
+    ],
     "modmenu": [
       "dev.imb11.snow.fabric.ModMenuCompat"
     ],
@@ -34,5 +37,8 @@
     "fabric-api": "*",
     "mru": "${target_mru}",
     "yet_another_config_lib_v3": "${target_yacl}"
+  },
+  "breaks": {
+    "snowrealmagic": "*"
   }
 }

@@ -10,6 +10,6 @@
   "snow.config.option.description.melting.melt_in_warm_biomes": "Should snow melt in biomes that are warm enough to rain?",
   "snow.config.option.harvesting.shovel_harvesting": "Shovel Harvesting",
   "snow.config.option.description.harvesting.shovel_harvesting": "Should using a shovel on snow clear it and drop snowballs?",
-  "snow.config.option.startup.snowlogging": "Snowlogging",
-  "snow.config.option.description.startup.snowlogging": "Should snow be able to share a block with plants and other blocks? Requires a restart, and players joining your server will need Snow installed."
+  "snow.config.option.snowlogging.enabled": "Snowlogging",
+  "snow.config.option.description.snowlogging.enabled": "Should snow be able to cover small plants like flowers and grass?"
 }

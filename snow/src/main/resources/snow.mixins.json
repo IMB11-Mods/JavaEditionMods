@@ -7,7 +7,17 @@
     "accumulation.ServerLevelMixin",
     "generation.SnowAndFreezeFeatureMixin",
     "harvesting.ShovelUseMixin",
-    "melting.SnowLayerBlockMixin"
+    "melting.SnowLayerBlockMixin",
+    "snowlogging.BlockBehaviourMixin",
+    "snowlogging.BlockItemMixin",
+    "snowlogging.LevelMixin",
+    "snowlogging.SerializableChunkDataMixin",
+    "snowlogging.SnowLayerBlockMixin"
+  ],
+  "client": [
+    "snowlogging.client.BlockColorsMixin",
+    "snowlogging.client.ClientLevelMixin",
+    "snowlogging.client.MinecraftMixin"
   ],
   "injectors": {
     "defaultRequire": 1

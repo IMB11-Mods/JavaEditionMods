@@ -38,3 +38,11 @@ type="required"
 versionRange="[${target_yacl},)"
 ordering="NONE"
 side="BOTH"
+
+[[dependencies.snow]]
+modId="snowrealmagic"
+type="incompatible"
+reason="Snow already provides snowlogging and even more features compared to Snow! Real Magic! which is incompatible."
+versionRange="[0,)"
+ordering="NONE"
+side="BOTH"

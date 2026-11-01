@@ -28,8 +28,7 @@ public class SnowConfig {
                     .build())
             .build();
     public static final SyncedConfig<SnowConfig> SYNC = SyncedConfig
-            .register(Snow.id("config"), SnowConfig.class, HANDLER::instance, SnowConfig::applyFromOperator)
-            .requireClient(() -> SnowStartupConfig.get().snowlogging);
+            .register(Snow.id("config"), SnowConfig.class, HANDLER::instance, SnowConfig::applyFromOperator);
 
     @SerialEntry
     public boolean accumulation = true;
@@ -41,6 +40,8 @@ public class SnowConfig {
     public boolean meltInWarmBiomes = false;
     @SerialEntry
     public boolean shovelHarvesting = true;
+    @SerialEntry
+    public boolean snowlogging = true;
 
     public static SnowConfig get() {
         return SYNC.get();
@@ -57,6 +58,7 @@ public class SnowConfig {
         config.gradualMelting = received.gradualMelting;
         config.meltInWarmBiomes = received.meltInWarmBiomes;
         config.shovelHarvesting = received.shovelHarvesting;
+        config.snowlogging = received.snowlogging;
         HANDLER.save();
     }
 
@@ -70,7 +72,8 @@ public class SnowConfig {
                 HELPER.get("generation.enabled", defaults.generation, () -> config.generation, value -> config.generation = value),
                 HELPER.get("melting.gradual_melting", defaults.gradualMelting, () -> config.gradualMelting, value -> config.gradualMelting = value),
                 HELPER.get("melting.melt_in_warm_biomes", defaults.meltInWarmBiomes, () -> config.meltInWarmBiomes, value -> config.meltInWarmBiomes = value),
-                HELPER.get("harvesting.shovel_harvesting", defaults.shovelHarvesting, () -> config.shovelHarvesting, value -> config.shovelHarvesting = value)
+                HELPER.get("harvesting.shovel_harvesting", defaults.shovelHarvesting, () -> config.shovelHarvesting, value -> config.shovelHarvesting = value),
+                HELPER.get("snowlogging.enabled", defaults.snowlogging, () -> config.snowlogging, value -> config.snowlogging = value)
         );
         if (!editable) {
             options.forEach(option -> option.setAvailable(false));
@@ -81,7 +84,6 @@ public class SnowConfig {
                 .category(ConfigCategory.createBuilder()
                         .name(Component.translatable("snow.config.title"))
                         .options(options)
-                        .option(SnowStartupConfig.option())
                         .build())
                 .save(() -> {
                     if (remote) {
@@ -92,7 +94,6 @@ public class SnowConfig {
                         HANDLER.save();
                         SYNC.broadcast();
                     }
-                    SnowStartupConfig.save();
                 })
                 .build();
     }
