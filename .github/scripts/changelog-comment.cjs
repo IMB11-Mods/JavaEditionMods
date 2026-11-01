@@ -17,8 +17,8 @@ module.exports = async ({ github, context }) => {
   const issue_number = pull.number;
   const repo = { ...context.repo, issue_number };
   const comments = await github.paginate(github.rest.issues.listComments, repo);
-  for (const project of ['sounds', 'mru', 'shields', 'fog', 'glass', 'snow']) {
-    if (!pull.labels.some(label => label.name === `project:${project}`)) continue;
+  const projects = pull.labels.map(label => label.name.match(/^project:([a-z0-9-]+)$/)?.[1]).filter(Boolean);
+  for (const project of projects) {
     const marker = `[release-changelog-${project}]: #`;
     if (comments.some(comment => comment.user.type === 'Bot' && comment.body.split(/\r?\n/).includes(marker))) continue;
     await github.rest.issues.createComment({
