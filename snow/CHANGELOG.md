@@ -1,5 +1,30 @@
 # Changelog
 
+## [3.0.0] - 2026-11-01
+
+### Added
+
+- Snow Under Trees (Fabric) is now Snow. The mod id is now `snow`. ([#357](https://github.com/IMB11-Mods/JavaEditionMods/pull/357))
+- Snowlogging: snow can cover small plants in the `snow:snowloggable` block tag, and breaking the snow leaves the plant alone. ([#357](https://github.com/IMB11-Mods/JavaEditionMods/pull/357))
+- Snowy leaves: leaves turn white while it snows in cold biomes. Client-side only, works with Sodium and Iris. ([#357](https://github.com/IMB11-Mods/JavaEditionMods/pull/357))
+- Better snow generation: snow generates in several layers that follow the terrain, keeps layering up while it snows, and each biome has its own depth through the `snow:snow_profile` datapack registry. ([#357](https://github.com/IMB11-Mods/JavaEditionMods/pull/357))
+- Gradual melting, melting in warm biomes, and shovel harvesting of snow layers. ([#357](https://github.com/IMB11-Mods/JavaEditionMods/pull/357))
+- NeoForge support! ([#357](https://github.com/IMB11-Mods/JavaEditionMods/pull/357))
+- Serene Seasons support: snowfall, snowlogging, melting and snowy leaves follow the seasonal temperature, and Serene Seasons' own melting removes one layer at a time when gradual melting is on. ([#357](https://github.com/IMB11-Mods/JavaEditionMods/pull/357))
+- Server-synced config: the server controls the settings on multiplayer and only op players can change them in game. ([#357](https://github.com/IMB11-Mods/JavaEditionMods/pull/357))
+
+### Changed
+
+- Snow under trees now works in every biome that is cold enough to snow at ground level, instead of a configured biome list. Modded biomes no longer need to be added by hand. ([#357](https://github.com/IMB11-Mods/JavaEditionMods/pull/357))
+- Snow under trees uses the vanilla snowfall tick instead of its own chunk scheduler, so the "Snow Update Limit" option is gone. ([#357](https://github.com/IMB11-Mods/JavaEditionMods/pull/357))
+- Snow under trees keeps falling under trees whose canopy already has snow on top. ([#357](https://github.com/IMB11-Mods/JavaEditionMods/pull/357))
+- The config moved from `snowundertrees.config.json` to `snow.json`, with new option names. ([#357](https://github.com/IMB11-Mods/JavaEditionMods/pull/357))
+
+### Removed
+
+- The "Supported Biomes", "Snow Update Limit", "Respect Season Mods" and "Melt Snow Seasonally" options. ([#357](https://github.com/IMB11-Mods/JavaEditionMods/pull/357))
+- Support for Minecraft versions before 26.2. ([#357](https://github.com/IMB11-Mods/JavaEditionMods/pull/357))
+
 ## [2.7.6] - 2026-03-24
 
 ### Added
