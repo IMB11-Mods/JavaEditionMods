@@ -1,31 +1,5 @@
 # Changelog
 
-## [3.0.0] - 2026-11-01
-
-Snow Under Trees (Fabric) is now Snow. The mod id is now `snow`, so remove the old `snowundertrees` jar and config when updating.
-
-### Added
-
-- Snowlogging: snow can cover small plants in the `snow:snowloggable` block tag, and breaking the snow leaves the plant alone.
-- Snowy leaves: leaves turn white while it snows in cold biomes. Client-side only, works with Sodium and Iris.
-- Better snow generation: snow generates in several layers that follow the terrain, keeps layering up while it snows, and each biome has its own depth through the `snow:snow_profile` datapack registry.
-- Gradual melting, melting in warm biomes, and shovel harvesting of snow layers.
-- NeoForge support.
-- Serene Seasons support: snowfall, snowlogging, melting and snowy leaves follow the seasonal temperature, and Serene Seasons' own melting removes one layer at a time when gradual melting is on.
-- Server-synced config: the server controls the settings on multiplayer and only op players can change them in game.
-
-### Changed
-
-- Snow under trees now works in every biome that is cold enough to snow at ground level, instead of a configured biome list. Modded biomes no longer need to be added by hand.
-- Snow under trees uses the vanilla snowfall tick instead of its own chunk scheduler, so the "Snow Update Limit" option is gone.
-- Snow under trees keeps falling under trees whose canopy already has snow on top.
-- The config moved from `snowundertrees.config.json` to `snow.json`, with new option names.
-
-### Removed
-
-- The "Supported Biomes", "Snow Update Limit", "Respect Season Mods" and "Melt Snow Seasonally" options.
-- Support for Minecraft versions before 26.2.
-
 ## [2.7.6] - 2026-03-24
 
 ### Added
