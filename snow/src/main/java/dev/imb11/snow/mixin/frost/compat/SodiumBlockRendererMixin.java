@@ -3,8 +3,10 @@ package dev.imb11.snow.mixin.frost.compat;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import dev.imb11.snow.client.frost.FrostShader;
-import dev.imb11.snow.client.frost.FrostedLeaves;
+import dev.imb11.snow.client.frost.FrostBackend;
+import dev.imb11.snow.client.frost.FrostColor;
+import dev.imb11.snow.client.frost.LeafFrost;
+import dev.imb11.snow.client.frost.compat.SodiumFrostShader;
 import net.caffeinemc.mods.sodium.client.render.chunk.compile.ChunkBuildBuffers;
 import net.caffeinemc.mods.sodium.client.render.chunk.translucent_sorting.TranslucentGeometryCollector;
 import net.caffeinemc.mods.sodium.client.render.chunk.vertex.builder.ChunkMeshBufferBuilder;
@@ -44,36 +46,41 @@ abstract class SodiumBlockRendererMixin {
 
     @Inject(method = "renderModel", at = @At("HEAD"))
     private void snow$measureFrost(BlockStateModel model, BlockState state, BlockPos pos, BlockPos origin, CallbackInfo ci) {
-        this.snow$frost = this.snow$level == null ? 0.0F : FrostedLeaves.weight(this.snow$level, state, pos);
+        this.snow$frost = this.snow$level == null ? 0.0F : LeafFrost.weight(this.snow$level, state, pos);
         if (this.snow$frost > 0.0F) {
-            FrostedLeaves.track(pos);
+            FrostBackend.INSTANCE.track(pos);
         }
     }
 
     @Inject(method = "tintQuad", at = @At("TAIL"))
     private void snow$bakeFrost(MutableQuadViewImpl quad, CallbackInfo ci) {
-        if (this.snow$frost <= 0.0F || quad.getTintIndex() == -1 || FrostedLeaves.useShader()) {
+        if (this.snow$frost <= 0.0F || quad.getTintIndex() == -1 || FrostBackend.INSTANCE.useShader()) {
             return;
         }
 
-        float amount = this.snow$frost * FrostedLeaves.bakedProgress();
+        float amount = this.snow$frost * FrostBackend.INSTANCE.bakedProgress();
         if (amount > 0.0F) {
             for (int i = 0; i < 4; i++) {
-                quad.setColor(i, FrostedLeaves.frost(quad.baseColor(i), amount));
+                quad.setColor(i, FrostColor.apply(quad.baseColor(i), amount));
             }
         }
     }
 
     @WrapOperation(method = "bufferQuad", at = @At(value = "INVOKE", target = "Lnet/caffeinemc/mods/sodium/client/render/chunk/vertex/builder/ChunkMeshBufferBuilder;push([Lnet/caffeinemc/mods/sodium/client/render/chunk/vertex/format/ChunkVertexEncoder$Vertex;I)V"))
     private void snow$flagFrost(ChunkMeshBufferBuilder buffer, ChunkVertexEncoder.Vertex[] vertices, int materialBits, Operation<Void> original, @Local(argsOnly = true) MutableQuadViewImpl quad) {
-        if (this.snow$frost > 0.0F && quad.getTintIndex() != -1 && FrostedLeaves.useShader()) {
-            for (ChunkVertexEncoder.Vertex vertex : vertices) {
-                int shade = Mth.clamp(Math.round(vertex.ao * 255.0F), 0, 255);
-                vertex.color = (vertex.color & 0x00FFFFFF) | (shade << 24);
-            }
-            materialBits |= FrostShader.encodeWeight(this.snow$frost);
+        if (this.snow$frost > 0.0F && quad.getTintIndex() != -1 && FrostBackend.INSTANCE.useShader()) {
+            snow$storeShadeInAlpha(vertices);
+            materialBits |= SodiumFrostShader.encodeWeight(this.snow$frost);
         }
 
         original.call(buffer, vertices, materialBits);
+    }
+
+    @Unique
+    private static void snow$storeShadeInAlpha(ChunkVertexEncoder.Vertex[] vertices) {
+        for (ChunkVertexEncoder.Vertex vertex : vertices) {
+            int shade = Mth.clamp(Math.round(vertex.ao * 255.0F), 0, 255);
+            vertex.color = (vertex.color & 0x00FFFFFF) | (shade << 24);
+        }
     }
 }

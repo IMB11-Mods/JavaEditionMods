@@ -18,8 +18,12 @@ dependencies {
     compileOnly(files(provider {
         sodiumDistribution.files.flatMap { zipTree(it).matching { include("META-INF/jarjar/net.caffeinemc.sodium-*-mod.jar") }.files }
     }))
-    if (providers.gradleProperty("with_sodium").isPresent) {
+    val withIris = providers.gradleProperty("with_iris").isPresent
+    if (withIris || providers.gradleProperty("with_sodium").isPresent) {
         runtimeOnly(mcLibrary("sodium-neoforge"))
+    }
+    if (withIris) {
+        runtimeOnly(mcLibrary("iris-neoforge"))
     }
 }
 

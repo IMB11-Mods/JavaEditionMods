@@ -31,16 +31,12 @@ public record FrostedLeafTintSource(BlockTintSource delegate) implements BlockTi
     }
 
     private int frost(int color, BlockState state, BlockAndTintGetter level, BlockPos pos) {
-        float weight = FrostedLeaves.weight(level, state, pos);
+        float weight = LeafFrost.weight(level, state, pos);
         if (weight <= 0.0F) {
             return color;
         }
 
-        if (level instanceof ClientLevel) {
-            return FrostedLeaves.frost(color, weight * FrostedLeaves.progress());
-        }
-
-        FrostedLeaves.track(pos);
-        return FrostedLeaves.frost(color, weight * FrostedLeaves.bakedProgress());
+        boolean meshing = !(level instanceof ClientLevel);
+        return meshing ? FrostBackend.INSTANCE.bake(color, weight, pos) : FrostColor.apply(color, weight * FrostWeather.INSTANCE.interpolatedProgress());
     }
 }

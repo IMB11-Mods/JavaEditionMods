@@ -22,7 +22,6 @@ import org.jspecify.annotations.Nullable;
 
 public class Snowlogging {
     public static final TagKey<Block> SNOWLOGGABLE = TagKey.create(Registries.BLOCK, Snow.id("snowloggable"));
-    public static final int MAX_SNOW_LIGHT_LEVEL = 10;
     private static SnowloggingListener listener = SnowloggingListener.NONE;
 
     public static SnowloggingListener listener() {
@@ -80,7 +79,7 @@ public class Snowlogging {
         }
 
         return level.isInsideBuildHeight(pos.getY())
-                && level.getBrightness(LightLayer.BLOCK, pos) < MAX_SNOW_LIGHT_LEVEL
+                && level.getBrightness(LightLayer.BLOCK, pos) < 10
                 && Blocks.SNOW.defaultBlockState().canSurvive(level, pos);
     }
 

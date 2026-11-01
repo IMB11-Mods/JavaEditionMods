@@ -17,40 +17,31 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class SnowloggingClient implements SnowloggingListener {
     public static final SnowloggingClient INSTANCE = new SnowloggingClient();
-    public static final int PREDICTION_TICKS = 60;
     private final Map<Long, BlockState> plants = new ConcurrentHashMap<>();
     private final Map<Long, Prediction> predictions = new ConcurrentHashMap<>();
-    private @Nullable ClientLevel level;
-
-    private SnowloggingClient() {
-    }
-
-    public static void init() {
-        Snowlogging.setListener(INSTANCE);
-    }
 
     public @Nullable BlockState plantAt(BlockPos pos) {
         Prediction prediction = this.predictions.get(pos.asLong());
         return prediction != null ? prediction.plant() : this.plants.get(pos.asLong());
     }
 
-    public void levelChanged(@Nullable ClientLevel level) {
-        this.level = level;
+    public void levelChanged() {
         this.plants.clear();
         this.predictions.clear();
     }
 
     @Override
     public void plantsChanged(Level level, @Nullable SnowloggedPlants previous, @Nullable SnowloggedPlants current) {
-        if (level != this.level) {
+        if (!SnowClient.isCurrent(level)) {
             return;
         }
 
+        ClientLevel clientLevel = (ClientLevel) level;
         if (previous != null) {
             previous.plants().keySet().forEach(pos -> {
                 if (current == null || current.get(pos) == null) {
                     this.plants.remove(pos.asLong());
-                    this.setDirty(pos);
+                    setDirty(clientLevel, pos);
                 }
             });
         }
@@ -61,7 +52,7 @@ public class SnowloggingClient implements SnowloggingListener {
                 this.predictions.remove(pos.asLong());
                 this.plants.put(pos.asLong(), plant);
                 if (shown != plant) {
-                    this.setDirty(pos);
+                    setDirty(clientLevel, pos);
                 }
             });
         }
@@ -69,20 +60,16 @@ public class SnowloggingClient implements SnowloggingListener {
 
     @Override
     public void plantPredicted(Level level, BlockPos pos, BlockState plant) {
-        if (level == this.level) {
-            this.predict(pos, plant);
-            this.setDirty(pos);
+        if (SnowClient.isCurrent(level)) {
+            this.predict(level, pos, plant);
+            setDirty((ClientLevel) level, pos);
         }
     }
 
     public void blockChanged(ClientLevel level, BlockPos pos, BlockState oldState, BlockState newState) {
-        if (level != this.level) {
-            return;
-        }
-
         if (newState.is(Blocks.SNOW) && !oldState.is(Blocks.SNOW) && SnowConfig.SYNC.serverPresent() && Snowlogging.canSnowlog(oldState)) {
             if (!this.plants.containsKey(pos.asLong())) {
-                this.predict(pos, oldState);
+                this.predict(level, pos, oldState);
             }
         } else if (oldState.is(Blocks.SNOW) && !newState.is(Blocks.SNOW)) {
             this.predictions.remove(pos.asLong());
@@ -90,7 +77,7 @@ public class SnowloggingClient implements SnowloggingListener {
     }
 
     public void tick(ClientLevel level) {
-        if (level != this.level || this.predictions.isEmpty()) {
+        if (this.predictions.isEmpty()) {
             return;
         }
 
@@ -100,21 +87,17 @@ public class SnowloggingClient implements SnowloggingListener {
                 return false;
             }
 
-            this.setDirty(BlockPos.of(entry.getKey()));
+            setDirty(level, BlockPos.of(entry.getKey()));
             return true;
         });
     }
 
-    private void predict(BlockPos pos, BlockState plant) {
-        if (this.level != null) {
-            this.predictions.put(pos.asLong(), new Prediction(plant, this.level.getGameTime() + PREDICTION_TICKS));
-        }
+    private void predict(Level level, BlockPos pos, BlockState plant) {
+        this.predictions.put(pos.asLong(), new Prediction(plant, level.getGameTime() + 60));
     }
 
-    private void setDirty(BlockPos pos) {
-        if (this.level != null) {
-            this.level.setSectionDirtyWithNeighbors(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getY()), SectionPos.blockToSectionCoord(pos.getZ()));
-        }
+    private static void setDirty(ClientLevel level, BlockPos pos) {
+        level.setSectionDirtyWithNeighbors(SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getY()), SectionPos.blockToSectionCoord(pos.getZ()));
     }
 
     private record Prediction(BlockState plant, long expiresAt) {

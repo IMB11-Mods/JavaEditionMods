@@ -1,6 +1,7 @@
 //? fabric {
 package dev.imb11.snow.datagen;
 
+import dev.imb11.snow.frost.FrostableLeaves;
 import dev.imb11.snow.snowlogging.Snowlogging;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
@@ -56,6 +57,8 @@ public class SnowBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
     protected void addTags(HolderLookup.Provider registries) {
         this.builder(Snowlogging.SNOWLOGGABLE)
                 .addAll(SNOWLOGGABLE.stream().map(block -> block.builtInRegistryHolder().key()));
+        this.builder(FrostableLeaves.TAG)
+                .addAll(FrostableLeaves.DEFAULTS.stream().map(block -> block.builtInRegistryHolder().key()));
     }
 }
 //?}

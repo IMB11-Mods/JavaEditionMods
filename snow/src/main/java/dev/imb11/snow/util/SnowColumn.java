@@ -28,9 +28,14 @@ public class SnowColumn {
 
     public static void place(LevelAccessor level, BlockPos base, int layers, int flags, boolean pushEntities) {
         setLayers(level, base, Math.min(layers, SnowLayerBlock.MAX_HEIGHT), flags, pushEntities);
-        if (layers > SnowLayerBlock.MAX_HEIGHT) {
-            setLayers(level, base.above(), layers - SnowLayerBlock.MAX_HEIGHT, flags, pushEntities);
+        BlockPos above = base.above();
+        if (layers > SnowLayerBlock.MAX_HEIGHT && canOverflowInto(level.getBlockState(above))) {
+            setLayers(level, above, layers - SnowLayerBlock.MAX_HEIGHT, flags, pushEntities);
         }
+    }
+
+    private static boolean canOverflowInto(BlockState state) {
+        return state.isAir() || state.is(Blocks.SNOW);
     }
 
     private static void setLayers(LevelAccessor level, BlockPos pos, int layers, int flags, boolean pushEntities) {

@@ -35,7 +35,7 @@ public class SnowProfileProvider extends FabricDynamicRegistryProvider {
     @SafeVarargs
     private static void register(BootstrapContext<SnowProfile> context, HolderGetter<Biome> biomes, String name, int minLayers, int maxLayers, float accumulationRate, ResourceKey<Biome>... keys) {
         HolderSet<Biome> holders = HolderSet.direct(Arrays.stream(keys).map(biomes::getOrThrow).toList());
-        context.register(ResourceKey.create(SnowProfiles.KEY, Snow.id(name)), new SnowProfile(holders, minLayers, maxLayers, accumulationRate, 0));
+        context.register(ResourceKey.create(SnowProfiles.KEY, Snow.id(name)), new SnowProfile(holders, minLayers, maxLayers, accumulationRate, SnowProfile.DEFAULT_DRIFT_STRENGTH, 0));
     }
 
     @Override

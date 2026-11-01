@@ -5,6 +5,7 @@ import dev.imb11.snow.profile.SnowProfile;
 import dev.imb11.snow.profile.SnowProfiles;
 import dev.imb11.snow.gametest.SnowGameTests.TestDefinition;
 import dev.imb11.snow.gametest.support.SnowTestHelper;
+import dev.imb11.snow.util.SnowColumn;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -14,7 +15,6 @@ import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.animal.pig.Pig;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
-import net.minecraft.world.level.block.SnowLayerBlock;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -44,14 +44,15 @@ public class AccumulationTests {
             SnowProfile profile = SnowTestHelper.setBiome(helper, biome);
             String name = biome.getRegisteredName();
             SnowTestHelper.clear(helper, SURFACE);
+            int target = target(helper);
+            helper.assertValueInBetween(profile.minLayers(), target, SnowColumn.MAX_LAYERS, name + " accumulation target");
 
             SnowAccumulation.accumulate(helper.getLevel(), helper.absolutePos(SURFACE));
-            int lowest = Math.min(profile.maxLayers(), Mth.floor(profile.accumulationRate()));
-            int highest = Math.min(profile.maxLayers(), Mth.ceil(profile.accumulationRate()));
-            helper.assertValueInBetween(lowest, SnowTestHelper.layers(helper, SURFACE), highest, name + " layers after one snowfall tick");
+            int highest = Math.min(target, Mth.ceil(profile.accumulationRate()));
+            helper.assertValueInBetween(1, SnowTestHelper.layers(helper, SURFACE), highest, name + " layers after one snowfall tick");
 
             fill(helper);
-            int expectedMax = profile.accumulationRate() > 0 ? profile.maxLayers() : 0;
+            int expectedMax = profile.accumulationRate() > 0 ? target : 0;
             helper.assertValueEqual(SnowTestHelper.layers(helper, SURFACE), expectedMax, name + " maximum layers");
         }
 
@@ -60,7 +61,8 @@ public class AccumulationTests {
 
     private static void snowfallHook(GameTestHelper helper) {
         SnowProfile profile = SnowTestHelper.setBiome(helper, SnowTestHelper.biome(helper, Biomes.ICE_SPIKES));
-        helper.assertTrue(profile.maxLayers() > 1, "Ice Spikes should accumulate more than one layer");
+        helper.assertTrue(profile.minLayers() > 1, "Ice Spikes should accumulate more than one layer");
+        int target = target(helper);
         helper.startSequence()
                 .thenWaitUntil(() -> helper.assertTrue(helper.getLevel().isRaining(), "Rain should be falling"))
                 .thenExecute(() -> {
@@ -68,7 +70,7 @@ public class AccumulationTests {
                         helper.tickPrecipitation(SURFACE);
                     }
 
-                    SnowTestHelper.assertLayers(helper, SURFACE, profile.maxLayers());
+                    SnowTestHelper.assertLayers(helper, SURFACE, target);
                 })
                 .thenSucceed();
     }
@@ -81,15 +83,16 @@ public class AccumulationTests {
     }
 
     private static void gameruleCap(GameTestHelper helper) {
-        helper.setBiome(Biomes.ICE_SPIKES);
+        SnowProfile profile = SnowTestHelper.setBiome(helper, SnowTestHelper.biome(helper, Biomes.ICE_SPIKES));
+        int target = target(helper);
+        helper.assertValueInBetween(profile.minLayers(), target, 5, "capped accumulation target");
         fill(helper);
-        SnowTestHelper.assertLayers(helper, SURFACE, 5);
+        SnowTestHelper.assertLayers(helper, SURFACE, target);
         helper.succeed();
     }
 
     private static void pushesEntities(GameTestHelper helper) {
-        SnowProfile profile = SnowTestHelper.setBiome(helper, SnowTestHelper.biome(helper, Biomes.ICE_SPIKES));
-        helper.assertTrue(profile.maxLayers() > SnowLayerBlock.MAX_HEIGHT, "Ice Spikes should stack snow above one block");
+        SnowTestHelper.setBiome(helper, SnowTestHelper.biome(helper, Biomes.ICE_SPIKES));
         Pig pig = helper.spawnWithNoFreeWill(EntityTypes.PIG, SURFACE);
         fill(helper);
         double surface = SnowTestHelper.surfaceY(helper, SURFACE);
@@ -99,11 +102,15 @@ public class AccumulationTests {
 
     private static void priority(GameTestHelper helper) {
         Holder<Biome> plains = SnowTestHelper.biome(helper, Biomes.PLAINS);
-        SnowProfile low = new SnowProfile(HolderSet.direct(plains), 1, 2, 1f, 0);
-        SnowProfile high = new SnowProfile(HolderSet.direct(plains), 1, 6, 1f, 5);
+        SnowProfile low = new SnowProfile(HolderSet.direct(plains), 1, 2, 1f, SnowProfile.DEFAULT_DRIFT_STRENGTH, 0);
+        SnowProfile high = new SnowProfile(HolderSet.direct(plains), 1, 6, 1f, SnowProfile.DEFAULT_DRIFT_STRENGTH, 5);
         SnowProfile resolved = SnowProfiles.resolve(Stream.of(low, high), plains).orElseThrow();
         helper.assertValueEqual(resolved, high, "resolved profile");
         helper.succeed();
+    }
+
+    private static int target(GameTestHelper helper) {
+        return SnowAccumulation.target(helper.getLevel(), helper.absolutePos(SURFACE));
     }
 
     private static void fill(GameTestHelper helper) {

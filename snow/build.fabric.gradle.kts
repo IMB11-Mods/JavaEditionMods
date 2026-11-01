@@ -11,8 +11,12 @@ dependencies {
     implementation(mcLibrary("modmenu"))
     compileOnly(mcLibrary("sodium-fabric"))
     compileOnly(mcLibrary("iris-fabric"))
-    if (providers.gradleProperty("with_sodium").isPresent) {
+    val withIris = providers.gradleProperty("with_iris").isPresent
+    if (withIris || providers.gradleProperty("with_sodium").isPresent) {
         "localRuntime"(mcLibrary("sodium-fabric"))
+    }
+    if (withIris) {
+        "localRuntime"(mcLibrary("iris-fabric"))
     }
 }
 

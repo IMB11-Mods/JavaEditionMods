@@ -1,12 +1,9 @@
-package dev.imb11.snow.client.frost;
+package dev.imb11.snow.client.frost.compat;
 
 import cc.cassian.mru.Platform;
 
-public final class IrisFrost {
+public final class IrisCompat {
     private static final boolean LOADED = Platform.INSTANCE.isLoaded("iris");
-
-    private IrisFrost() {
-    }
 
     public static boolean shaderPackInUse() {
         return LOADED && Access.shaderPackInUse();

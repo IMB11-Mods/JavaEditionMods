@@ -17,8 +17,6 @@ import static dev.imb11.snow.gametest.support.SnowTestHelper.PLATFORM;
 import static dev.imb11.snow.gametest.support.SnowTestHelper.SURFACE;
 
 public class MeltingTests {
-    private static final int MAX_POLLED_TASKS = 64;
-
     public static List<TestDefinition> all() {
         return List.of(
                 new TestDefinition("melting/gradual", MELTING, PLATFORM, 100, MeltingTests::gradual),
@@ -34,7 +32,7 @@ public class MeltingTests {
         helper.setBlock(SURFACE.east(), Blocks.GLOWSTONE);
         helper.startSequence()
                 .thenWaitUntil(() -> {
-                    for (int i = 0; i < MAX_POLLED_TASKS; i++) {
+                    for (int i = 0; i < 64; i++) {
                         helper.getLevel().getChunkSource().pollTask();
                     }
                     helper.assertTrue(helper.getLevel().getBrightness(LightLayer.BLOCK, helper.absolutePos(SURFACE)) > SnowMelting.MELT_LIGHT_LEVEL, "Snow should be lit by the glowstone");

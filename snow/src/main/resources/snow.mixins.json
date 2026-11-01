@@ -15,17 +15,15 @@
     "snowlogging.SnowLayerBlockMixin"
   ],
   "client": [
+    "accumulation.client.LeavesBlockMixin",
+    "client.ClientLevelMixin",
+    "client.MinecraftMixin",
     "frost.client.BlockColorsMixin",
-    "frost.client.ClientLevelMixin",
-    "frost.client.LeavesBlockMixin",
-    "frost.client.MinecraftMixin",
-    "frost.client.ShaderIncludeMixin",
-    "frost.client.ShaderManagerMixin",
+    "frost.compat.ShaderIncludeMixin",
+    "frost.compat.ShaderManagerMixin",
     "frost.compat.SodiumBlockRendererMixin",
     "frost.compat.SodiumGlobalUniformsMixin",
-    "snowlogging.client.BlockColorsMixin",
-    "snowlogging.client.ClientLevelMixin",
-    "snowlogging.client.MinecraftMixin"
+    "snowlogging.client.BlockColorsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

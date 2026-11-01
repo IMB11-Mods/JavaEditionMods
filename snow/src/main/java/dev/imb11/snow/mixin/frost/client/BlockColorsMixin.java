@@ -1,7 +1,7 @@
 package dev.imb11.snow.mixin.frost.client;
 
 import dev.imb11.snow.client.frost.FrostedLeafTintSource;
-import dev.imb11.snow.client.frost.FrostedLeaves;
+import dev.imb11.snow.frost.FrostableLeaves;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.block.BlockTintSource;
 import net.minecraft.world.level.block.state.BlockState;
@@ -24,7 +24,7 @@ public class BlockColorsMixin {
     @Inject(method = "getTintSources", at = @At("RETURN"), cancellable = true)
     private void snow$frostLeaves(BlockState state, CallbackInfoReturnable<List<BlockTintSource>> cir) {
         List<BlockTintSource> sources = cir.getReturnValue();
-        if (!sources.isEmpty() && FrostedLeaves.LEAVES.contains(state.getBlock())) {
+        if (!sources.isEmpty() && FrostableLeaves.contains(state)) {
             cir.setReturnValue(this.snow$frostedSources.computeIfAbsent(sources, original -> {
                 List<BlockTintSource> frosted = new ArrayList<>(original);
                 frosted.set(0, new FrostedLeafTintSource(original.getFirst()));
