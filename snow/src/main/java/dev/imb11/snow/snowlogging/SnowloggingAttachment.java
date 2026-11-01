@@ -5,12 +5,14 @@ import dev.imb11.snow.Snow;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.LevelChunk;
 
 public class SnowloggingAttachment {
     public static final AttachmentType<SnowloggedPlants> TYPE = AttachmentRegistry.create(Snow.id("snowlogged_plants"), builder -> builder
             .persistent(SnowloggedPlants.CODEC)
-            .syncWith(SnowloggedPlants.STREAM_CODEC, AttachmentSyncPredicate.all()));
+            .syncWith(SnowloggedPlants.STREAM_CODEC, (AttachmentSyncPredicate) (target, player) -> target instanceof LevelChunk chunk && isSent(chunk)));
 
     public static void init() {
     }
@@ -22,12 +24,17 @@ public class SnowloggingAttachment {
     public static void set(ChunkAccess chunk, SnowloggedPlants plants) {
         chunk.setAttached(TYPE, plants);
     }
+
+    private static boolean isSent(LevelChunk chunk) {
+        return chunk.getLevel() instanceof ServerLevel level && level.getChunkSource().chunkMap.getChunkToSend(chunk.getPos().pack()) != null;
+    }
 }
 //?} else {
 /*package dev.imb11.snow.snowlogging;
 
 import dev.imb11.snow.Snow;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.neoforged.bus.api.IEventBus;
@@ -58,9 +65,13 @@ public class SnowloggingAttachment {
 
     public static void set(ChunkAccess chunk, SnowloggedPlants plants) {
         chunk.setData(TYPE, plants);
-        if (chunk instanceof LevelChunk levelChunk && !levelChunk.getLevel().isClientSide()) {
+        if (chunk instanceof LevelChunk levelChunk && isSent(levelChunk)) {
             levelChunk.syncData(TYPE);
         }
+    }
+
+    private static boolean isSent(LevelChunk chunk) {
+        return chunk.getLevel() instanceof ServerLevel level && level.getChunkSource().chunkMap.getChunkToSend(chunk.getPos().pack()) != null;
     }
 
     private static class SyncHandler implements AttachmentSyncHandler<SnowloggedPlants> {

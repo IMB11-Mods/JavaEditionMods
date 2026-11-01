@@ -2,7 +2,6 @@ modLoader="javafml"
 loaderVersion = "${fml_loader}"
 issueTrackerURL="https://github.com/IMB11-Mods/JavaEditionMods/issues"
 displayURL="http://IMB11.dev/"
-logoFile="icon.png"
 authors="cassiancc, IMB11"
 license="${mod_license}"
 
@@ -10,6 +9,7 @@ license="${mod_license}"
 modId="mru"
 version="${version}"
 displayName="${mod_name}"
+iconFile="icon.png"
 description="${mod_description}"
 
 [[dependencies.mru]]

@@ -6,7 +6,7 @@ license = "All-Rights-Reserved"
 modId = "snow"
 displayName="${mod_name}"
 version = "${version}"
-logoFile = "assets/snow/icon.png"
+iconFile = "assets/snow/icon.png"
 authors = "IMB11"
 description="${mod_description}"
 
