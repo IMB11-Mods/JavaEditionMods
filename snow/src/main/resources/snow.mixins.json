@@ -15,6 +15,14 @@
     "snowlogging.SnowLayerBlockMixin"
   ],
   "client": [
+    "frost.client.BlockColorsMixin",
+    "frost.client.ClientLevelMixin",
+    "frost.client.LeavesBlockMixin",
+    "frost.client.MinecraftMixin",
+    "frost.client.ShaderIncludeMixin",
+    "frost.client.ShaderManagerMixin",
+    "frost.compat.SodiumBlockRendererMixin",
+    "frost.compat.SodiumGlobalUniformsMixin",
     "snowlogging.client.BlockColorsMixin",
     "snowlogging.client.ClientLevelMixin",
     "snowlogging.client.MinecraftMixin"

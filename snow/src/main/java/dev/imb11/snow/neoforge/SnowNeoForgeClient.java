@@ -4,6 +4,7 @@
 import dev.imb11.snow.Snow;
 import dev.imb11.snow.client.SnowloggedBlockStateModel;
 import dev.imb11.snow.client.SnowloggingClient;
+import dev.imb11.snow.client.frost.FrostedLeaves;
 import dev.imb11.snow.config.SnowConfig;
 import dev.imb11.snow.snowlogging.SnowloggingAttachment;
 import net.minecraft.world.level.block.Blocks;
@@ -13,6 +14,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.level.ChunkEvent;
 
@@ -22,6 +24,11 @@ public class SnowNeoForgeClient {
     public SnowNeoForgeClient(ModContainer container) {
         SnowloggingClient.init();
         container.registerExtensionPoint(IConfigScreenFactory.class, (client, parent) -> SnowConfig.getYACL().generateScreen(parent));
+    }
+
+    @SubscribeEvent
+    public static void registerColorResolvers(RegisterColorHandlersEvent.ColorResolvers event) {
+        event.register(FrostedLeaves.TEMPERATURE);
     }
 
     @SubscribeEvent
