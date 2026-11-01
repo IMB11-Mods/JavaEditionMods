@@ -8,6 +8,7 @@ plugins {
 val modData = readModMetadata(layout.projectDirectory)
 val clientOnly = modData.optional("mod.environment") == "client" || modData.id == "sounds"
 val releaseTag = "${modData.id}/v${modData.version}"
+val curseforgeProject = modData.optional("publish.curseforge")
 val publishDryRun = providers.gradleProperty("publishDryRun").map(String::toBoolean).orElse(false)
 val releaseChangelog = providers.fileContents(layout.projectDirectory.file("CHANGELOG.md")).asText.map { contents ->
     val lines = contents.lines()
@@ -36,7 +37,7 @@ val validateRelease = tasks.register("validateRelease") {
             }
         }
         if (!publishDryRun.get()) {
-            listOf("MODRINTH_TOKEN", "CURSEFORGE_TOKEN", "GITHUB_TOKEN", "GITHUB_REPOSITORY", "GITHUB_SHA").forEach {
+            listOfNotNull("MODRINTH_TOKEN", "CURSEFORGE_TOKEN".takeIf { curseforgeProject.isNotBlank() }, "GITHUB_TOKEN", "GITHUB_REPOSITORY", "GITHUB_SHA").forEach {
                 require(!providers.environmentVariable(it).orNull.isNullOrBlank()) { "Missing release environment variable: $it" }
             }
         }
@@ -82,15 +83,17 @@ publishMods {
             requiredMods.forEach { requires(it) }
         }
 
-        curseforge("curseforge$targetName") {
-            from(options.get())
-            projectId = modData.required("publish.curseforge")
-            accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
-            minecraftVersions.add(minecraftVersion)
-            client = true
-            server = !clientOnly
-            additionalFiles.from(sources)
-            requiredMods.forEach { requires(it) }
+        if (curseforgeProject.isNotBlank()) {
+            curseforge("curseforge$targetName") {
+                from(options.get())
+                projectId = curseforgeProject
+                accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
+                minecraftVersions.add(minecraftVersion)
+                client = true
+                server = !clientOnly
+                additionalFiles.from(sources)
+                requiredMods.forEach { requires(it) }
+            }
         }
     }
 

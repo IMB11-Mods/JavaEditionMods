@@ -1,0 +1,32 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.imb11.snow.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "accumulation.ServerLevelMixin",
+    "generation.SnowAndFreezeFeatureMixin",
+    "harvesting.ShovelUseMixin",
+    "melting.SnowLayerBlockMixin",
+    "snowlogging.BlockBehaviourMixin",
+    "snowlogging.BlockItemMixin",
+    "snowlogging.LevelMixin",
+    "snowlogging.SerializableChunkDataMixin",
+    "snowlogging.SnowLayerBlockMixin"
+  ],
+  "client": [
+    "accumulation.client.LeavesBlockMixin",
+    "client.ClientLevelMixin",
+    "client.MinecraftMixin",
+    "frost.client.BlockColorsMixin",
+    "frost.client.GlobalSettingsUniformMixin",
+    "frost.compat.ShaderIncludeMixin",
+    "frost.compat.ShaderManagerMixin",
+    "frost.compat.SodiumColorProviderRegistryMixin",
+    "frost.compat.SodiumGlobalUniformsMixin",
+    "snowlogging.client.BlockColorsMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

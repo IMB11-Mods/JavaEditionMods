@@ -22,7 +22,8 @@ val modTargets = mapOf(
     "mru" to listOf("26.2", "26.3"),
     "sounds" to listOf("26.3"),
     "shields" to listOf("26.2", "26.3"),
-    "glass" to listOf("26.2")
+    "glass" to listOf("26.2"),
+    "snow" to listOf("26.2", "26.3")
 )
 
 dependencyResolutionManagement {

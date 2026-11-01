@@ -64,13 +64,31 @@ tasks.register("runDatagenAll") {
     dependsOn(datagenTasks)
 }
 
+if (providers.gradleProperty("gametest").isPresent) {
+    val gameTestTasks = modProjects
+        .filter { readModMetadata(it.layout.projectDirectory).optional("mod.gametest").toBoolean() }
+        .map { mod ->
+            mod.tasks.register("runGameTests") {
+                group = "verification"
+                dependsOn(mod.childProjects.values.map { target ->
+                    "${target.path}:${if (target.name.endsWith("-fabric")) "runGameTest" else "runGameTestServer"}"
+                })
+            }
+        }
+
+    tasks.register("runGameTestsAll") {
+        group = "verification"
+        dependsOn(gameTestTasks)
+    }
+}
+
 tasks.register("publishAllMods") {
     group = "publishing"
     dependsOn(buildAll)
     dependsOn(modProjects.map { "${it.path}:publishMods" })
 }
 
-listOf(":sounds", ":fog").forEach { mod ->
+listOf(":sounds", ":fog", ":snow").forEach { mod ->
     project(mod).pluginManager.withPlugin("imb11.publish-mod") {
         project(mod).tasks.withType<PublishModTask>().configureEach {
             mustRunAfter(":mru:publishMods")

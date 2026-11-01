@@ -1,0 +1,13 @@
+{
+  "biomes": [
+    "minecraft:snowy_beach",
+    "minecraft:grove",
+    "minecraft:frozen_peaks",
+    "minecraft:jagged_peaks",
+    "minecraft:frozen_river",
+    "minecraft:frozen_ocean",
+    "minecraft:deep_frozen_ocean"
+  ],
+  "max_layers": 2,
+  "min_layers": 1
+}

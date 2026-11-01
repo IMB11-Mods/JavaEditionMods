@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "id": "snow",
+  "version": "${mod_version}",
+  "name": "Snow",
+  "description": "Brings Bedrock Edition's snow mechanics to Java Edition.",
+  "authors": [
+    "IMB11"
+  ],
+  "contact": {
+    "sources": "https://github.com/IMB11-Mods/JavaEditionMods",
+    "issues": "https://github.com/IMB11-Mods/JavaEditionMods/issues"
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/snow/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.imb11.snow.fabric.SnowFabric"
+    ],
+    "client": [
+      "dev.imb11.snow.fabric.SnowFabricClient"
+    ],
+    "modmenu": [
+      "dev.imb11.snow.fabric.ModMenuCompat"
+    ],
+    "fabric-datagen": [
+      "dev.imb11.snow.datagen.SnowDatagen"
+    ]
+  },
+  "mixins": [
+    "snow.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${target_loader}",
+    "minecraft": "${target_minecraft}",
+    "fabric-api": "*",
+    "mru": "${target_mru}",
+    "yet_another_config_lib_v3": "${target_yacl}"
+  },
+  "breaks": {
+    "snowrealmagic": "*"
+  }
+}

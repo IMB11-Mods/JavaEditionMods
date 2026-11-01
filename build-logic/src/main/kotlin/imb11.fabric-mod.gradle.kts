@@ -48,6 +48,16 @@ if (metadata.optional("mod.datagen").toBoolean()) {
     }
 }
 
+if (providers.gradleProperty("gametest").isPresent && metadata.optional("mod.gametest").toBoolean()) {
+    fabricApi {
+        configureTests {
+            createSourceSet = false
+            enableClientGameTests = false
+            eula = true
+        }
+    }
+}
+
 tasks.named<ProcessResources>("processResources") {
     exclude("META-INF/neoforge.mods.toml", "META-INF/mods.toml", "META-INF/accesstransformer.cfg", "interfaces.json")
 }

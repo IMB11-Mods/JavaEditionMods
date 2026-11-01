@@ -1,0 +1,9 @@
+{
+  "accumulation_rate": 1.5,
+  "biomes": [
+    "minecraft:snowy_taiga",
+    "minecraft:snowy_slopes"
+  ],
+  "max_layers": 4,
+  "min_layers": 1
+}
