@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.0.1] - 2026-11-02
+
+### Fixed
+
+- Fixed incompatibility with [Lithium](https://modrinth.com/mod/lithium). ([#358](https://github.com/IMB11-Mods/JavaEditionMods/pull/358))
+
 ## [3.0.0] - 2026-11-01
 
 ### Added
