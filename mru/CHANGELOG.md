@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.45] - 2026-11-02
+
+No changelog provided.
+
 ## [1.0.44] - 2026-10-17
 
 ### Added
