@@ -14,8 +14,10 @@ import net.minecraft.world.level.chunk.storage.SerializableChunkData;
 import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class SnowloggingStorage {
     public static final String TAG = "snow:snowlogged_layers";
@@ -39,12 +41,16 @@ public class SnowloggingStorage {
     }
 
     public static void restore(SerializableChunkData data, List<Layers> layers) {
+        Set<LevelChunkSection> changed = new HashSet<>();
         for (Layers entry : layers) {
             LevelChunkSection section = section(data, entry.pos());
             if (section != null && getBlockState(section, entry.pos()).is(Snowlogging.SNOWLOGGABLE)) {
                 setBlockState(section, entry.pos(), Blocks.SNOW.defaultBlockState().setValue(SnowLayerBlock.LAYERS, entry.layers()));
+                changed.add(section);
             }
         }
+
+        changed.forEach(LevelChunkSection::recalcBlockCounts);
     }
 
     public static void write(CompoundTag tag, List<Layers> layers) {
@@ -73,7 +79,7 @@ public class SnowloggingStorage {
     }
 
     private static void setBlockState(LevelChunkSection section, BlockPos pos, BlockState state) {
-        section.setBlockState(SectionPos.sectionRelative(pos.getX()), SectionPos.sectionRelative(pos.getY()), SectionPos.sectionRelative(pos.getZ()), state, false);
+        section.getStates().getAndSetUnchecked(SectionPos.sectionRelative(pos.getX()), SectionPos.sectionRelative(pos.getY()), SectionPos.sectionRelative(pos.getZ()), state);
     }
 
     public record Layers(BlockPos pos, int layers) {
